@@ -1,7 +1,8 @@
 # AI-Powered Trade Document Intelligence
 ## Live Demo
 
-🔗 https://tatianapodobivskaia-del.github.io/trade-document-intelligence/## Automated Sanctions Screening with Cyrillic Transliteration Support
+🔗 https://tatianapodobivskaia-del.github.io/trade-document-intelligence/## 
+Automated Sanctions Screening with Cyrillic Transliteration Support
 
 An AI-driven trade document screening system that analyzes vendor and supplier data against the OFAC SDN (Specially Designated Nationals) list, with specialized fuzzy matching for Cyrillic-to-Latin transliteration variants. Designed for small and medium-sized enterprises (SMEs) engaged in cross-border procurement.
 
