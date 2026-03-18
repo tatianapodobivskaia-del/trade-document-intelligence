@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Document Intelligence — Sanctions Screening</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0B1D3A;--navy-light:#122a52;--navy-mid:#1a3a6b;--teal:#00B4D8;--teal-dark:#0090AD;--teal-light:#00d4fc;--gold:#FFB703;--gold-dark:#E5A200;--white:#FFFFFF;--gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--gray-600:#475569;--green:#10B981;--green-bg:#ECFDF5;--green-border:#A7F3D0;--orange:#F59E0B;--orange-bg:#FFFBEB;--orange-border:#FDE68A;--red:#EF4444;--red-bg:#FEF2F2;--red-border:#FECACA;--font:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace}
+body{font-family:var(--font);background:var(--gray-50);color:var(--navy);min-height:100vh}
+.header{background:var(--navy);padding:0;position:sticky;top:0;z-index:100}
+.header-top{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:16px 24px}
+.header-top h1{color:var(--white);font-size:18px;font-weight:600;letter-spacing:0.5px}
+.header-top h1 span{color:var(--teal)}
+.header-badge{background:var(--teal);color:var(--navy);font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;letter-spacing:1px}
+.header-bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--teal))}
+.nav{background:var(--navy-light);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;gap:0}
+.nav-btn{background:none;border:none;color:var(--gray-400);font-family:var(--font);font-size:13px;font-weight:500;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.nav-btn:hover{color:var(--gray-200)}
+.nav-btn.active{color:var(--teal);border-bottom-color:var(--teal)}
+.main{max-width:1200px;margin:0 auto;padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--white);border-radius:12px;padding:20px;border:1px solid var(--gray-200)}
+.stat-card .label{font-size:12px;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.stat-card .value{font-size:28px;font-weight:700;font-family:var(--mono)}
+.stat-card .sub{font-size:12px;color:var(--gray-400);margin-top:4px}
+.stat-card.teal .value{color:var(--teal)}
+.stat-card.green .value{color:var(--green)}
+.stat-card.orange .value{color:var(--orange)}
+.stat-card.red .value{color:var(--red)}
+.panel{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);margin-bottom:24px;overflow:hidden}
+.panel-header{padding:16px 20px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
+.panel-header h2{font-size:15px;font-weight:600}
+.panel-header .badge{font-size:11px;padding:3px 8px;border-radius:4px;font-weight:500}
+.upload-zone{padding:40px;text-align:center;border:2px dashed var(--gray-300);margin:20px;border-radius:12px;cursor:pointer;transition:all 0.3s}
+.upload-zone:hover{border-color:var(--teal);background:rgba(0,180,216,0.03)}
+.upload-zone.active{border-color:var(--teal);background:rgba(0,180,216,0.06)}
+.upload-zone .icon{font-size:40px;margin-bottom:12px;opacity:0.3}
+.upload-zone h3{font-size:16px;font-weight:500;margin-bottom:6px}
+.upload-zone p{font-size:13px;color:var(--gray-500)}
+.upload-zone input{display:none}
+.btn{font-family:var(--font);font-size:13px;font-weight:600;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--teal);color:var(--white)}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-secondary{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200)}
+.btn-secondary:hover{background:var(--gray-200)}
+.btn-screen{background:var(--navy);color:var(--white);font-size:14px;padding:12px 32px;margin-top:16px}
+.btn-screen:hover{background:var(--navy-mid)}
+.btn-screen:disabled{opacity:0.4;cursor:not-allowed}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gray-500);padding:12px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-200);font-weight:600}
+td{padding:12px 16px;border-bottom:1px solid var(--gray-100);font-size:13px}
+tr:hover td{background:var(--gray-50)}
+.risk-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;letter-spacing:0.5px}
+.risk-HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.risk-MEDIUM{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border)}
+.risk-LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.action-badge{font-size:11px;font-weight:500;color:var(--gray-500)}
+.score-bar{width:80px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:8px}
+.score-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
+.cyrillic-tag{font-family:var(--mono);font-size:11px;background:var(--navy);color:var(--gold);padding:2px 6px;border-radius:3px;margin-left:4px}
+.transliteration-panel{background:var(--navy);border-radius:8px;padding:16px 20px;margin:20px}
+.transliteration-panel h3{color:var(--teal);font-size:13px;margin-bottom:12px;font-weight:500}
+.translit-item{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.translit-original{color:var(--gold);font-family:var(--mono);font-size:14px;min-width:180px}
+.translit-arrow{color:var(--gray-400)}
+.translit-variants{display:flex;gap:6px;flex-wrap:wrap}
+.translit-var{color:var(--white);font-family:var(--mono);font-size:12px;background:var(--navy-mid);padding:2px 8px;border-radius:3px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px}
+.chart-box{position:relative;height:200px;display:flex;align-items:center;justify-content:center}
+.donut-container{position:relative;width:160px;height:160px}
+.donut-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.donut-label .num{font-size:28px;font-weight:700;font-family:var(--mono);display:block}
+.donut-label .txt{font-size:11px;color:var(--gray-500)}
+.legend{display:flex;flex-direction:column;gap:8px;padding:0 20px 20px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+.loading{display:none;text-align:center;padding:40px}
+.loading.show{display:block}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footer{text-align:center;padding:32px;color:var(--gray-400);font-size:12px}
+.footer a{color:var(--teal);text-decoration:none}
+@media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}table{font-size:12px}th,td{padding:8px 10px}}
+.fade-in{animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.progress-bar{height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden;margin:16px 20px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;transition:width 0.3s;width:0%}
+.empty-state{padding:60px;text-align:center;color:var(--gray-400)}
+.empty-state h3{font-size:16px;margin-bottom:8px;color:var(--gray-500)}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="header-top">
+<h1><span>&#9632;</span> Trade Document <span>Intelligence</span></h1>
+<span class="header-badge">LIVE</span>
+</div>
+<div class="header-bar"></div>
+</div>
+
+<div class="nav">
+<div class="nav-inner">
+<button class="nav-btn active" onclick="showTab('screening')">Screening</button>
+<button class="nav-btn" onclick="showTab('transliteration')">Cyrillic Engine</button>
+<button class="nav-btn" onclick="showTab('dashboard')">Dashboard</button>
+</div>
+</div>
+
+<div class="main" id="content">
+
+<!-- SCREENING TAB -->
+<div id="tab-screening">
+
+<div class="stats-row fade-in">
+<div class="stat-card teal"><div class="label">SDN Entities Loaded</div><div class="value" id="sdn-count">18,712</div><div class="sub">OFAC Sanctions List</div></div>
+<div class="stat-card green"><div class="label">Vendors Screened</div><div class="value" id="screened-count">0</div><div class="sub">This session</div></div>
+<div class="stat-card orange"><div class="label">Flagged</div><div class="value" id="flagged-count">0</div><div class="sub">Requires review</div></div>
+<div class="stat-card red"><div class="label">Blocked</div><div class="value" id="blocked-count">0</div><div class="sub">High risk</div></div>
+</div>
+
+<div class="panel fade-in">
+<div class="panel-header">
+<h2>Upload Trade Documents</h2>
+<span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)">System Active</span>
+</div>
+<div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+<div class="icon">&#128196;</div>
+<h3>Drop vendor CSV file here or click to browse</h3>
+<p>Supports CSV with columns: vendor_name, country, amount, document_type, cyrillic_name</p>
+<input type="file" id="fileInput" accept=".csv" onchange="handleFile(this.files[0])">
+</div>
+<div style="text-align:center;padding:0 20px 12px">
+<button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data (7 vendors)</button>
+</div>
+<div id="fileInfo" style="display:none;padding:0 20px 16px;text-align:center">
+<span id="fileName" style="font-size:13px;color:var(--gray-500)"></span>
+</div>
+<div style="text-align:center;padding-bottom:20px">
+<button class="btn btn-screen" id="screenBtn" onclick="runScreening()" disabled>Run Sanctions Screening</button>
+</div>
+<div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="panel fade-in" id="resultsPanel" style="display:none">
+<div class="panel-header">
+<h2>Screening Results</h2>
+<button class="btn btn-secondary" onclick="exportCSV()">Export CSV</button>
+</div>
+<div style="overflow-x:auto">
+<table>
+<thead>
+<tr><th>Vendor</th><th>Country</th><th>Amount</th><th>Document</th><th>SDN Match</th><th>Score</th><th>Risk</th><th>Action</th></tr>
+</thead>
+<tbody id="resultsBody"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<!-- CYRILLIC ENGINE TAB -->
+<div id="tab-transliteration" style="display:none">
+
+<div class="panel fade-in">
+<div class="panel-header"><h2>Cyrillic Transliteration Engine</h2><span class="badge" style="background:var(--navy);color:var(--gold)">Unique Feature</span></div>
+<div style="padding:20px">
+<p style="font-size:14px;color:var(--gray-600);line-height:1.7;margin-bottom:16px">Russian entity names can appear in 3-5 different Latin spellings across trade documents. Standard fuzzy matching misses these variations. This engine generates multiple transliteration variants using ISO 9, BGN/PCGN, passport, and informal systems.</p>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+<input type="text" id="cyrInput" placeholder="Enter Cyrillic name (e.g. Щербаков)" style="flex:1;padding:10px 16px;border:1px solid var(--gray-300);border-radius:8px;font-size:14px;font-family:var(--font)">
+<button class="btn btn-primary" onclick="transliterate()">Generate Variants</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Щербаков';transliterate()" style="font-size:12px">Щербаков</button>
+<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Внешторгбанк';transliterate()" style="font-size:12px">Внешторгбанк</button>
+<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Рособоронэкспорт';transliterate()" style="font-size:12px">Рособоронэкспорт</button>
+<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Жуковский';transliterate()" style="font-size:12px">Жуковский</button>
+</div>
+</div>
+<div id="translitResults"></div>
+</div>
+
+<div class="panel fade-in">
+<div class="panel-header"><h2>Why This Matters</h2></div>
+<div style="padding:20px">
+<table>
+<thead><tr><th>Cyrillic</th><th>ISO 9</th><th>Passport</th><th>Informal</th><th>German-style</th><th>Variants</th></tr></thead>
+<tbody>
+<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Щ</td><td>shch</td><td>shch</td><td>sch</td><td>schtsch</td><td style="color:var(--red);font-weight:600">4</td></tr>
+<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ж</td><td>zh</td><td>zh</td><td>j</td><td>sh</td><td style="color:var(--red);font-weight:600">3</td></tr>
+<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ц</td><td>ts</td><td>tc</td><td>c</td><td>z</td><td style="color:var(--red);font-weight:600">4</td></tr>
+<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ю</td><td>yu</td><td>iu</td><td>yu</td><td>ju</td><td style="color:var(--orange);font-weight:600">3</td></tr>
+<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Я</td><td>ya</td><td>ia</td><td>ya</td><td>ja</td><td style="color:var(--orange);font-weight:600">3</td></tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:var(--gray-400);margin-top:12px">Each variation creates a potential detection gap in standard sanctions screening systems.</p>
+</div>
+</div>
+</div>
+
+<!-- DASHBOARD TAB -->
+<div id="tab-dashboard" style="display:none">
+<div id="dashboardEmpty" class="empty-state">
+<h3>No screening data yet</h3>
+<p>Run a screening first to see dashboard visualizations</p>
+</div>
+<div id="dashboardContent" style="display:none">
+<div class="stats-row fade-in">
+<div class="stat-card teal"><div class="label">Total Screened</div><div class="value" id="dash-total">0</div></div>
+<div class="stat-card green"><div class="label">Approved</div><div class="value" id="dash-low">0</div></div>
+<div class="stat-card orange"><div class="label">Flagged</div><div class="value" id="dash-med">0</div></div>
+<div class="stat-card red"><div class="label">Blocked</div><div class="value" id="dash-high">0</div></div>
+</div>
+<div class="panel fade-in">
+<div class="panel-header"><h2>Risk Distribution</h2></div>
+<div class="chart-row">
+<div class="chart-box">
+<div class="donut-container">
+<canvas id="donutChart" width="160" height="160"></canvas>
+<div class="donut-label"><span class="num" id="donut-num">0</span><span class="txt">vendors</span></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;justify-content:center">
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Low Risk (Auto-approved) — <strong id="leg-low">0</strong></div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Medium Risk (Flagged) — <strong id="leg-med">0</strong></div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>High Risk (Blocked) — <strong id="leg-high">0</strong></div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel fade-in">
+<div class="panel-header"><h2>Total Value by Risk Level</h2></div>
+<div style="padding:20px">
+<div id="barChart"></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+Trade Document Intelligence &mdash; Tatiana Podobivskaia &mdash; Atlantis University, Miami FL<br>
+<a href="https://github.com/tatianapodobivskaia-del/trade-document-intelligence" target="_blank">GitHub Repository</a> &middot; Powered by OFAC SDN List &middot; Azure Cloud
+</div>
+
+<script>
+let vendorData = [];
+let screeningResults = [];
+
+const SAMPLE = [
+{vendor_name:"Global Energy Trading Ltd",country:"UAE",amount:250000,document_type:"Invoice",cyrillic_name:""},
+{vendor_name:"Shcherbakov Import Export",country:"Turkey",amount:180000,document_type:"Bill of Lading",cyrillic_name:"Щербаков Импорт Экспорт"},
+{vendor_name:"Vneshtorgbank International",country:"Cyprus",amount:500000,document_type:"Certificate of Origin",cyrillic_name:"Внешторгбанк Интернэшнл"},
+{vendor_name:"Sunny Day Flowers Co",country:"Colombia",amount:12000,document_type:"Invoice",cyrillic_name:""},
+{vendor_name:"Rosoboronexport Trading",country:"Russia",amount:750000,document_type:"Bill of Lading",cyrillic_name:"Рособоронэкспорт Трейдинг"},
+{vendor_name:"Miami Fresh Produce LLC",country:"USA",amount:8500,document_type:"Invoice",cyrillic_name:""},
+{vendor_name:"Zhukovsky Aviation Corp",country:"UAE",amount:320000,document_type:"Certificate of Origin",cyrillic_name:"Жуковский Авиация Корп"}
+];
+
+const SDN_SAMPLES=["ROSOBORONEKSPORT OAO","GLOBAL ENERGY TRADING LLC","NIA INTERNATIONAL","OPUS ENERGY TRADING LLC","DAY LEASING COMPANY","MIAMI PRIDE","OTIK AVIATION","VNESHTORGBANK","SHCHERBAKOV TRADING","ZHUKOVSKY RESEARCH CENTER"];
+
+function showTab(tab){
+document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
+document.getElementById('tab-'+tab).style.display='block';
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
+}
+
+function loadSampleData(){
+vendorData=SAMPLE;
+document.getElementById('fileInfo').style.display='block';
+document.getElementById('fileName').textContent='Sample data loaded: 7 vendors, $2,020,500 total value';
+document.getElementById('screenBtn').disabled=false;
+document.getElementById('dropZone').classList.add('active');
+}
+
+function handleFile(file){
+if(!file)return;
+const reader=new FileReader();
+reader.onload=function(e){
+const lines=e.target.result.split('\n');
+const headers=lines[0].split(',').map(h=>h.trim());
+vendorData=[];
+for(let i=1;i<lines.length;i++){
+if(!lines[i].trim())continue;
+const vals=lines[i].split(',').map(v=>v.trim());
+const obj={};
+headers.forEach((h,j)=>obj[h]=vals[j]||'');
+if(obj.amount)obj.amount=parseFloat(obj.amount)||0;
+vendorData.push(obj);
+}
+document.getElementById('fileInfo').style.display='block';
+document.getElementById('fileName').textContent=file.name+' — '+vendorData.length+' vendors loaded';
+document.getElementById('screenBtn').disabled=false;
+document.getElementById('dropZone').classList.add('active');
+};
+reader.readAsText(file);
+}
+
+function fuzzyScore(a,b){
+a=a.toLowerCase();b=b.toLowerCase();
+if(a===b)return 100;
+let common=0;
+const short=a.length<b.length?a:b;
+const long=a.length<b.length?b:a;
+for(let i=0;i<short.length;i++){
+if(long.includes(short[i])){common++;long.replace(short[i],'');}
+}
+const ratio=common*2/(a.length+b.length)*100;
+let bonus=0;
+const words_a=a.split(/\s+/);
+const words_b=b.split(/\s+/);
+words_a.forEach(wa=>{words_b.forEach(wb=>{if(wa===wb)bonus+=15;else if(wa.includes(wb)||wb.includes(wa))bonus+=8;});});
+return Math.min(100,Math.round(ratio+bonus));
+}
+
+function generateTranslitVariants(cyr){
+if(!cyr)return[];
+const map={"щ":"shch","ш":"sh","ч":"ch","ж":"zh","ц":"ts","х":"kh","ю":"yu","я":"ya","ё":"yo","э":"e","й":"y","ы":"y","ъ":"","ь":"","а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","з":"z","и":"i","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f"};
+const passport=Object.assign({},map,{"щ":"shch","ё":"e","й":"i","ц":"tc"});
+const german=Object.assign({},map,{"щ":"schtsch","ш":"sch","ч":"tsch","ж":"sh","ц":"z","х":"ch","ю":"ju","я":"ja","й":"j"});
+function conv(text,m){let r="";for(const c of text.toLowerCase())r+=m[c]||c;return r;}
+const variants=new Set();
+variants.add(conv(cyr,map));
+variants.add(conv(cyr,passport));
+variants.add(conv(cyr,german));
+return[...variants];
+}
+
+function runScreening(){
+if(vendorData.length===0)return;
+const bar=document.getElementById('progressBar');
+const fill=document.getElementById('progressFill');
+bar.style.display='block';
+fill.style.width='0%';
+document.getElementById('screenBtn').disabled=true;
+screeningResults=[];
+let idx=0;
+function processNext(){
+if(idx>=vendorData.length){
+fill.style.width='100%';
+setTimeout(()=>{
+bar.style.display='none';
+displayResults();
+document.getElementById('screenBtn').disabled=false;
+},400);
+return;
+}
+fill.style.width=((idx+1)/vendorData.length*100)+'%';
+const v=vendorData[idx];
+let bestScore=0,bestMatch="None";
+const namesToCheck=[v.vendor_name];
+if(v.cyrillic_name){
+const variants=generateTranslitVariants(v.cyrillic_name);
+namesToCheck.push(...variants);
+}
+for(const name of namesToCheck){
+for(const sdn of SDN_SAMPLES){
+const score=fuzzyScore(name,sdn);
+if(score>bestScore){bestScore=score;bestMatch=sdn;}
+}
+}
+const risk=bestScore>=85?"HIGH":bestScore>=50?"MEDIUM":"LOW";
+const action=risk==="HIGH"?"BLOCK":risk==="MEDIUM"?"FLAG":"APPROVE";
+screeningResults.push({
+...v,
+best_sdn_match:bestMatch,
+similarity_score:bestScore,
+risk_level:risk,
+action:action,
+transliteration_variants:v.cyrillic_name?generateTranslitVariants(v.cyrillic_name):[]
+});
+idx++;
+setTimeout(processNext,200);
+}
+processNext();
+}
+
+function displayResults(){
+const body=document.getElementById('resultsBody');
+body.innerHTML='';
+let flagged=0,blocked=0;
+screeningResults.forEach(r=>{
+if(r.risk_level==='MEDIUM')flagged++;
+if(r.risk_level==='HIGH')blocked++;
+const scoreColor=r.risk_level==='HIGH'?'var(--red)':r.risk_level==='MEDIUM'?'var(--orange)':'var(--green)';
+let vendorCell=r.vendor_name;
+if(r.cyrillic_name)vendorCell+=` <span class="cyrillic-tag">${r.cyrillic_name}</span>`;
+body.innerHTML+=`<tr>
+<td>${vendorCell}</td>
+<td>${r.country}</td>
+<td>$${(r.amount||0).toLocaleString()}</td>
+<td>${r.document_type}</td>
+<td style="font-family:var(--mono);font-size:12px">${r.best_sdn_match}</td>
+<td><div class="score-bar"><div class="score-fill" style="width:${r.similarity_score}%;background:${scoreColor}"></div></div>${r.similarity_score}%</td>
+<td><span class="risk-badge risk-${r.risk_level}">${r.risk_level}</span></td>
+<td><span class="action-badge">${r.action}</span></td>
+</tr>`;
+});
+document.getElementById('resultsPanel').style.display='block';
+document.getElementById('screened-count').textContent=screeningResults.length;
+document.getElementById('flagged-count').textContent=flagged;
+document.getElementById('blocked-count').textContent=blocked;
+updateDashboard();
+}
+
+function updateDashboard(){
+const low=screeningResults.filter(r=>r.risk_level==='LOW').length;
+const med=screeningResults.filter(r=>r.risk_level==='MEDIUM').length;
+const high=screeningResults.filter(r=>r.risk_level==='HIGH').length;
+const total=screeningResults.length;
+document.getElementById('dash-total').textContent=total;
+document.getElementById('dash-low').textContent=low;
+document.getElementById('dash-med').textContent=med;
+document.getElementById('dash-high').textContent=high;
+document.getElementById('donut-num').textContent=total;
+document.getElementById('leg-low').textContent=low;
+document.getElementById('leg-med').textContent=med;
+document.getElementById('leg-high').textContent=high;
+document.getElementById('dashboardEmpty').style.display='none';
+document.getElementById('dashboardContent').style.display='block';
+drawDonut(low,med,high);
+drawBars();
+}
+
+function drawDonut(low,med,high){
+const canvas=document.getElementById('donutChart');
+const ctx=canvas.getContext('2d');
+const cx=80,cy=80,r=65,lw=20;
+ctx.clearRect(0,0,160,160);
+const total=low+med+high;
+if(total===0)return;
+const data=[{v:low,c:'#10B981'},{v:med,c:'#F59E0B'},{v:high,c:'#EF4444'}];
+let start=-Math.PI/2;
+data.forEach(d=>{
+const angle=(d.v/total)*Math.PI*2;
+ctx.beginPath();ctx.arc(cx,cy,r,start,start+angle);
+ctx.strokeStyle=d.c;ctx.lineWidth=lw;ctx.lineCap='butt';ctx.stroke();
+start+=angle;
+});
+}
+
+function drawBars(){
+const container=document.getElementById('barChart');
+const lowVal=screeningResults.filter(r=>r.risk_level==='LOW').reduce((s,r)=>s+(r.amount||0),0);
+const medVal=screeningResults.filter(r=>r.risk_level==='MEDIUM').reduce((s,r)=>s+(r.amount||0),0);
+const highVal=screeningResults.filter(r=>r.risk_level==='HIGH').reduce((s,r)=>s+(r.amount||0),0);
+const max=Math.max(lowVal,medVal,highVal,1);
+container.innerHTML=`
+<div style="display:flex;align-items:end;gap:12px;height:120px;margin-bottom:8px">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
+<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${lowVal.toLocaleString()}</div>
+<div style="width:100%;background:var(--green);border-radius:6px 6px 0 0;height:${Math.max(4,lowVal/max*100)}%;transition:height 0.5s"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
+<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${medVal.toLocaleString()}</div>
+<div style="width:100%;background:var(--orange);border-radius:6px 6px 0 0;height:${Math.max(4,medVal/max*100)}%;transition:height 0.5s"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
+<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${highVal.toLocaleString()}</div>
+<div style="width:100%;background:var(--red);border-radius:6px 6px 0 0;height:${Math.max(4,highVal/max*100)}%;transition:height 0.5s"></div>
+</div>
+</div>
+<div style="display:flex;gap:12px">
+<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">Low Risk</div>
+<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">Medium Risk</div>
+<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">High Risk</div>
+</div>`;
+}
+
+function transliterate(){
+const input=document.getElementById('cyrInput').value.trim();
+if(!input)return;
+const variants=generateTranslitVariants(input);
+const container=document.getElementById('translitResults');
+container.innerHTML=`<div class="transliteration-panel">
+<h3>Transliteration Results for "${input}"</h3>
+${variants.map((v,i)=>`<div class="translit-item">
+<span class="translit-original">${i===0?'Standard':i===1?'Passport':'German-style'}</span>
+<span class="translit-arrow">&#8594;</span>
+<span class="translit-var">${v}</span>
+</div>`).join('')}
+<p style="color:var(--gray-400);font-size:12px;margin-top:12px">${variants.length} variants generated — each could appear in different trade documents for the same entity</p>
+</div>`;
+}
+
+function exportCSV(){
+if(screeningResults.length===0)return;
+let csv="vendor_name,country,amount,document_type,best_sdn_match,similarity_score,risk_level,action\n";
+screeningResults.forEach(r=>{
+csv+=`"${r.vendor_name}","${r.country}",${r.amount},"${r.document_type}","${r.best_sdn_match}",${r.similarity_score},${r.risk_level},${r.action}\n`;
+});
+const blob=new Blob([csv],{type:'text/csv'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;a.download='screening_results.csv';a.click();
+}
+
+// Drag and drop
+const dropZone=document.getElementById('dropZone');
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('active');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('active'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('active');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+</script>
+
+</body>
+</html>
