@@ -1,0 +1,136 @@
+[
+  {
+    "vendor_name":"Global Energy Trading Ltd",
+    "cyrillic_name":"N\/A",
+    "best_sdn_match":"OPUS ENERGY TRADING LLC",
+    "sdn_type":"-0-",
+    "sdn_program":"RUSSIA-EO14024",
+    "similarity_score":76.0,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+
+    ],
+    "timestamp":"2026-03-18T10:57:50.345545",
+    "country":"UAE",
+    "amount":250000,
+    "document_type":"Invoice"
+  },
+  {
+    "vendor_name":"Shcherbakov Import Export",
+    "cyrillic_name":"\u0429\u0435\u0440\u0431\u0430\u043a\u043e\u0432 \u0418\u043c\u043f\u043e\u0440\u0442 \u042d\u043a\u0441\u043f\u043e\u0440\u0442",
+    "best_sdn_match":"SEGOVIA IMPORT & EXPORT CORP.",
+    "sdn_type":"-0-",
+    "sdn_program":"SDNTK",
+    "similarity_score":70.7,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+      "shcherbakov import eksport",
+      "scherbakov import eksport",
+      "schtscherbakov import eksport"
+    ],
+    "timestamp":"2026-03-18T10:57:51.338537",
+    "country":"Turkey",
+    "amount":180000,
+    "document_type":"Bill of Lading"
+  },
+  {
+    "vendor_name":"Vneshtorgbank International",
+    "cyrillic_name":"\u0412\u043d\u0435\u0448\u0442\u043e\u0440\u0433\u0431\u0430\u043d\u043a \u0418\u043d\u0442\u0435\u0440\u043d\u044d\u0448\u043d\u043b",
+    "best_sdn_match":"NIA INTERNATIONAL",
+    "sdn_type":"-0-",
+    "sdn_program":"SDGT",
+    "similarity_score":81.0,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+      "vneschtorgbank interneschnl",
+      "vneshtorgbank interneshnl"
+    ],
+    "timestamp":"2026-03-18T10:57:52.102067",
+    "country":"Cyprus",
+    "amount":500000,
+    "document_type":"Certificate of Origin"
+  },
+  {
+    "vendor_name":"Sunny Day Flowers Co",
+    "cyrillic_name":"N\/A",
+    "best_sdn_match":"DAY LEASING COMPANY",
+    "sdn_type":"-0-",
+    "sdn_program":"SDGT] [IFSR",
+    "similarity_score":56.5,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+
+    ],
+    "timestamp":"2026-03-18T10:57:52.351474",
+    "country":"Colombia",
+    "amount":12000,
+    "document_type":"Invoice"
+  },
+  {
+    "vendor_name":"Rosoboronexport Trading",
+    "cyrillic_name":"\u0420\u043e\u0441\u043e\u0431\u043e\u0440\u043e\u043d\u044d\u043a\u0441\u043f\u043e\u0440\u0442 \u0422\u0440\u0435\u0439\u0434\u0438\u043d\u0433",
+    "best_sdn_match":"ROSOBORONEKSPORT OAO",
+    "sdn_type":"-0-",
+    "sdn_program":"UKRAINE-EO13662] [IRAN-CON-ARMS-EO] [RUSSIA-EO14024",
+    "similarity_score":80.7,
+    "match_method":"token_set",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+      "rosoboroneksport trejding",
+      "rosoboroneksport treyding",
+      "rosoboroneksport treiding"
+    ],
+    "timestamp":"2026-03-18T10:57:53.379201",
+    "country":"Russia",
+    "amount":750000,
+    "document_type":"Bill of Lading"
+  },
+  {
+    "vendor_name":"Miami Fresh Produce LLC",
+    "cyrillic_name":"N\/A",
+    "best_sdn_match":"MIAMI PRIDE",
+    "sdn_type":"vessel",
+    "sdn_program":"IRAN] [NPWMD] [IFSR",
+    "similarity_score":63.4,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+
+    ],
+    "timestamp":"2026-03-18T10:57:53.630677",
+    "country":"USA",
+    "amount":8500,
+    "document_type":"Invoice"
+  },
+  {
+    "vendor_name":"Zhukovsky Aviation Corp",
+    "cyrillic_name":"\u0416\u0443\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u0410\u0432\u0438\u0430\u0446\u0438\u044f \u041a\u043e\u0440\u043f",
+    "best_sdn_match":"OTIK AVIATION",
+    "sdn_type":"-0-",
+    "sdn_program":"SDGT] [IFSR",
+    "similarity_score":69.5,
+    "match_method":"partial",
+    "risk_level":"MEDIUM",
+    "action":"FLAG \u2014 Requires compliance officer review",
+    "transliteration_variants":[
+      "zhukovskiy aviatsiya korp",
+      "zhukovskij aviatsija korp",
+      "zhukovskii aviatciya korp",
+      "shukovskij aviazija korp"
+    ],
+    "timestamp":"2026-03-18T10:57:54.902572",
+    "country":"UAE",
+    "amount":320000,
+    "document_type":"Certificate of Origin"
+  }
+]
