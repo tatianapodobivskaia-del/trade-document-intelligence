@@ -161,6 +161,6 @@ MIT License
 
 ## Contact
 
-Tatiana Pankratova
+Tatiana Podobivskaia
 tatiana.podobivskaia@atlantisuniversity.edu
 [LinkedIn](https://www.linkedin.com/in/tatiana-podobivskaia)
