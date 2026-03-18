@@ -3,510 +3,420 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trade Document Intelligence — Sanctions Screening</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Trade Document Intelligence — Tatiana Podobivskaia</title>
 <style>
+:root{--navy:#0B1D3A;--navy-light:#132D54;--teal:#00B4D8;--teal-dark:#0096B7;--gold:#FFB703;--red:#EF4444;--green:#10B981;--orange:#F59E0B;--bg:#F0F4F8;--card:#FFF;--text:#1E293B;--muted:#64748B;--border:#E2E8F0}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0B1D3A;--navy-light:#122a52;--navy-mid:#1a3a6b;--teal:#00B4D8;--teal-dark:#0090AD;--teal-light:#00d4fc;--gold:#FFB703;--gold-dark:#E5A200;--white:#FFFFFF;--gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--gray-600:#475569;--green:#10B981;--green-bg:#ECFDF5;--green-border:#A7F3D0;--orange:#F59E0B;--orange-bg:#FFFBEB;--orange-border:#FDE68A;--red:#EF4444;--red-bg:#FEF2F2;--red-border:#FECACA;--font:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace}
-body{font-family:var(--font);background:var(--gray-50);color:var(--navy);min-height:100vh}
-.header{background:var(--navy);padding:0;position:sticky;top:0;z-index:100}
-.header-top{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:16px 24px}
-.header-top h1{color:var(--white);font-size:18px;font-weight:600;letter-spacing:0.5px}
-.header-top h1 span{color:var(--teal)}
-.header-badge{background:var(--teal);color:var(--navy);font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;letter-spacing:1px}
-.header-bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--teal))}
-.nav{background:var(--navy-light);border-bottom:1px solid rgba(255,255,255,0.08)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;gap:0}
-.nav-btn{background:none;border:none;color:var(--gray-400);font-family:var(--font);font-size:13px;font-weight:500;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
-.nav-btn:hover{color:var(--gray-200)}
-.nav-btn.active{color:var(--teal);border-bottom-color:var(--teal)}
-.main{max-width:1200px;margin:0 auto;padding:24px}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat-card{background:var(--white);border-radius:12px;padding:20px;border:1px solid var(--gray-200)}
-.stat-card .label{font-size:12px;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.stat-card .value{font-size:28px;font-weight:700;font-family:var(--mono)}
-.stat-card .sub{font-size:12px;color:var(--gray-400);margin-top:4px}
-.stat-card.teal .value{color:var(--teal)}
-.stat-card.green .value{color:var(--green)}
-.stat-card.orange .value{color:var(--orange)}
-.stat-card.red .value{color:var(--red)}
-.panel{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);margin-bottom:24px;overflow:hidden}
-.panel-header{padding:16px 20px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
-.panel-header h2{font-size:15px;font-weight:600}
-.panel-header .badge{font-size:11px;padding:3px 8px;border-radius:4px;font-weight:500}
-.upload-zone{padding:40px;text-align:center;border:2px dashed var(--gray-300);margin:20px;border-radius:12px;cursor:pointer;transition:all 0.3s}
-.upload-zone:hover{border-color:var(--teal);background:rgba(0,180,216,0.03)}
-.upload-zone.active{border-color:var(--teal);background:rgba(0,180,216,0.06)}
-.upload-zone .icon{font-size:40px;margin-bottom:12px;opacity:0.3}
-.upload-zone h3{font-size:16px;font-weight:500;margin-bottom:6px}
-.upload-zone p{font-size:13px;color:var(--gray-500)}
-.upload-zone input{display:none}
-.btn{font-family:var(--font);font-size:13px;font-weight:600;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
-.btn-primary{background:var(--teal);color:var(--white)}
-.btn-primary:hover{background:var(--teal-dark)}
-.btn-secondary{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200)}
-.btn-secondary:hover{background:var(--gray-200)}
-.btn-screen{background:var(--navy);color:var(--white);font-size:14px;padding:12px 32px;margin-top:16px}
-.btn-screen:hover{background:var(--navy-mid)}
-.btn-screen:disabled{opacity:0.4;cursor:not-allowed}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gray-500);padding:12px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-200);font-weight:600}
-td{padding:12px 16px;border-bottom:1px solid var(--gray-100);font-size:13px}
-tr:hover td{background:var(--gray-50)}
-.risk-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;letter-spacing:0.5px}
-.risk-HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.risk-MEDIUM{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border)}
-.risk-LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.action-badge{font-size:11px;font-weight:500;color:var(--gray-500)}
-.score-bar{width:80px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:8px}
-.score-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
-.cyrillic-tag{font-family:var(--mono);font-size:11px;background:var(--navy);color:var(--gold);padding:2px 6px;border-radius:3px;margin-left:4px}
-.transliteration-panel{background:var(--navy);border-radius:8px;padding:16px 20px;margin:20px}
-.transliteration-panel h3{color:var(--teal);font-size:13px;margin-bottom:12px;font-weight:500}
-.translit-item{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-.translit-original{color:var(--gold);font-family:var(--mono);font-size:14px;min-width:180px}
-.translit-arrow{color:var(--gray-400)}
-.translit-variants{display:flex;gap:6px;flex-wrap:wrap}
-.translit-var{color:var(--white);font-family:var(--mono);font-size:12px;background:var(--navy-mid);padding:2px 8px;border-radius:3px}
-.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px}
-.chart-box{position:relative;height:200px;display:flex;align-items:center;justify-content:center}
-.donut-container{position:relative;width:160px;height:160px}
-.donut-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
-.donut-label .num{font-size:28px;font-weight:700;font-family:var(--mono);display:block}
-.donut-label .txt{font-size:11px;color:var(--gray-500)}
-.legend{display:flex;flex-direction:column;gap:8px;padding:0 20px 20px}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
-.legend-dot{width:10px;height:10px;border-radius:50%}
-.loading{display:none;text-align:center;padding:40px}
-.loading.show{display:block}
-.loading-spinner{width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.footer{text-align:center;padding:32px;color:var(--gray-400);font-size:12px}
-.footer a{color:var(--teal);text-decoration:none}
-@media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}table{font-size:12px}th,td{padding:8px 10px}}
-.fade-in{animation:fadeIn 0.5s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.progress-bar{height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden;margin:16px 20px}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;transition:width 0.3s;width:0%}
-.empty-state{padding:60px;text-align:center;color:var(--gray-400)}
-.empty-state h3{font-size:16px;margin-bottom:8px;color:var(--gray-500)}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--navy);padding:16px 32px;display:flex;justify-content:space-between;align-items:center}
+.logo{color:#fff;font-size:20px;font-weight:700}.logo span{color:var(--teal)}
+.badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:1px}
+nav{background:var(--navy-light);display:flex;gap:0;border-bottom:3px solid var(--teal)}
+nav button{background:none;border:none;color:#94A3B8;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
+nav button:hover{color:#CBD5E1}nav button.active{color:var(--teal);border-bottom-color:var(--teal)}
+.tab{display:none;padding:24px 32px;max-width:1200px;margin:0 auto}.tab.active{display:block}
+.card{background:var(--card);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:24px;margin-bottom:20px}
+.card h3{font-size:16px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.stat{background:var(--card);border-radius:8px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.stat-value{font-size:28px;font-weight:700;margin-top:4px}
+.stat-sub{font-size:12px;color:var(--muted)}
+.teal{color:var(--teal)}.red{color:var(--red)}.orange{color:var(--orange)}.green{color:var(--green)}
+.btn{padding:10px 24px;border-radius:6px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy-light)}
+.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-dark)}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--text)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-sm{padding:6px 14px;font-size:13px}
+.upload-zone{border:2px dashed var(--teal);border-radius:8px;padding:40px;text-align:center;margin:16px 0;cursor:pointer;transition:background .2s}
+.upload-zone:hover{background:#F0FDFA}
+.upload-zone p{color:var(--muted);margin-top:8px;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;background:#F8FAFC;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;border-bottom:2px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover{background:#F8FAFC}
+.risk-high{background:#FEE2E2;color:#991B1B;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.risk-medium{background:#FEF3C7;color:#92400E;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.risk-low{background:#D1FAE5;color:#065F46;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.cyrillic-tag{background:var(--gold);color:var(--navy);padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600}
+.score-bar{height:6px;border-radius:3px;background:#E2E8F0;width:80px;display:inline-block;vertical-align:middle;margin-left:6px}
+.score-fill{height:100%;border-radius:3px}
+.input-row{display:flex;gap:12px;margin-bottom:16px}
+.input-row input{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:6px;font-size:14px}
+.input-row input:focus{outline:none;border-color:var(--teal)}
+.example-btns{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.example-btns button{background:#F1F5F9;border:1px solid var(--border);padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer}
+.example-btns button:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.result-card{border-left:4px solid var(--border);padding:16px 20px;margin:12px 0;border-radius:0 8px 8px 0;background:#F8FAFC}
+.result-card.high{border-left-color:var(--red);background:#FFF5F5}
+.result-card.medium{border-left-color:var(--orange);background:#FFFBEB}
+.result-card.low{border-left-color:var(--green);background:#ECFDF5}
+.explain-box{font-size:13px;background:#fff;padding:10px 14px;border-radius:6px;margin-top:10px;border:1px solid var(--border)}
+.explain-item{padding:4px 0;display:flex;align-items:flex-start;gap:8px}.explain-item::before{content:'→';color:var(--teal);font-weight:700}
+.scenario{display:flex;gap:16px;margin:12px 0;padding:16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.scenario:hover{border-color:var(--teal);background:#F0FDFA}
+.scenario-icon{font-size:28px;min-width:40px;text-align:center}
+.scenario-text h4{font-size:14px;margin-bottom:4px}.scenario-text p{font-size:12px;color:var(--muted)}
+.pipeline{display:flex;align-items:center;justify-content:center;gap:0;margin:24px 0;flex-wrap:wrap}
+.pipe-step{text-align:center;padding:14px 20px;border-radius:8px;min-width:120px}
+.pipe-step .num{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px}
+.pipe-step .label{font-size:13px;font-weight:700;color:var(--navy)}
+.pipe-step .sub{font-size:11px;color:var(--muted)}
+.pipe-arrow{font-size:20px;color:var(--teal);padding:0 4px}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+footer a{color:var(--teal);text-decoration:none}
+@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}.pipeline{gap:4px}nav button{padding:10px 14px;font-size:13px}.tab{padding:16px}}
 </style>
 </head>
 <body>
-
-<div class="header">
-<div class="header-top">
-<h1><span>&#9632;</span> Trade Document <span>Intelligence</span></h1>
-<span class="header-badge">LIVE</span>
-</div>
-<div class="header-bar"></div>
-</div>
-
-<div class="nav">
-<div class="nav-inner">
-<button class="nav-btn active" onclick="showTab('screening')">Screening</button>
-<button class="nav-btn" onclick="showTab('transliteration')">Cyrillic Engine</button>
-<button class="nav-btn" onclick="showTab('dashboard')">Dashboard</button>
-</div>
-</div>
-
-<div class="main" id="content">
+<header>
+<div class="logo">&#9632; Trade Document <span>Intelligence</span></div>
+<span class="badge">LIVE</span>
+</header>
+<nav>
+<button class="active" onclick="showTab('screening')">Screening</button>
+<button onclick="showTab('cyrillic')">Cyrillic Engine</button>
+<button onclick="showTab('dashboard')">Dashboard</button>
+<button onclick="showTab('flow')">System Flow</button>
+</nav>
 
 <!-- SCREENING TAB -->
-<div id="tab-screening">
-
-<div class="stats-row fade-in">
-<div class="stat-card teal"><div class="label">SDN Entities Loaded</div><div class="value" id="sdn-count">18,712</div><div class="sub">OFAC Sanctions List</div></div>
-<div class="stat-card green"><div class="label">Vendors Screened</div><div class="value" id="screened-count">0</div><div class="sub">This session</div></div>
-<div class="stat-card orange"><div class="label">Flagged</div><div class="value" id="flagged-count">0</div><div class="sub">Requires review</div></div>
-<div class="stat-card red"><div class="label">Blocked</div><div class="value" id="blocked-count">0</div><div class="sub">High risk</div></div>
+<div id="screening" class="tab active">
+<div class="stats">
+<div class="stat"><div class="stat-label">SDN Entities Loaded</div><div class="stat-value teal" id="sdn-count">18,712</div><div class="stat-sub">OFAC Sanctions List</div></div>
+<div class="stat"><div class="stat-label">Vendors Screened</div><div class="stat-value" id="screened-count">0</div><div class="stat-sub">This session</div></div>
+<div class="stat"><div class="stat-label">Flagged</div><div class="stat-value orange" id="flagged-count">0</div><div class="stat-sub">Requires review</div></div>
+<div class="stat"><div class="stat-label">Blocked</div><div class="stat-value red" id="blocked-count">0</div><div class="stat-sub">High risk</div></div>
 </div>
-
-<div class="panel fade-in">
-<div class="panel-header">
-<h2>Upload Trade Documents</h2>
-<span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)">System Active</span>
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<h3>Upload Trade Documents</h3>
+<span style="color:var(--teal);font-size:12px;font-weight:700;border:1px solid var(--teal);padding:3px 10px;border-radius:4px">System Active</span>
 </div>
-<div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-<div class="icon">&#128196;</div>
-<h3>Drop vendor CSV file here or click to browse</h3>
+<div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+<div style="font-size:32px;color:var(--muted)">&#128196;</div>
+<strong>Drop vendor CSV file here or click to browse</strong>
 <p>Supports CSV with columns: vendor_name, country, amount, document_type, cyrillic_name</p>
-<input type="file" id="fileInput" accept=".csv" onchange="handleFile(this.files[0])">
 </div>
-<div style="text-align:center;padding:0 20px 12px">
-<button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data (7 vendors)</button>
+<input type="file" id="fileInput" style="display:none" accept=".csv">
+<div style="text-align:center;margin:12px 0">
+<button class="btn btn-outline" onclick="loadSampleData()">Load Sample Data (7 vendors)</button>
 </div>
-<div id="fileInfo" style="display:none;padding:0 20px 16px;text-align:center">
-<span id="fileName" style="font-size:13px;color:var(--gray-500)"></span>
+<div style="text-align:center">
+<button class="btn btn-primary" onclick="runScreening()">Run Sanctions Screening</button>
 </div>
-<div style="text-align:center;padding-bottom:20px">
-<button class="btn btn-screen" id="screenBtn" onclick="runScreening()" disabled>Run Sanctions Screening</button>
 </div>
-<div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill"></div></div>
-</div>
-
-<div class="panel fade-in" id="resultsPanel" style="display:none">
-<div class="panel-header">
-<h2>Screening Results</h2>
-<button class="btn btn-secondary" onclick="exportCSV()">Export CSV</button>
+<div id="results-section" style="display:none">
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h3>Screening Results</h3>
+<button class="btn btn-outline btn-sm" onclick="exportCSV()">Export CSV</button>
 </div>
 <div style="overflow-x:auto">
-<table>
-<thead>
-<tr><th>Vendor</th><th>Country</th><th>Amount</th><th>Document</th><th>SDN Match</th><th>Score</th><th>Risk</th><th>Action</th></tr>
-</thead>
-<tbody id="resultsBody"></tbody>
-</table>
+<table><thead><tr><th>Vendor</th><th>Country</th><th>Amount</th><th>Document</th><th>SDN Match</th><th>Score</th><th>Risk</th><th>Action</th><th>Explanation</th></tr></thead>
+<tbody id="results-body"></tbody></table>
 </div>
 </div>
-
+</div>
 </div>
 
 <!-- CYRILLIC ENGINE TAB -->
-<div id="tab-transliteration" style="display:none">
+<div id="cyrillic" class="tab">
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h3>Cyrillic Transliteration &amp; Screening Pipeline</h3>
+<span style="background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px">Unique Feature</span>
+</div>
+<p style="color:var(--muted);font-size:13px;margin-bottom:16px">Enter a Russian entity name. The engine generates transliteration variants, screens each against the SDN list using fuzzy matching, and returns a risk assessment with full explanation.</p>
+<div class="input-row">
+<input type="text" id="cyrInput" placeholder="Enter Cyrillic name (e.g. Щербаков)">
+<button class="btn btn-teal" onclick="runCyrillicPipeline()">Screen Name</button>
+</div>
+<div class="example-btns">
+<button onclick="setCyr('Щербаков')">Щербаков</button>
+<button onclick="setCyr('Внешторгбанк')">Внешторгбанк</button>
+<button onclick="setCyr('Рособоронэкспорт')">Рособоронэкспорт</button>
+<button onclick="setCyr('Жуковский')">Жуковский</button>
+<button onclick="setCyr('Газпром')">Газпром</button>
+</div>
+<div id="cyr-result"></div>
+</div>
 
-<div class="panel fade-in">
-<div class="panel-header"><h2>Cyrillic Transliteration Engine</h2><span class="badge" style="background:var(--navy);color:var(--gold)">Unique Feature</span></div>
-<div style="padding:20px">
-<p style="font-size:14px;color:var(--gray-600);line-height:1.7;margin-bottom:16px">Russian entity names can appear in 3-5 different Latin spellings across trade documents. Standard fuzzy matching misses these variations. This engine generates multiple transliteration variants using ISO 9, BGN/PCGN, passport, and informal systems.</p>
-<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
-<input type="text" id="cyrInput" placeholder="Enter Cyrillic name (e.g. Щербаков)" style="flex:1;padding:10px 16px;border:1px solid var(--gray-300);border-radius:8px;font-size:14px;font-family:var(--font)">
-<button class="btn btn-primary" onclick="transliterate()">Generate Variants</button>
+<div class="card">
+<h3>Demo Scenarios</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:16px">Click a scenario to see the full pipeline in action.</p>
+<div class="scenario" onclick="runScenario('high')">
+<div class="scenario-icon">&#128308;</div>
+<div class="scenario-text"><h4>Scenario 1: High Risk — Sanctioned Defense Exporter</h4>
+<p>"Рособоронэкспорт Трейдинг" from Russia, $750,000, Bill of Lading. Cyrillic name matches SDN entity through transliteration.</p></div>
 </div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Щербаков';transliterate()" style="font-size:12px">Щербаков</button>
-<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Внешторгбанк';transliterate()" style="font-size:12px">Внешторгбанк</button>
-<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Рособоронэкспорт';transliterate()" style="font-size:12px">Рособоронэкспорт</button>
-<button class="btn btn-secondary" onclick="document.getElementById('cyrInput').value='Жуковский';transliterate()" style="font-size:12px">Жуковский</button>
+<div class="scenario" onclick="runScenario('medium')">
+<div class="scenario-icon">&#128992;</div>
+<div class="scenario-text"><h4>Scenario 2: Medium Risk — Partial Name Match</h4>
+<p>"Внешторгбанк Интернэшнл" from Cyprus, $500,000, Certificate of Origin. Partial match with SDN financial entities.</p></div>
 </div>
+<div class="scenario" onclick="runScenario('low')">
+<div class="scenario-icon">&#128994;</div>
+<div class="scenario-text"><h4>Scenario 3: Low Risk — Clean Vendor</h4>
+<p>"Miami Fresh Produce LLC" from USA, $8,500, Invoice. No Cyrillic, common name, low-risk origin.</p></div>
 </div>
-<div id="translitResults"></div>
 </div>
 
-<div class="panel fade-in">
-<div class="panel-header"><h2>Why This Matters</h2></div>
-<div style="padding:20px">
+<div class="card">
+<h3>Why This Matters</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:12px">Russian entity names can appear in 3-5 different Latin spellings across trade documents. Standard fuzzy matching misses these variations. This engine generates multiple transliteration variants using ISO 9, BGN/PCGN, passport, and informal systems.</p>
 <table>
-<thead><tr><th>Cyrillic</th><th>ISO 9</th><th>Passport</th><th>Informal</th><th>German-style</th><th>Variants</th></tr></thead>
+<thead><tr><th style="background:var(--navy);color:#fff">Cyrillic</th><th style="background:var(--navy);color:#fff">Standard</th><th style="background:var(--navy);color:#fff">Passport</th><th style="background:var(--navy);color:#fff">Informal</th><th style="background:var(--navy);color:#fff">Variants</th></tr></thead>
 <tbody>
-<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Щ</td><td>shch</td><td>shch</td><td>sch</td><td>schtsch</td><td style="color:var(--red);font-weight:600">4</td></tr>
-<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ж</td><td>zh</td><td>zh</td><td>j</td><td>sh</td><td style="color:var(--red);font-weight:600">3</td></tr>
-<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ц</td><td>ts</td><td>tc</td><td>c</td><td>z</td><td style="color:var(--red);font-weight:600">4</td></tr>
-<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Ю</td><td>yu</td><td>iu</td><td>yu</td><td>ju</td><td style="color:var(--orange);font-weight:600">3</td></tr>
-<tr><td style="font-family:var(--mono);color:var(--gold);background:var(--navy);border-radius:4px;text-align:center">Я</td><td>ya</td><td>ia</td><td>ya</td><td>ja</td><td style="color:var(--orange);font-weight:600">3</td></tr>
-</tbody>
-</table>
-<p style="font-size:12px;color:var(--gray-400);margin-top:12px">Each variation creates a potential detection gap in standard sanctions screening systems.</p>
-</div>
+<tr><td><span class="cyrillic-tag">Щ</span></td><td>shch</td><td>shch</td><td>sch</td><td class="orange" style="font-weight:700">3</td></tr>
+<tr><td><span class="cyrillic-tag">Ж</span></td><td>zh</td><td>zh</td><td>j</td><td class="orange" style="font-weight:700">3</td></tr>
+<tr><td><span class="cyrillic-tag">Ц</span></td><td>ts</td><td>tc</td><td>c</td><td class="orange" style="font-weight:700">4</td></tr>
+<tr><td><span class="cyrillic-tag">Ю</span></td><td>yu</td><td>iu</td><td>yu</td><td class="orange" style="font-weight:700">3</td></tr>
+<tr><td><span class="cyrillic-tag">Я</span></td><td>ya</td><td>ia</td><td>ya</td><td class="orange" style="font-weight:700">3</td></tr>
+</tbody></table>
+<p style="color:var(--teal);font-size:12px;margin-top:10px">Each variation creates a potential detection gap in standard sanctions screening systems.</p>
 </div>
 </div>
 
 <!-- DASHBOARD TAB -->
-<div id="tab-dashboard" style="display:none">
-<div id="dashboardEmpty" class="empty-state">
-<h3>No screening data yet</h3>
-<p>Run a screening first to see dashboard visualizations</p>
+<div id="dashboard" class="tab">
+<div id="dash-empty" style="text-align:center;padding:60px;color:var(--muted)"><strong>No screening data yet</strong><p>Run a screening first to see dashboard visualizations</p></div>
+<div id="dash-content" style="display:none">
+<div class="stats">
+<div class="stat"><div class="stat-label">Total Screened</div><div class="stat-value teal" id="d-total">0</div></div>
+<div class="stat"><div class="stat-label">High Risk</div><div class="stat-value red" id="d-high">0</div></div>
+<div class="stat"><div class="stat-label">Medium Risk</div><div class="stat-value orange" id="d-med">0</div></div>
+<div class="stat"><div class="stat-label">Low / Clear</div><div class="stat-value green" id="d-low">0</div></div>
 </div>
-<div id="dashboardContent" style="display:none">
-<div class="stats-row fade-in">
-<div class="stat-card teal"><div class="label">Total Screened</div><div class="value" id="dash-total">0</div></div>
-<div class="stat-card green"><div class="label">Approved</div><div class="value" id="dash-low">0</div></div>
-<div class="stat-card orange"><div class="label">Flagged</div><div class="value" id="dash-med">0</div></div>
-<div class="stat-card red"><div class="label">Blocked</div><div class="value" id="dash-high">0</div></div>
-</div>
-<div class="panel fade-in">
-<div class="panel-header"><h2>Risk Distribution</h2></div>
-<div class="chart-row">
-<div class="chart-box">
-<div class="donut-container">
-<canvas id="donutChart" width="160" height="160"></canvas>
-<div class="donut-label"><span class="num" id="donut-num">0</span><span class="txt">vendors</span></div>
-</div>
-</div>
-<div style="display:flex;flex-direction:column;justify-content:center">
-<div class="legend">
-<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Low Risk (Auto-approved) — <strong id="leg-low">0</strong></div>
-<div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Medium Risk (Flagged) — <strong id="leg-med">0</strong></div>
-<div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>High Risk (Blocked) — <strong id="leg-high">0</strong></div>
-</div>
-</div>
-</div>
-</div>
-<div class="panel fade-in">
-<div class="panel-header"><h2>Total Value by Risk Level</h2></div>
-<div style="padding:20px">
-<div id="barChart"></div>
-</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div class="card"><h3>Risk Distribution</h3><canvas id="donutChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div>
+<div class="card"><h3>Risk by Country</h3><canvas id="barChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div>
 </div>
 </div>
 </div>
 
+<!-- SYSTEM FLOW TAB -->
+<div id="flow" class="tab">
+<div class="card">
+<h3>System Architecture &amp; Pipeline</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:20px">Every vendor goes through the same five-stage pipeline regardless of Latin or Cyrillic input.</p>
+<div class="pipeline">
+<div class="pipe-step" style="background:#E6F1FB"><div class="num">STAGE 1</div><div class="label">Input</div><div class="sub">CSV / Manual</div></div>
+<div class="pipe-arrow">&#10132;</div>
+<div class="pipe-step" style="background:#EDE7F6"><div class="num">STAGE 2</div><div class="label">Extract</div><div class="sub">Parse &amp; Transliterate</div></div>
+<div class="pipe-arrow">&#10132;</div>
+<div class="pipe-step" style="background:#FFF8E1"><div class="num">STAGE 3</div><div class="label">Match</div><div class="sub">Fuzzy SDN Lookup</div></div>
+<div class="pipe-arrow">&#10132;</div>
+<div class="pipe-step" style="background:#FFEDD5"><div class="num">STAGE 4</div><div class="label">Score</div><div class="sub">Risk Assessment</div></div>
+<div class="pipe-arrow">&#10132;</div>
+<div class="pipe-step" style="background:#ECFDF5"><div class="num">STAGE 5</div><div class="label">Route</div><div class="sub">Decision</div></div>
+</div>
+</div>
+<div class="card">
+<h3>Stage Details</h3>
+<table><thead><tr><th>Stage</th><th>Process</th><th>Technology</th><th>Output</th></tr></thead><tbody>
+<tr><td><strong>1. Input</strong></td><td>Upload vendor CSV or enter manually. Validate format and extract fields.</td><td>JavaScript, HTML5 File API</td><td>Structured vendor records</td></tr>
+<tr><td><strong>2. Extract</strong></td><td>If Cyrillic name present, generate 3+ Latin variants (Standard, Passport, Informal). Parse tokens.</td><td>Cyrillic Transliteration Engine</td><td>Name variants array</td></tr>
+<tr><td><strong>3. Match</strong></td><td>Compare each variant against SDN list using n-gram similarity, token sort ratio, and token set ratio. Best match wins.</td><td>Multi-algorithm Fuzzy Matching</td><td>Best match + score 0-100</td></tr>
+<tr><td><strong>4. Score</strong></td><td>Combine fuzzy score with country risk, amount, document type, Cyrillic presence. Weighted formula.</td><td>Risk Scoring Engine</td><td>Composite score + level</td></tr>
+<tr><td><strong>5. Route</strong></td><td>APPROVE (&lt;50), FLAG (50-84), BLOCK (≥85). Generate explanation.</td><td>Decision Engine</td><td>Action + audit trail</td></tr>
+</tbody></table>
+</div>
+<div class="card">
+<h3>Scoring Formula</h3>
+<p style="font-size:14px;line-height:1.8"><strong>Composite Score</strong> = (Fuzzy Match × 0.60) + (Country Risk × 0.15) + (Amount Risk × 0.10) + (Document Risk × 0.10) + (Cyrillic Bonus × 0.05)</p>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+<div style="background:#FEE2E2;padding:12px;border-radius:6px;text-align:center"><strong style="color:#991B1B">HIGH RISK</strong><br><span style="font-size:13px;color:#991B1B">Score ≥ 85 → BLOCK</span></div>
+<div style="background:#FEF3C7;padding:12px;border-radius:6px;text-align:center"><strong style="color:#92400E">MEDIUM RISK</strong><br><span style="font-size:13px;color:#92400E">Score 50–84 → FLAG</span></div>
+<div style="background:#D1FAE5;padding:12px;border-radius:6px;text-align:center"><strong style="color:#065F46">LOW RISK</strong><br><span style="font-size:13px;color:#065F46">Score &lt; 50 → APPROVE</span></div>
+</div>
+</div>
 </div>
 
-<div class="footer">
-Trade Document Intelligence &mdash; Tatiana Podobivskaia &mdash; Atlantis University, Miami FL<br>
-<a href="https://github.com/tatianapodobivskaia-del/trade-document-intelligence" target="_blank">GitHub Repository</a> &middot; Powered by OFAC SDN List &middot; Azure Cloud
-</div>
+<footer>Trade Document Intelligence — Tatiana Podobivskaia — Atlantis University, Miami FL<br>
+<a href="https://github.com/tatianapodobivskaia-del/trade-document-intelligence" target="_blank">GitHub Repository</a> · Powered by OFAC SDN List · Azure Cloud</footer>
 
 <script>
-let vendorData = [];
-let screeningResults = [];
+// ============ TRANSLITERATION ============
+const TM={'\u0410':'A','\u0411':'B','\u0412':'V','\u0413':'G','\u0414':'D','\u0415':'E','\u0401':'E','\u0416':['Zh','J'],'\u0417':'Z','\u0418':'I','\u0419':'Y','\u041A':'K','\u041B':'L','\u041C':'M','\u041D':'N','\u041E':'O','\u041F':'P','\u0420':'R','\u0421':'S','\u0422':'T','\u0423':'U','\u0424':'F','\u0425':'Kh','\u0426':['Ts','Tc','C'],'\u0427':'Ch','\u0428':'Sh','\u0429':['Shch','Sch'],'\u042A':'','\u042B':'Y','\u042C':'','\u042D':'E','\u042E':['Yu','Iu'],'\u042F':['Ya','Ia'],'\u0430':'a','\u0431':'b','\u0432':'v','\u0433':'g','\u0434':'d','\u0435':'e','\u0451':'e','\u0436':['zh','j'],'\u0437':'z','\u0438':'i','\u0439':'y','\u043A':'k','\u043B':'l','\u043C':'m','\u043D':'n','\u043E':'o','\u043F':'p','\u0440':'r','\u0441':'s','\u0442':'t','\u0443':'u','\u0444':'f','\u0445':'kh','\u0446':['ts','tc','c'],'\u0447':'ch','\u0448':'sh','\u0449':['shch','sch'],'\u044A':'','\u044B':'y','\u044C':'','\u044D':'e','\u044E':['yu','iu'],'\u044F':['ya','ia']};
+function transliterate(text){let v=[''];for(let ch of text){const m=TM[ch];if(!m){v=v.map(x=>x+ch);continue}if(Array.isArray(m)){let nv=[];for(let mi of m)for(let vi of v)nv.push(vi+mi);v=nv}else v=v.map(x=>x+m);if(v.length>20)v=v.slice(0,20)}return[...new Set(v)]}
+function hasCyrillic(t){return/[\u0400-\u04FF]/.test(t)}
 
-const SAMPLE = [
-{vendor_name:"Global Energy Trading Ltd",country:"UAE",amount:250000,document_type:"Invoice",cyrillic_name:""},
-{vendor_name:"Shcherbakov Import Export",country:"Turkey",amount:180000,document_type:"Bill of Lading",cyrillic_name:"Щербаков Импорт Экспорт"},
-{vendor_name:"Vneshtorgbank International",country:"Cyprus",amount:500000,document_type:"Certificate of Origin",cyrillic_name:"Внешторгбанк Интернэшнл"},
-{vendor_name:"Sunny Day Flowers Co",country:"Colombia",amount:12000,document_type:"Invoice",cyrillic_name:""},
-{vendor_name:"Rosoboronexport Trading",country:"Russia",amount:750000,document_type:"Bill of Lading",cyrillic_name:"Рособоронэкспорт Трейдинг"},
-{vendor_name:"Miami Fresh Produce LLC",country:"USA",amount:8500,document_type:"Invoice",cyrillic_name:""},
-{vendor_name:"Zhukovsky Aviation Corp",country:"UAE",amount:320000,document_type:"Certificate of Origin",cyrillic_name:"Жуковский Авиация Корп"}
+// ============ FUZZY MATCHING ============
+function ngrams(s,n=2){const g=new Set();s=s.toLowerCase();for(let i=0;i<=s.length-n;i++)g.add(s.substr(i,n));return g}
+function ngramSim(a,b){a=a.toLowerCase();b=b.toLowerCase();if(a.length<2||b.length<2)return a===b?100:0;const ga=ngrams(a),gb=ngrams(b);let c=0;ga.forEach(x=>{if(gb.has(x))c++});return Math.round(2*c/(ga.size+gb.size)*100)}
+function tokenize(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(Boolean)}
+function tokenSortRatio(a,b){return ngramSim(tokenize(a).sort().join(' '),tokenize(b).sort().join(' '))}
+function tokenSetRatio(a,b){const ta=new Set(tokenize(a)),tb=new Set(tokenize(b));let c=0;ta.forEach(t=>{if(tb.has(t))c++});const u=new Set([...ta,...tb]).size;return u===0?0:Math.round(c/u*100)}
+function fuzzyScore(a,b){return Math.round(ngramSim(a,b)*.35+tokenSortRatio(a,b)*.35+tokenSetRatio(a,b)*.30)}
+
+// ============ SDN LIST ============
+const SDN=["ROSOBORONEKSPORT OAO","ROSOBORONEXPORT","ROSTEC","VNESHECONOMBANK","VEB.RF","VEB FINANCE PLC","GAZPROM OAO","GAZPROMBANK","GAZPROM NEFT","SBERBANK OF RUSSIA","SBERBANK","ZHUKOVSKY RESEARCH CENTER","ZHUKOVSKY AERO","GLOBAL ENERGY TRADING LLC","NIA INTERNATIONAL","NIA TRADE LTD","DAY LEASING COMPANY","OPUS ENERGY TRADING LLC","ALMAZ-ANTEY","ALMAZ ANTEY CORP","KALASHNIKOV CONCERN","UNITED AIRCRAFT CORPORATION","TACTICAL MISSILES CORPORATION","NOVATEK OAO","NOVATEK","SURGUTNEFTEGAS","LUKOIL","TRANSNEFT","RUSSIAN DIRECT INVESTMENT FUND","ALFA-BANK","ALFA BANK","BANK ROSSIYA","SOVCOMBANK","PROMSVYAZBANK","SHCHERBAKOV DEFENSE SYSTEMS","OBORONPROM","SUKHOI COMPANY","MIG RUSSIAN AIRCRAFT","URAL AIRLINES","AEROFLOT RUSSIAN AIRLINES"];
+
+function matchSDN(name){let best={match:null,score:0};const u=name.toUpperCase();for(const s of SDN){const sc=fuzzyScore(u,s);if(sc>best.score){best={match:s,score:sc}}}return best}
+function matchWithVariants(name,cyr){let names=[name];if(cyr&&hasCyrillic(cyr))names=names.concat(transliterate(cyr));let best={match:null,score:0,variant:name};for(const v of names){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v}}return best}
+
+// ============ RISK SCORING ============
+const HR_COUNTRIES=['Russia','Iran','North Korea','Syria','Belarus','Cuba','Myanmar','Venezuela'];
+const MR_COUNTRIES=['Turkey','Cyprus','UAE','China','Hong Kong','Singapore'];
+function computeRisk(fs,country,amount,doc,hasCyr){
+  let cr=20;if(HR_COUNTRIES.includes(country))cr=100;else if(MR_COUNTRIES.includes(country))cr=60;
+  let ar=20;if(amount>500000)ar=90;else if(amount>100000)ar=60;else if(amount>50000)ar=40;
+  let dr=30;if(doc==='Bill of Lading')dr=70;else if(doc==='Certificate of Origin')dr=60;
+  let cb=hasCyr?80:0;
+  const comp=Math.round(fs*.60+cr*.15+ar*.10+dr*.10+cb*.05);
+  let level='LOW',action='APPROVE';if(comp>=85){level='HIGH';action='BLOCK'}else if(comp>=50){level='MEDIUM';action='FLAG'}
+  return{composite:comp,level,action,factors:{fuzzy:fs,country:cr,amount:ar,doc:dr,cyrillic:cb}}
+}
+function explain(risk,mr,name,country){
+  const p=[];
+  if(risk.factors.fuzzy>=85)p.push('High similarity ('+risk.factors.fuzzy+'%) with SDN entity "'+mr.match+'"');
+  else if(risk.factors.fuzzy>=50)p.push('Partial match ('+risk.factors.fuzzy+'%) with SDN entity "'+mr.match+'"');
+  else p.push('Low similarity ('+risk.factors.fuzzy+'%) — no significant SDN match');
+  if(mr.variant!==name)p.push('Transliteration variant "'+mr.variant+'" triggered the match');
+  if(HR_COUNTRIES.includes(country))p.push('Country ('+country+') is on high-risk list');
+  else if(MR_COUNTRIES.includes(country))p.push('Country ('+country+') flagged for elevated risk');
+  if(risk.factors.amount>=60)p.push('Transaction amount exceeds elevated threshold');
+  if(risk.factors.cyrillic>0)p.push('Cyrillic name detected — transliteration screening applied');
+  return p;
+}
+
+// ============ SAMPLE DATA ============
+const sampleVendors=[
+  {name:'Global Energy Trading Ltd',country:'UAE',amount:250000,doc:'Invoice',cyr:''},
+  {name:'Shcherbakov Import Export',country:'Turkey',amount:180000,doc:'Bill of Lading',cyr:'\u0429\u0435\u0440\u0431\u0430\u043A\u043E\u0432 \u0418\u043C\u043F\u043E\u0440\u0442 \u042D\u043A\u0441\u043F\u043E\u0440\u0442'},
+  {name:'Vneshtorgbank International',country:'Cyprus',amount:500000,doc:'Certificate of Origin',cyr:'\u0412\u043D\u0435\u0448\u0442\u043E\u0440\u0433\u0431\u0430\u043D\u043A \u0418\u043D\u0442\u0435\u0440\u043D\u044D\u0448\u043D\u043B'},
+  {name:'Sunny Day Flowers Co',country:'Colombia',amount:12000,doc:'Invoice',cyr:''},
+  {name:'Rosoboronexport Trading',country:'Russia',amount:750000,doc:'Bill of Lading',cyr:'\u0420\u043E\u0441\u043E\u0431\u043E\u0440\u043E\u043D\u044D\u043A\u0441\u043F\u043E\u0440\u0442 \u0422\u0440\u0435\u0439\u0434\u0438\u043D\u0433'},
+  {name:'Miami Fresh Produce LLC',country:'USA',amount:8500,doc:'Invoice',cyr:''},
+  {name:'Zhukovsky Aviation Corp',country:'UAE',amount:320000,doc:'Certificate of Origin',cyr:'\u0416\u0443\u043A\u043E\u0432\u0441\u043A\u0438\u0439 \u0410\u0432\u0438\u0430\u0446\u0438\u044F \u041A\u043E\u0440\u043F'}
 ];
+let vendors=[],screenResults=[];
 
-const SDN_SAMPLES=["ROSOBORONEKSPORT OAO","GLOBAL ENERGY TRADING LLC","NIA INTERNATIONAL","OPUS ENERGY TRADING LLC","DAY LEASING COMPANY","MIAMI PRIDE","OTIK AVIATION","VNESHTORGBANK","SHCHERBAKOV TRADING","ZHUKOVSKY RESEARCH CENTER"];
-
-function showTab(tab){
-document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');
-document.getElementById('tab-'+tab).style.display='block';
-document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-event.target.classList.add('active');
+// ============ UI ============
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
 }
-
-function loadSampleData(){
-vendorData=SAMPLE;
-document.getElementById('fileInfo').style.display='block';
-document.getElementById('fileName').textContent='Sample data loaded: 7 vendors, $2,020,500 total value';
-document.getElementById('screenBtn').disabled=false;
-document.getElementById('dropZone').classList.add('active');
-}
-
-function handleFile(file){
-if(!file)return;
-const reader=new FileReader();
-reader.onload=function(e){
-const lines=e.target.result.split('\n');
-const headers=lines[0].split(',').map(h=>h.trim());
-vendorData=[];
-for(let i=1;i<lines.length;i++){
-if(!lines[i].trim())continue;
-const vals=lines[i].split(',').map(v=>v.trim());
-const obj={};
-headers.forEach((h,j)=>obj[h]=vals[j]||'');
-if(obj.amount)obj.amount=parseFloat(obj.amount)||0;
-vendorData.push(obj);
-}
-document.getElementById('fileInfo').style.display='block';
-document.getElementById('fileName').textContent=file.name+' — '+vendorData.length+' vendors loaded';
-document.getElementById('screenBtn').disabled=false;
-document.getElementById('dropZone').classList.add('active');
-};
-reader.readAsText(file);
-}
-
-function fuzzyScore(a,b){
-a=a.toLowerCase();b=b.toLowerCase();
-if(a===b)return 100;
-let common=0;
-const short=a.length<b.length?a:b;
-const long=a.length<b.length?b:a;
-for(let i=0;i<short.length;i++){
-if(long.includes(short[i])){common++;long.replace(short[i],'');}
-}
-const ratio=common*2/(a.length+b.length)*100;
-let bonus=0;
-const words_a=a.split(/\s+/);
-const words_b=b.split(/\s+/);
-words_a.forEach(wa=>{words_b.forEach(wb=>{if(wa===wb)bonus+=15;else if(wa.includes(wb)||wb.includes(wa))bonus+=8;});});
-return Math.min(100,Math.round(ratio+bonus));
-}
-
-function generateTranslitVariants(cyr){
-if(!cyr)return[];
-const map={"щ":"shch","ш":"sh","ч":"ch","ж":"zh","ц":"ts","х":"kh","ю":"yu","я":"ya","ё":"yo","э":"e","й":"y","ы":"y","ъ":"","ь":"","а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","з":"z","и":"i","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f"};
-const passport=Object.assign({},map,{"щ":"shch","ё":"e","й":"i","ц":"tc"});
-const german=Object.assign({},map,{"щ":"schtsch","ш":"sch","ч":"tsch","ж":"sh","ц":"z","х":"ch","ю":"ju","я":"ja","й":"j"});
-function conv(text,m){let r="";for(const c of text.toLowerCase())r+=m[c]||c;return r;}
-const variants=new Set();
-variants.add(conv(cyr,map));
-variants.add(conv(cyr,passport));
-variants.add(conv(cyr,german));
-return[...variants];
-}
+function loadSampleData(){vendors=[...sampleVendors];alert('Loaded 7 sample vendors. Click "Run Sanctions Screening" to process.')}
 
 function runScreening(){
-if(vendorData.length===0)return;
-const bar=document.getElementById('progressBar');
-const fill=document.getElementById('progressFill');
-bar.style.display='block';
-fill.style.width='0%';
-document.getElementById('screenBtn').disabled=true;
-screeningResults=[];
-let idx=0;
-function processNext(){
-if(idx>=vendorData.length){
-fill.style.width='100%';
-setTimeout(()=>{
-bar.style.display='none';
-displayResults();
-document.getElementById('screenBtn').disabled=false;
-},400);
-return;
-}
-fill.style.width=((idx+1)/vendorData.length*100)+'%';
-const v=vendorData[idx];
-let bestScore=0,bestMatch="None";
-const namesToCheck=[v.vendor_name];
-if(v.cyrillic_name){
-const variants=generateTranslitVariants(v.cyrillic_name);
-namesToCheck.push(...variants);
-}
-for(const name of namesToCheck){
-for(const sdn of SDN_SAMPLES){
-const score=fuzzyScore(name,sdn);
-if(score>bestScore){bestScore=score;bestMatch=sdn;}
-}
-}
-const risk=bestScore>=85?"HIGH":bestScore>=50?"MEDIUM":"LOW";
-const action=risk==="HIGH"?"BLOCK":risk==="MEDIUM"?"FLAG":"APPROVE";
-screeningResults.push({
-...v,
-best_sdn_match:bestMatch,
-similarity_score:bestScore,
-risk_level:risk,
-action:action,
-transliteration_variants:v.cyrillic_name?generateTranslitVariants(v.cyrillic_name):[]
-});
-idx++;
-setTimeout(processNext,200);
-}
-processNext();
-}
-
-function displayResults(){
-const body=document.getElementById('resultsBody');
-body.innerHTML='';
-let flagged=0,blocked=0;
-screeningResults.forEach(r=>{
-if(r.risk_level==='MEDIUM')flagged++;
-if(r.risk_level==='HIGH')blocked++;
-const scoreColor=r.risk_level==='HIGH'?'var(--red)':r.risk_level==='MEDIUM'?'var(--orange)':'var(--green)';
-let vendorCell=r.vendor_name;
-if(r.cyrillic_name)vendorCell+=` <span class="cyrillic-tag">${r.cyrillic_name}</span>`;
-body.innerHTML+=`<tr>
-<td>${vendorCell}</td>
-<td>${r.country}</td>
-<td>$${(r.amount||0).toLocaleString()}</td>
-<td>${r.document_type}</td>
-<td style="font-family:var(--mono);font-size:12px">${r.best_sdn_match}</td>
-<td><div class="score-bar"><div class="score-fill" style="width:${r.similarity_score}%;background:${scoreColor}"></div></div>${r.similarity_score}%</td>
-<td><span class="risk-badge risk-${r.risk_level}">${r.risk_level}</span></td>
-<td><span class="action-badge">${r.action}</span></td>
-</tr>`;
-});
-document.getElementById('resultsPanel').style.display='block';
-document.getElementById('screened-count').textContent=screeningResults.length;
-document.getElementById('flagged-count').textContent=flagged;
-document.getElementById('blocked-count').textContent=blocked;
-updateDashboard();
-}
-
-function updateDashboard(){
-const low=screeningResults.filter(r=>r.risk_level==='LOW').length;
-const med=screeningResults.filter(r=>r.risk_level==='MEDIUM').length;
-const high=screeningResults.filter(r=>r.risk_level==='HIGH').length;
-const total=screeningResults.length;
-document.getElementById('dash-total').textContent=total;
-document.getElementById('dash-low').textContent=low;
-document.getElementById('dash-med').textContent=med;
-document.getElementById('dash-high').textContent=high;
-document.getElementById('donut-num').textContent=total;
-document.getElementById('leg-low').textContent=low;
-document.getElementById('leg-med').textContent=med;
-document.getElementById('leg-high').textContent=high;
-document.getElementById('dashboardEmpty').style.display='none';
-document.getElementById('dashboardContent').style.display='block';
-drawDonut(low,med,high);
-drawBars();
-}
-
-function drawDonut(low,med,high){
-const canvas=document.getElementById('donutChart');
-const ctx=canvas.getContext('2d');
-const cx=80,cy=80,r=65,lw=20;
-ctx.clearRect(0,0,160,160);
-const total=low+med+high;
-if(total===0)return;
-const data=[{v:low,c:'#10B981'},{v:med,c:'#F59E0B'},{v:high,c:'#EF4444'}];
-let start=-Math.PI/2;
-data.forEach(d=>{
-const angle=(d.v/total)*Math.PI*2;
-ctx.beginPath();ctx.arc(cx,cy,r,start,start+angle);
-ctx.strokeStyle=d.c;ctx.lineWidth=lw;ctx.lineCap='butt';ctx.stroke();
-start+=angle;
-});
-}
-
-function drawBars(){
-const container=document.getElementById('barChart');
-const lowVal=screeningResults.filter(r=>r.risk_level==='LOW').reduce((s,r)=>s+(r.amount||0),0);
-const medVal=screeningResults.filter(r=>r.risk_level==='MEDIUM').reduce((s,r)=>s+(r.amount||0),0);
-const highVal=screeningResults.filter(r=>r.risk_level==='HIGH').reduce((s,r)=>s+(r.amount||0),0);
-const max=Math.max(lowVal,medVal,highVal,1);
-container.innerHTML=`
-<div style="display:flex;align-items:end;gap:12px;height:120px;margin-bottom:8px">
-<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
-<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${lowVal.toLocaleString()}</div>
-<div style="width:100%;background:var(--green);border-radius:6px 6px 0 0;height:${Math.max(4,lowVal/max*100)}%;transition:height 0.5s"></div>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
-<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${medVal.toLocaleString()}</div>
-<div style="width:100%;background:var(--orange);border-radius:6px 6px 0 0;height:${Math.max(4,medVal/max*100)}%;transition:height 0.5s"></div>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%">
-<div style="font-family:var(--mono);font-size:12px;margin-bottom:4px">$${highVal.toLocaleString()}</div>
-<div style="width:100%;background:var(--red);border-radius:6px 6px 0 0;height:${Math.max(4,highVal/max*100)}%;transition:height 0.5s"></div>
-</div>
-</div>
-<div style="display:flex;gap:12px">
-<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">Low Risk</div>
-<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">Medium Risk</div>
-<div style="flex:1;text-align:center;font-size:12px;color:var(--gray-500)">High Risk</div>
-</div>`;
-}
-
-function transliterate(){
-const input=document.getElementById('cyrInput').value.trim();
-if(!input)return;
-const variants=generateTranslitVariants(input);
-const container=document.getElementById('translitResults');
-container.innerHTML=`<div class="transliteration-panel">
-<h3>Transliteration Results for "${input}"</h3>
-${variants.map((v,i)=>`<div class="translit-item">
-<span class="translit-original">${i===0?'Standard':i===1?'Passport':'German-style'}</span>
-<span class="translit-arrow">&#8594;</span>
-<span class="translit-var">${v}</span>
-</div>`).join('')}
-<p style="color:var(--gray-400);font-size:12px;margin-top:12px">${variants.length} variants generated — each could appear in different trade documents for the same entity</p>
-</div>`;
+  if(!vendors.length){alert('Load sample data or upload a CSV first.');return}
+  screenResults=[];let flagged=0,blocked=0;
+  const tbody=document.getElementById('results-body');tbody.innerHTML='';
+  for(const v of vendors){
+    const mr=matchWithVariants(v.name,v.cyr);
+    const risk=computeRisk(mr.score,v.country,v.amount,v.doc,!!v.cyr);
+    const expl=explain(risk,mr,v.name,v.country);
+    screenResults.push({...v,mr,risk,expl});
+    if(risk.level==='HIGH')blocked++;else if(risk.level==='MEDIUM')flagged++;
+    const riskCls=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';
+    const barColor=risk.level==='HIGH'?'var(--red)':risk.level==='MEDIUM'?'var(--orange)':'var(--green)';
+    const cyrTag=v.cyr?'<br><span class="cyrillic-tag">'+v.cyr+'</span>':'';
+    const explHtml=expl.map(e=>'<div class="explain-item">'+e+'</div>').join('');
+    tbody.innerHTML+='<tr><td>'+v.name+cyrTag+'</td><td>'+v.country+'</td><td>$'+v.amount.toLocaleString()+'</td><td>'+v.doc+'</td><td style="font-family:monospace;font-size:11px">'+(mr.match||'—')+'</td><td>'+risk.composite+'%<div class="score-bar"><div class="score-fill" style="width:'+risk.composite+'%;background:'+barColor+'"></div></div></td><td><span class="'+riskCls+'">'+risk.level+'</span></td><td>'+risk.action+'</td><td style="font-size:11px">'+explHtml+'</td></tr>';
+  }
+  document.getElementById('screened-count').textContent=vendors.length;
+  document.getElementById('flagged-count').textContent=flagged;
+  document.getElementById('blocked-count').textContent=blocked;
+  document.getElementById('results-section').style.display='block';
+  updateDashboard();
 }
 
 function exportCSV(){
-if(screeningResults.length===0)return;
-let csv="vendor_name,country,amount,document_type,best_sdn_match,similarity_score,risk_level,action\n";
-screeningResults.forEach(r=>{
-csv+=`"${r.vendor_name}","${r.country}",${r.amount},"${r.document_type}","${r.best_sdn_match}",${r.similarity_score},${r.risk_level},${r.action}\n`;
-});
-const blob=new Blob([csv],{type:'text/csv'});
-const url=URL.createObjectURL(blob);
-const a=document.createElement('a');
-a.href=url;a.download='screening_results.csv';a.click();
+  if(!screenResults.length)return;
+  let csv='Vendor,Country,Amount,Document,SDN_Match,Score,Risk,Action,Explanation\n';
+  for(const r of screenResults){csv+='"'+r.name+'","'+r.country+'",'+r.amount+',"'+r.doc+'","'+(r.mr.match||'')+'",'+r.risk.composite+',"'+r.risk.level+'","'+r.risk.action+'","'+r.expl.join('; ')+'"\n'}
+  const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='screening_results.csv';a.click();
 }
 
-// Drag and drop
-const dropZone=document.getElementById('dropZone');
-dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('active');});
-dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('active'));
-dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('active');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
-</script>
+function updateDashboard(){
+  const h=screenResults.filter(r=>r.risk.level==='HIGH').length;
+  const m=screenResults.filter(r=>r.risk.level==='MEDIUM').length;
+  const l=screenResults.filter(r=>r.risk.level==='LOW').length;
+  document.getElementById('d-total').textContent=screenResults.length;
+  document.getElementById('d-high').textContent=h;
+  document.getElementById('d-med').textContent=m;
+  document.getElementById('d-low').textContent=l;
+  document.getElementById('dash-empty').style.display='none';
+  document.getElementById('dash-content').style.display='block';
+  drawDonut(h,m,l);drawBar();
+}
 
+function drawDonut(h,m,l){
+  const c=document.getElementById('donutChart'),ctx=c.getContext('2d');ctx.clearRect(0,0,300,300);
+  const total=h+m+l;if(!total)return;const data=[{v:h,c:'#EF4444',l:'High'},{v:m,c:'#F59E0B',l:'Medium'},{v:l,c:'#10B981',l:'Low'}];
+  let start=-Math.PI/2;const cx=150,cy=130,r=80,w=30;
+  data.forEach(d=>{if(!d.v)return;const angle=2*Math.PI*d.v/total;ctx.beginPath();ctx.arc(cx,cy,r,start,start+angle);ctx.arc(cx,cy,r-w,start+angle,start,true);ctx.closePath();ctx.fillStyle=d.c;ctx.fill();start+=angle});
+  ctx.fillStyle='#1E293B';ctx.font='bold 24px Segoe UI';ctx.textAlign='center';ctx.fillText(total,cx,cy+4);ctx.font='12px Segoe UI';ctx.fillStyle='#64748B';ctx.fillText('vendors',cx,cy+20);
+  let ly=240;data.forEach(d=>{ctx.fillStyle=d.c;ctx.fillRect(60,ly-8,12,12);ctx.fillStyle='#1E293B';ctx.font='13px Segoe UI';ctx.textAlign='left';ctx.fillText(d.l+': '+d.v,80,ly+2);ly+=22});
+}
+
+function drawBar(){
+  const c=document.getElementById('barChart'),ctx=c.getContext('2d');ctx.clearRect(0,0,300,300);
+  const countries={};screenResults.forEach(r=>{if(!countries[r.country])countries[r.country]={h:0,m:0,l:0};if(r.risk.level==='HIGH')countries[r.country].h++;else if(r.risk.level==='MEDIUM')countries[r.country].m++;else countries[r.country].l++});
+  const keys=Object.keys(countries);const bw=Math.min(40,200/keys.length);const gap=10;
+  let x=40;const base=260;ctx.font='11px Segoe UI';ctx.textAlign='center';
+  keys.forEach(k=>{const d=countries[k];const total=d.h+d.m+d.l;let y=base;
+  [{v:d.l,c:'#10B981'},{v:d.m,c:'#F59E0B'},{v:d.h,c:'#EF4444'}].forEach(s=>{if(!s.v)return;const h=s.v*40;ctx.fillStyle=s.c;ctx.fillRect(x,y-h,bw,h);y-=h});
+  ctx.fillStyle='#64748B';ctx.save();ctx.translate(x+bw/2,base+14);ctx.fillText(k.substr(0,6),0,0);ctx.restore();x+=bw+gap});
+}
+
+// ============ CYRILLIC PIPELINE ============
+function setCyr(v){document.getElementById('cyrInput').value=v;runCyrillicPipeline()}
+
+function runCyrillicPipeline(){
+  const input=document.getElementById('cyrInput').value.trim();
+  if(!input){document.getElementById('cyr-result').innerHTML='<p style="color:var(--red)">Please enter a name.</p>';return}
+  const isCyr=hasCyrillic(input);
+  const variants=isCyr?transliterate(input):[input];
+  let best={match:null,score:0,variant:input};
+  for(const v of variants){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v}}
+  const risk=computeRisk(best.score,'Unknown',100000,'Document',isCyr);
+  const expl=explain(risk,best,input,'Unknown');
+  const cls=risk.level.toLowerCase();
+  const riskCls=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';
+
+  let html='<div class="result-card '+cls+'">';
+  html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">';
+  html+='<div><strong style="font-size:16px">'+input+'</strong>';
+  if(isCyr)html+=' <span class="cyrillic-tag">Cyrillic Input</span>';
+  html+='</div>';
+  html+='<div style="text-align:right"><div style="font-size:32px;font-weight:700" class="'+cls+'">'+risk.composite+'%</div><span class="'+riskCls+'">'+risk.level+' RISK</span></div></div>';
+
+  if(isCyr&&variants.length>1){
+    html+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">TRANSLITERATION VARIANTS GENERATED:</strong><br>';
+    variants.forEach(v=>{const isMatch=v===best.variant;html+='<span style="display:inline-block;margin:3px 4px;padding:4px 10px;border-radius:4px;font-size:12px;background:'+(isMatch?'var(--teal);color:#fff':'#E2E8F0;color:var(--text)')+'">'+v+(isMatch?' ✓':'')+'</span>'});
+    html+='</div>';
+  }
+
+  if(best.match){
+    html+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">BEST SDN MATCH:</strong>';
+    html+='<div style="font-family:monospace;font-size:14px;margin-top:4px">'+best.match+' <span style="color:var(--muted)">(via "'+best.variant+'")</span></div></div>';
+  }
+
+  html+='<div class="explain-box"><strong style="font-size:12px;color:var(--muted)">EXPLANATION:</strong>';
+  expl.forEach(e=>{html+='<div class="explain-item">'+e+'</div>'});
+  html+='</div>';
+
+  // API Response format
+  html+='<details style="margin-top:12px"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600">VIEW API RESPONSE FORMAT</summary>';
+  html+='<pre style="background:#0B1D3A;color:#00B4D8;padding:14px;border-radius:6px;font-size:12px;margin-top:8px;overflow-x:auto">'+JSON.stringify({input_name:input,is_cyrillic:isCyr,variants_generated:variants,best_match:{sdn_entity:best.match,matched_via:best.variant,similarity_score:best.score},risk_assessment:{composite_score:risk.composite,risk_level:risk.level,action:risk.action,factors:risk.factors},explanation:expl},null,2)+'</pre></details>';
+
+  html+='</div>';
+  document.getElementById('cyr-result').innerHTML=html;
+}
+
+// ============ DEMO SCENARIOS ============
+function runScenario(type){
+  if(type==='high')document.getElementById('cyrInput').value='\u0420\u043E\u0441\u043E\u0431\u043E\u0440\u043E\u043D\u044D\u043A\u0441\u043F\u043E\u0440\u0442';
+  else if(type==='medium')document.getElementById('cyrInput').value='\u0412\u043D\u0435\u0448\u0442\u043E\u0440\u0433\u0431\u0430\u043D\u043A';
+  else document.getElementById('cyrInput').value='Miami Fresh Produce LLC';
+  runCyrillicPipeline();
+  document.getElementById('cyr-result').scrollIntoView({behavior:'smooth'});
+}
+</script>
 </body>
 </html>
