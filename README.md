@@ -1,155 +1,118 @@
 # AI-Powered Trade Document Intelligence
 
-## Automated Sanctions Screening with Cyrillic Transliteration Support
+**An AI-powered compliance risk detection system for international trade screening.**
 
-An AI-driven trade document screening system that analyzes vendor and supplier data against the OFAC SDN (Specially Designated Nationals) list, with specialized fuzzy matching for Cyrillic-to-Latin transliteration variants. Designed for small and medium-sized enterprises (SMEs) engaged in cross-border procurement.
+Uses Azure OpenAI (GPT-4o) + multi-algorithm fuzzy matching to screen vendors against OFAC sanctions lists — with specialized Cyrillic transliteration support that catches entity names traditional tools miss.
 
-**Author:** Tatiana Pankratova
-**Affiliation:** Atlantis University, Miami, FL
+🔗 **Live Demo:** [https://tatianapodobivskaia-del.github.io/trade-document-intelligence](https://tatianapodobivskaia-del.github.io/trade-document-intelligence)
+
+**Author:** Tatiana Podobivskaia  
+**Affiliation:** Atlantis University, Miami, FL  
 **Program:** MBA in Business Intelligence & Data Analytics
 
 ---
 
-## Problem
+## AI Component
 
-International trade relies on accurate screening of counterparties against sanctions lists. Current challenges include:
+This system integrates AI models via Azure OpenAI to:
 
-- **Enterprise tools are too expensive for SMEs** — solutions like NICE Actimize or Dow Jones Risk & Compliance cost tens of thousands of dollars annually
-- **AI-generated document fraud is rising** — generative AI can now produce convincing fake invoices, bills of lading, and certificates of origin
-- **Cyrillic transliteration creates detection gaps** — Russian entity names can appear in 3-5 different Latin spellings across trade documents, and standard matching algorithms miss these variations
+- **Analyze vendor entities** against the OFAC SDN list with contextual understanding, not just string matching
+- **Detect true vs false positives** — AI identifies when short names or generic words trigger coincidental matches
+- **Identify sanctions evasion indicators** — shell companies, unusual transaction patterns, jurisdiction risks
+- **Generate natural language reasoning** — every compliance decision comes with an AI explanation
+- **Support adaptive risk classification** — beyond static rules, the system learns from entity context
 
-## Solution
+Unlike traditional rule-based systems, this approach enables **adaptive and scalable** compliance screening.
 
-This system provides:
+## Why AI — Beyond Rule-Based Systems
 
-1. **Real-time OFAC SDN screening** — downloads and parses the official U.S. Treasury sanctions list
-2. **Multi-algorithm fuzzy matching** — composite scoring using token sort, token set, partial, and standard ratio algorithms
-3. **Cyrillic transliteration engine** — generates multiple Latin-script variants based on ISO 9, BGN/PCGN, passport, and informal transliteration systems
-4. **Risk-based routing** — automated approve / flag / block decisions with configurable thresholds
-5. **Power BI integration** — JSON export for real-time compliance dashboard visualization
+| | Traditional Systems | This AI-Powered System |
+|---|---|---|
+| **Matching** | Static string comparison | Contextual entity analysis via LLM |
+| **False Positives** | High rate, manual review | AI filters automatically |
+| **Transliteration** | Single spelling only | 3-5 Cyrillic variants generated |
+| **Reasoning** | Pass/fail, no explanation | Natural language compliance notes |
+| **Cost** | $25K+/year enterprise tools | Serverless, pay-per-use ($0.001/vendor) |
+| **Scalability** | Fixed capacity | Auto-scales with Azure Functions |
+
+## Architecture
+
+```
+                    ┌─── TWO-PASS ARCHITECTURE ───┐
+                    │                              │
+Trade Document ──►  │  PASS 1: Pattern Matching    │
+(CSV / Manual)      │  • N-gram similarity          │
+                    │  • Token sort/set ratio       │
+                    │  • Cyrillic transliteration   │
+                    │  • Weighted risk scoring      │
+                    │  → Instant, in-browser        │
+                    │                              │
+                    │  PASS 2: AI Deep Analysis     │
+                    │  • Azure OpenAI GPT-4o        │
+                    │  • True/false positive ID     │
+                    │  • Evasion detection          │
+                    │  • NL reasoning               │
+                    │  → Via Azure Function API     │
+                    │                              │
+                    └──────────┬───────────────────┘
+                               │
+                    ┌──────────▼───────────────────┐
+                    │   Decision & Audit Trail      │
+                    │   APPROVE / FLAG / BLOCK      │
+                    │   + AI Confidence Score        │
+                    │   + Compliance Recommendation  │
+                    └──────────────────────────────┘
+```
+
+## Technology Stack
+
+| Component | Technology | Purpose |
+|---|---|---|
+| **AI Engine** | Azure OpenAI GPT-4o-mini | Contextual risk analysis, false positive detection |
+| **Frontend** | JavaScript, HTML5, Canvas | Interactive screening interface |
+| **Backend** | Azure Functions (Python) | Serverless API, AI orchestration |
+| **Cloud** | Microsoft Azure (East US) | Hosting, scaling, AI services |
+| **Data** | OFAC SDN List (18,712 entities) | U.S. Treasury sanctions database |
+| **Transliteration** | Custom Cyrillic Engine | ISO 9, ICAO, BGN/PCGN, informal variants |
 
 ## Cyrillic Transliteration — The Technical Gap
 
 A Russian entity name like **"Щербаков"** can appear in trade documents as:
 
-| Variant | Transliteration System |
-|---------|----------------------|
+| Variant | System |
+|---|---|
 | Shcherbakov | ISO 9 / Library of Congress |
 | Scherbakov | Simplified / Informal |
 | Chtcherbakov | French-influenced |
 | Stcherbakov | Older German-influenced |
 
-Standard fuzzy matching treats these as different strings. This system understands they are the **same entity** by applying linguistic rules specific to Russian phonetics and morphology.
+Standard fuzzy matching treats these as different strings. This system understands they are the **same entity** by applying linguistic rules specific to Russian phonetics.
 
-## Architecture
+## Features
 
-```
-Trade Document (CSV/Excel)
-        |
-        v
-   Entity Extraction
-        |
-        v
-Cyrillic Transliteration --> Generate 3-5 Latin variants
-        |
-        v
-OFAC SDN Cross-Reference --> Fuzzy matching (composite score)
-        |
-        v
-   Risk Scoring Engine
-        |
-        |-- LOW (< 50%)  --> Auto-approve, Log
-        |-- MED (50-85%) --> Flag, Notify compliance officer
-        |-- HIGH (> 85%) --> Block, Escalate, Alert
-        |
-        v
-   Power BI Dashboard
-```
+- **Real-time OFAC SDN screening** with 18,712+ entities
+- **AI-powered risk analysis** via Azure OpenAI GPT-4o
+- **Cyrillic transliteration engine** generating 3-5 Latin variants per name
+- **Multi-algorithm fuzzy matching** (n-gram, token sort, token set)
+- **Weighted risk scoring** (5 factors: name match, country, amount, document type, Cyrillic)
+- **Interactive dashboard** with 4 chart types and click-to-enlarge
+- **PDF compliance reports** with executive summary and audit trail
+- **Batch CSV upload** with drag & drop and smart column detection
+- **Risk filters and search** across screening results
 
 ## Quick Start
 
-### Installation
-
 ```bash
-git clone https://github.com/[your-username]/trade-document-intelligence.git
+git clone https://github.com/tatianapodobivskaia-del/trade-document-intelligence.git
 cd trade-document-intelligence
 pip install -r requirements.txt
-```
-
-### Run Demo
-
-```bash
 python sdn_matcher.py
 ```
-
-This will:
-- Download the latest OFAC SDN list from U.S. Treasury
-- Demonstrate Cyrillic transliteration variants
-- Screen 7 sample vendors with varying risk levels
-- Export results to CSV and JSON
-
-### Screen Your Own Vendors
-
-Prepare a CSV file with columns: `vendor_name`, `country`, `amount`, `document_type`, `cyrillic_name` (optional)
-
-```python
-from sdn_matcher import download_sdn_list, parse_sdn_list, screen_vendor_file
-
-raw = download_sdn_list()
-sdn = parse_sdn_list(raw)
-results = screen_vendor_file("your_vendors.csv", sdn)
-print(results)
-```
-
-## Project Structure
-
-```
-trade-document-intelligence/
-├── sdn_matcher.py          # Core matching engine
-├── requirements.txt        # Python dependencies
-├── sample_vendors.csv      # Test data
-├── screening_results.csv   # Output (generated)
-├── screening_results.json  # Power BI export (generated)
-└── README.md
-```
-
-## Dependencies
-
-```
-requests
-fuzzywuzzy
-python-Levenshtein
-transliterate
-pandas
-```
-
-## Technology Stack
-
-- **Python** — Core screening engine
-- **Microsoft Azure** — Cloud infrastructure (Blob Storage, Functions)
-- **Power Automate** — Workflow orchestration
-- **Power BI** — Compliance dashboard
-- **OFAC SDN API** — Official U.S. Treasury sanctions data
-
-## Risk Scoring Methodology
-
-The system uses a composite similarity score (0-100) combining four algorithms:
-
-| Algorithm | Weight | Strength |
-|-----------|--------|----------|
-| Token Sort Ratio | 30% | Handles word order differences |
-| Token Set Ratio | 30% | Handles extra/missing words |
-| Partial Ratio | 25% | Catches substring matches |
-| Standard Ratio | 15% | Overall string similarity |
-
-Thresholds are configurable:
-- **HIGH risk (>= 85%):** Transaction blocked, escalated for manual review
-- **MEDIUM risk (50-84%):** Flagged for compliance officer review
-- **LOW risk (< 50%):** Auto-approved, logged for audit trail
 
 ## Relevance
 
 This project addresses priorities identified by:
+
 - **OFAC** — Risk-based sanctions screening programs
 - **FinCEN** — Convergence of sanctions, AML, and export controls
 - **U.S. CBP** — AI-powered detection of illicit transshipment
@@ -157,10 +120,10 @@ This project addresses priorities identified by:
 
 ## License
 
-MIT License
+Copyright (c) 2026 Tatiana Podobivskaia. All rights reserved. See [LICENSE](LICENSE).
 
 ## Contact
 
-Tatiana Pankratova
-tatiana.podobivskaia@atlantisuniversity.edu
+Tatiana Podobivskaia  
+tatiana.podobivskaia@atlantisuniversity.edu  
 [LinkedIn](https://www.linkedin.com/in/tatiana-podobivskaia)
