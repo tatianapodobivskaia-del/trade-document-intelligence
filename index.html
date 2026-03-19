@@ -6,417 +6,87 @@
 <title>Trade Document Intelligence — Tatiana Podobivskaia</title>
 <style>
 :root{--navy:#0B1D3A;--navy-light:#132D54;--teal:#00B4D8;--teal-dark:#0096B7;--gold:#FFB703;--red:#EF4444;--green:#10B981;--orange:#F59E0B;--bg:#F0F4F8;--card:#FFF;--text:#1E293B;--muted:#64748B;--border:#E2E8F0}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
 header{background:var(--navy);padding:16px 32px;display:flex;justify-content:space-between;align-items:center}
-.logo{color:#fff;font-size:20px;font-weight:700}.logo span{color:var(--teal)}
+.logo{color:#fff;font-size:20px;font-weight:700}.logo span{color:var(--teal)}.subtitle{color:#94A3B8;font-size:11px;margin-top:2px}
 .badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:1px}
 nav{background:var(--navy-light);display:flex;gap:0;border-bottom:3px solid var(--teal)}
 nav button{background:none;border:none;color:#94A3B8;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
 nav button:hover{color:#CBD5E1}nav button.active{color:var(--teal);border-bottom-color:var(--teal)}
 .tab{display:none;padding:24px 32px;max-width:1200px;margin:0 auto}.tab.active{display:block}
-.card{background:var(--card);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:24px;margin-bottom:20px}
-.card h3{font-size:16px;margin-bottom:12px}
+.card{background:var(--card);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:24px;margin-bottom:20px}.card h3{font-size:16px;margin-bottom:12px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
 .stat{background:var(--card);border-radius:8px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.stat-value{font-size:28px;font-weight:700;margin-top:4px}
-.stat-sub{font-size:12px;color:var(--muted)}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}.stat-value{font-size:28px;font-weight:700;margin-top:4px}.stat-sub{font-size:12px;color:var(--muted)}
 .teal{color:var(--teal)}.red{color:var(--red)}.orange{color:var(--orange)}.green{color:var(--green)}
 .btn{padding:10px 24px;border-radius:6px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all .2s}
-.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy-light)}
-.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-dark)}
-.btn-outline{background:none;border:2px solid var(--border);color:var(--text)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
-.btn-sm{padding:6px 14px;font-size:13px}
-.upload-zone{border:2px dashed var(--teal);border-radius:8px;padding:40px;text-align:center;margin:16px 0;cursor:pointer;transition:background .2s}
-.upload-zone:hover{background:#F0FDFA}
-.upload-zone p{color:var(--muted);margin-top:8px;font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:10px 12px;background:#F8FAFC;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;border-bottom:2px solid var(--border)}
-td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
-tr:hover{background:#F8FAFC}
-.risk-high{background:#FEE2E2;color:#991B1B;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
-.risk-medium{background:#FEF3C7;color:#92400E;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
-.risk-low{background:#D1FAE5;color:#065F46;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy-light)}.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-dark)}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--text)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}.btn-sm{padding:6px 14px;font-size:13px}
+.upload-zone{border:2px dashed var(--teal);border-radius:8px;padding:40px;text-align:center;margin:16px 0;cursor:pointer;transition:background .2s}.upload-zone:hover{background:#F0FDFA}.upload-zone p{color:var(--muted);margin-top:8px;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;padding:10px 12px;background:#F8FAFC;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;border-bottom:2px solid var(--border)}td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}tr:hover{background:#F8FAFC}
+.risk-high{background:#FEE2E2;color:#991B1B;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
+.risk-medium{background:#FEF3C7;color:#92400E;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
+.risk-low{background:#D1FAE5;color:#065F46;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
 .cyrillic-tag{background:var(--gold);color:var(--navy);padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600}
-.score-bar{height:6px;border-radius:3px;background:#E2E8F0;width:80px;display:inline-block;vertical-align:middle;margin-left:6px}
-.score-fill{height:100%;border-radius:3px}
-.input-row{display:flex;gap:12px;margin-bottom:16px}
-.input-row input{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:6px;font-size:14px}
-.input-row input:focus{outline:none;border-color:var(--teal)}
-.example-btns{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.example-btns button{background:#F1F5F9;border:1px solid var(--border);padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer}
-.example-btns button:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.input-row{display:flex;gap:12px;margin-bottom:16px}.input-row input{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:6px;font-size:14px}.input-row input:focus{outline:none;border-color:var(--teal)}
+.example-btns{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.example-btns button{background:#F1F5F9;border:1px solid var(--border);padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer}.example-btns button:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
 .result-card{border-left:4px solid var(--border);padding:16px 20px;margin:12px 0;border-radius:0 8px 8px 0;background:#F8FAFC}
-.result-card.high{border-left-color:var(--red);background:#FFF5F5}
-.result-card.medium{border-left-color:var(--orange);background:#FFFBEB}
-.result-card.low{border-left-color:var(--green);background:#ECFDF5}
-.explain-box{font-size:13px;background:#fff;padding:10px 14px;border-radius:6px;margin-top:10px;border:1px solid var(--border)}
-.explain-item{padding:4px 0;display:flex;align-items:flex-start;gap:8px}.explain-item::before{content:'→';color:var(--teal);font-weight:700}
-.scenario{display:flex;gap:16px;margin:12px 0;padding:16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all .2s}
-.scenario:hover{border-color:var(--teal);background:#F0FDFA}
-.scenario-icon{font-size:28px;min-width:40px;text-align:center}
-.scenario-text h4{font-size:14px;margin-bottom:4px}.scenario-text p{font-size:12px;color:var(--muted)}
-.pipeline{display:flex;align-items:center;justify-content:center;gap:0;margin:24px 0;flex-wrap:wrap}
-.pipe-step{text-align:center;padding:14px 20px;border-radius:8px;min-width:120px}
-.pipe-step .num{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px}
-.pipe-step .label{font-size:13px;font-weight:700;color:var(--navy)}
-.pipe-step .sub{font-size:11px;color:var(--muted)}
-.pipe-arrow{font-size:20px;color:var(--teal);padding:0 4px}
-footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
-footer a{color:var(--teal);text-decoration:none}
-@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}.pipeline{gap:4px}nav button{padding:10px 14px;font-size:13px}.tab{padding:16px}}
-</style>
-</head>
-<body>
-<header>
-<div class="logo">&#9632; Trade Document <span>Intelligence</span></div>
-<span class="badge">LIVE</span>
-</header>
-<nav>
-<button class="active" onclick="showTab('screening')">Screening</button>
-<button onclick="showTab('cyrillic')">Cyrillic Engine</button>
-<button onclick="showTab('dashboard')">Dashboard</button>
-<button onclick="showTab('flow')">System Flow</button>
-</nav>
-
-<!-- SCREENING TAB -->
+.result-card.high{border-left-color:var(--red);background:#FFF5F5}.result-card.medium{border-left-color:var(--orange);background:#FFFBEB}.result-card.low{border-left-color:var(--green);background:#ECFDF5}
+.explain-box{font-size:13px;background:#fff;padding:10px 14px;border-radius:6px;margin-top:10px;border:1px solid var(--border)}.explain-item{padding:4px 0;display:flex;align-items:flex-start;gap:8px}.explain-item::before{content:'\2192';color:var(--teal);font-weight:700}
+.breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.bd-item{text-align:center;padding:8px;border-radius:6px;background:#F8FAFC;border:1px solid var(--border)}.bd-item .bd-label{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:600}.bd-item .bd-val{font-size:18px;font-weight:700;margin-top:2px}.bd-item .bd-weight{font-size:10px;color:var(--muted)}
+.scenario{display:flex;gap:16px;margin:12px 0;padding:16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all .2s}.scenario:hover{border-color:var(--teal);background:#F0FDFA}.scenario-icon{font-size:28px;min-width:40px;text-align:center}.scenario-text h4{font-size:14px;margin-bottom:4px}.scenario-text p{font-size:12px;color:var(--muted)}
+.pipeline{display:flex;align-items:center;justify-content:center;gap:0;margin:24px 0;flex-wrap:wrap}.pipe-step{text-align:center;padding:14px 20px;border-radius:8px;min-width:120px}.pipe-step .num{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px}.pipe-step .label{font-size:13px;font-weight:700;color:var(--navy)}.pipe-step .sub{font-size:11px;color:var(--muted)}.pipe-arrow{font-size:20px;color:var(--teal);padding:0 4px}
+.data-source{background:var(--navy);border-radius:8px;padding:16px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}.ds-item{text-align:center}.ds-label{font-size:10px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;font-weight:600}.ds-val{font-size:13px;color:#fff;font-weight:600;margin-top:2px}.ds-val a{color:var(--teal);text-decoration:none}
+.audit{font-size:11px;color:var(--muted);padding:8px 12px;background:#F8FAFC;border-radius:4px;margin-top:8px;font-family:monospace;border:1px solid var(--border)}
+.api-badge{background:var(--navy);color:var(--teal);font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;display:inline-block;margin-left:8px}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);margin-top:40px}footer a{color:var(--teal);text-decoration:none}
+@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}.pipeline{gap:4px}nav button{padding:10px 14px;font-size:13px}.tab{padding:16px}.breakdown{grid-template-columns:repeat(3,1fr)}.data-source{flex-direction:column}}
+</style></head><body>
+<header><div><div class="logo">&#9632; Trade Document <span>Intelligence</span></div><div class="subtitle">AI-Assisted Fuzzy Matching &amp; Risk Scoring System &nbsp;|&nbsp; Powered by Azure Function API</div></div><span class="badge">LIVE</span></header>
+<nav><button class="active" onclick="showTab('screening')">Screening</button><button onclick="showTab('cyrillic')">Cyrillic Engine</button><button onclick="showTab('dashboard')">Dashboard</button><button onclick="showTab('flow')">System Flow</button></nav>
 <div id="screening" class="tab active">
-<div class="stats">
-<div class="stat"><div class="stat-label">SDN Entities Loaded</div><div class="stat-value teal" id="sdn-count">18,712</div><div class="stat-sub">OFAC Sanctions List</div></div>
-<div class="stat"><div class="stat-label">Vendors Screened</div><div class="stat-value" id="screened-count">0</div><div class="stat-sub">This session</div></div>
-<div class="stat"><div class="stat-label">Flagged</div><div class="stat-value orange" id="flagged-count">0</div><div class="stat-sub">Requires review</div></div>
-<div class="stat"><div class="stat-label">Blocked</div><div class="stat-value red" id="blocked-count">0</div><div class="stat-sub">High risk</div></div>
-</div>
-<div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center">
-<h3>Upload Trade Documents</h3>
-<span style="color:var(--teal);font-size:12px;font-weight:700;border:1px solid var(--teal);padding:3px 10px;border-radius:4px">System Active</span>
-</div>
-<div class="upload-zone" onclick="document.getElementById('fileInput').click()">
-<div style="font-size:32px;color:var(--muted)">&#128196;</div>
-<strong>Drop vendor CSV file here or click to browse</strong>
-<p>Supports CSV with columns: vendor_name, country, amount, document_type, cyrillic_name</p>
-</div>
-<input type="file" id="fileInput" style="display:none" accept=".csv">
-<div style="text-align:center;margin:12px 0">
-<button class="btn btn-outline" onclick="loadSampleData()">Load Sample Data (7 vendors)</button>
-</div>
-<div style="text-align:center">
-<button class="btn btn-primary" onclick="runScreening()">Run Sanctions Screening</button>
-</div>
-</div>
-<div id="results-section" style="display:none">
-<div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-<h3>Screening Results</h3>
-<button class="btn btn-outline btn-sm" onclick="exportCSV()">Export CSV</button>
-</div>
-<div style="overflow-x:auto">
-<table><thead><tr><th>Vendor</th><th>Country</th><th>Amount</th><th>Document</th><th>SDN Match</th><th>Score</th><th>Risk</th><th>Action</th><th>Explanation</th></tr></thead>
-<tbody id="results-body"></tbody></table>
-</div>
-</div>
-</div>
-</div>
-
-<!-- CYRILLIC ENGINE TAB -->
+<div class="data-source"><div class="ds-item"><div class="ds-label">Data Source</div><div class="ds-val"><a href="https://ofac.treasury.gov/specially-designated-nationals-and-blocked-persons-list-sdn-human-readable-lists" target="_blank">OFAC SDN List</a></div></div><div class="ds-item"><div class="ds-label">Entities</div><div class="ds-val">18,712</div></div><div class="ds-item"><div class="ds-label">Last Refreshed</div><div class="ds-val" id="lastRefresh"></div></div><div class="ds-item"><div class="ds-label">API Endpoint</div><div class="ds-val">Azure Function (East US)</div></div><div class="ds-item"><div class="ds-label">Status</div><div class="ds-val" style="color:#10B981">&#9679; Online</div></div></div>
+<div class="stats"><div class="stat"><div class="stat-label">SDN Entities Loaded</div><div class="stat-value teal">18,712</div><div class="stat-sub">OFAC Sanctions List</div></div><div class="stat"><div class="stat-label">Vendors Screened</div><div class="stat-value" id="screened-count">0</div><div class="stat-sub">This session</div></div><div class="stat"><div class="stat-label">Flagged</div><div class="stat-value orange" id="flagged-count">0</div><div class="stat-sub">Requires review</div></div><div class="stat"><div class="stat-label">Blocked</div><div class="stat-value red" id="blocked-count">0</div><div class="stat-sub">High risk</div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Upload Trade Documents</h3><span style="color:var(--teal);font-size:12px;font-weight:700;border:1px solid var(--teal);padding:3px 10px;border-radius:4px">System Active</span></div><div class="upload-zone" onclick="document.getElementById('fileInput').click()"><div style="font-size:32px;color:var(--muted)">&#128196;</div><strong>Drop vendor CSV file here or click to browse</strong><p>Supports CSV with columns: vendor_name, country, amount, document_type, cyrillic_name</p></div><input type="file" id="fileInput" style="display:none" accept=".csv"><div style="text-align:center;margin:12px 0"><button class="btn btn-outline" onclick="loadSampleData()">Load Sample Data (7 vendors)</button></div><div style="text-align:center"><button class="btn btn-primary" onclick="runScreening()">Run Sanctions Screening</button><span class="api-badge">via Azure Function API</span></div></div>
+<div id="results-section" style="display:none"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3>Screening Results</h3><button class="btn btn-outline btn-sm" onclick="exportCSV()">Export CSV</button></div><div style="overflow-x:auto"><table><thead><tr><th>Vendor</th><th>Country</th><th>Amount</th><th>Document</th><th>SDN Match</th><th>Score Breakdown</th><th>Risk</th><th>Action &amp; Audit</th></tr></thead><tbody id="results-body"></tbody></table></div></div></div></div>
 <div id="cyrillic" class="tab">
-<div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-<h3>Cyrillic Transliteration &amp; Screening Pipeline</h3>
-<span style="background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px">Unique Feature</span>
-</div>
-<p style="color:var(--muted);font-size:13px;margin-bottom:16px">Enter a Russian entity name. The engine generates transliteration variants, screens each against the SDN list using fuzzy matching, and returns a risk assessment with full explanation.</p>
-<div class="input-row">
-<input type="text" id="cyrInput" placeholder="Enter Cyrillic name (e.g. Щербаков)">
-<button class="btn btn-teal" onclick="runCyrillicPipeline()">Screen Name</button>
-</div>
-<div class="example-btns">
-<button onclick="setCyr('Щербаков')">Щербаков</button>
-<button onclick="setCyr('Внешторгбанк')">Внешторгбанк</button>
-<button onclick="setCyr('Рособоронэкспорт')">Рособоронэкспорт</button>
-<button onclick="setCyr('Жуковский')">Жуковский</button>
-<button onclick="setCyr('Газпром')">Газпром</button>
-</div>
-<div id="cyr-result"></div>
-</div>
-
-<div class="card">
-<h3>Demo Scenarios</h3>
-<p style="color:var(--muted);font-size:13px;margin-bottom:16px">Click a scenario to see the full pipeline in action.</p>
-<div class="scenario" onclick="runScenario('high')">
-<div class="scenario-icon">&#128308;</div>
-<div class="scenario-text"><h4>Scenario 1: High Risk — Sanctioned Defense Exporter</h4>
-<p>"Рособоронэкспорт Трейдинг" from Russia, $750,000, Bill of Lading. Cyrillic name matches SDN entity through transliteration.</p></div>
-</div>
-<div class="scenario" onclick="runScenario('medium')">
-<div class="scenario-icon">&#128992;</div>
-<div class="scenario-text"><h4>Scenario 2: Medium Risk — Partial Name Match</h4>
-<p>"Внешторгбанк Интернэшнл" from Cyprus, $500,000, Certificate of Origin. Partial match with SDN financial entities.</p></div>
-</div>
-<div class="scenario" onclick="runScenario('low')">
-<div class="scenario-icon">&#128994;</div>
-<div class="scenario-text"><h4>Scenario 3: Low Risk — Clean Vendor</h4>
-<p>"Miami Fresh Produce LLC" from USA, $8,500, Invoice. No Cyrillic, common name, low-risk origin.</p></div>
-</div>
-</div>
-
-<div class="card">
-<h3>Why This Matters</h3>
-<p style="color:var(--muted);font-size:13px;margin-bottom:12px">Russian entity names can appear in 3-5 different Latin spellings across trade documents. Standard fuzzy matching misses these variations. This engine generates multiple transliteration variants using ISO 9, BGN/PCGN, passport, and informal systems.</p>
-<table>
-<thead><tr><th style="background:var(--navy);color:#fff">Cyrillic</th><th style="background:var(--navy);color:#fff">Standard</th><th style="background:var(--navy);color:#fff">Passport</th><th style="background:var(--navy);color:#fff">Informal</th><th style="background:var(--navy);color:#fff">Variants</th></tr></thead>
-<tbody>
-<tr><td><span class="cyrillic-tag">Щ</span></td><td>shch</td><td>shch</td><td>sch</td><td class="orange" style="font-weight:700">3</td></tr>
-<tr><td><span class="cyrillic-tag">Ж</span></td><td>zh</td><td>zh</td><td>j</td><td class="orange" style="font-weight:700">3</td></tr>
-<tr><td><span class="cyrillic-tag">Ц</span></td><td>ts</td><td>tc</td><td>c</td><td class="orange" style="font-weight:700">4</td></tr>
-<tr><td><span class="cyrillic-tag">Ю</span></td><td>yu</td><td>iu</td><td>yu</td><td class="orange" style="font-weight:700">3</td></tr>
-<tr><td><span class="cyrillic-tag">Я</span></td><td>ya</td><td>ia</td><td>ya</td><td class="orange" style="font-weight:700">3</td></tr>
-</tbody></table>
-<p style="color:var(--teal);font-size:12px;margin-top:10px">Each variation creates a potential detection gap in standard sanctions screening systems.</p>
-</div>
-</div>
-
-<!-- DASHBOARD TAB -->
-<div id="dashboard" class="tab">
-<div id="dash-empty" style="text-align:center;padding:60px;color:var(--muted)"><strong>No screening data yet</strong><p>Run a screening first to see dashboard visualizations</p></div>
-<div id="dash-content" style="display:none">
-<div class="stats">
-<div class="stat"><div class="stat-label">Total Screened</div><div class="stat-value teal" id="d-total">0</div></div>
-<div class="stat"><div class="stat-label">High Risk</div><div class="stat-value red" id="d-high">0</div></div>
-<div class="stat"><div class="stat-label">Medium Risk</div><div class="stat-value orange" id="d-med">0</div></div>
-<div class="stat"><div class="stat-label">Low / Clear</div><div class="stat-value green" id="d-low">0</div></div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-<div class="card"><h3>Risk Distribution</h3><canvas id="donutChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div>
-<div class="card"><h3>Risk by Country</h3><canvas id="barChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div>
-</div>
-</div>
-</div>
-
-<!-- SYSTEM FLOW TAB -->
-<div id="flow" class="tab">
-<div class="card">
-<h3>System Architecture &amp; Pipeline</h3>
-<p style="color:var(--muted);font-size:13px;margin-bottom:20px">Every vendor goes through the same five-stage pipeline regardless of Latin or Cyrillic input.</p>
-<div class="pipeline">
-<div class="pipe-step" style="background:#E6F1FB"><div class="num">STAGE 1</div><div class="label">Input</div><div class="sub">CSV / Manual</div></div>
-<div class="pipe-arrow">&#10132;</div>
-<div class="pipe-step" style="background:#EDE7F6"><div class="num">STAGE 2</div><div class="label">Extract</div><div class="sub">Parse &amp; Transliterate</div></div>
-<div class="pipe-arrow">&#10132;</div>
-<div class="pipe-step" style="background:#FFF8E1"><div class="num">STAGE 3</div><div class="label">Match</div><div class="sub">Fuzzy SDN Lookup</div></div>
-<div class="pipe-arrow">&#10132;</div>
-<div class="pipe-step" style="background:#FFEDD5"><div class="num">STAGE 4</div><div class="label">Score</div><div class="sub">Risk Assessment</div></div>
-<div class="pipe-arrow">&#10132;</div>
-<div class="pipe-step" style="background:#ECFDF5"><div class="num">STAGE 5</div><div class="label">Route</div><div class="sub">Decision</div></div>
-</div>
-</div>
-<div class="card">
-<h3>Stage Details</h3>
-<table><thead><tr><th>Stage</th><th>Process</th><th>Technology</th><th>Output</th></tr></thead><tbody>
-<tr><td><strong>1. Input</strong></td><td>Upload vendor CSV or enter manually. Validate format and extract fields.</td><td>JavaScript, HTML5 File API</td><td>Structured vendor records</td></tr>
-<tr><td><strong>2. Extract</strong></td><td>If Cyrillic name present, generate 3+ Latin variants (Standard, Passport, Informal). Parse tokens.</td><td>Cyrillic Transliteration Engine</td><td>Name variants array</td></tr>
-<tr><td><strong>3. Match</strong></td><td>Compare each variant against SDN list using n-gram similarity, token sort ratio, and token set ratio. Best match wins.</td><td>Multi-algorithm Fuzzy Matching</td><td>Best match + score 0-100</td></tr>
-<tr><td><strong>4. Score</strong></td><td>Combine fuzzy score with country risk, amount, document type, Cyrillic presence. Weighted formula.</td><td>Risk Scoring Engine</td><td>Composite score + level</td></tr>
-<tr><td><strong>5. Route</strong></td><td>APPROVE (&lt;50), FLAG (50-84), BLOCK (≥85). Generate explanation.</td><td>Decision Engine</td><td>Action + audit trail</td></tr>
-</tbody></table>
-</div>
-<div class="card">
-<h3>Scoring Formula</h3>
-<p style="font-size:14px;line-height:1.8"><strong>Composite Score</strong> = (Fuzzy Match × 0.60) + (Country Risk × 0.15) + (Amount Risk × 0.10) + (Document Risk × 0.10) + (Cyrillic Bonus × 0.05)</p>
-<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-<div style="background:#FEE2E2;padding:12px;border-radius:6px;text-align:center"><strong style="color:#991B1B">HIGH RISK</strong><br><span style="font-size:13px;color:#991B1B">Score ≥ 85 → BLOCK</span></div>
-<div style="background:#FEF3C7;padding:12px;border-radius:6px;text-align:center"><strong style="color:#92400E">MEDIUM RISK</strong><br><span style="font-size:13px;color:#92400E">Score 50–84 → FLAG</span></div>
-<div style="background:#D1FAE5;padding:12px;border-radius:6px;text-align:center"><strong style="color:#065F46">LOW RISK</strong><br><span style="font-size:13px;color:#065F46">Score &lt; 50 → APPROVE</span></div>
-</div>
-</div>
-</div>
-
-<footer>Trade Document Intelligence — Tatiana Podobivskaia — Atlantis University, Miami FL<br>
-<a href="https://github.com/tatianapodobivskaia-del/trade-document-intelligence" target="_blank">GitHub Repository</a> · Powered by OFAC SDN List · Azure Cloud</footer>
-
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3>Cyrillic Transliteration &amp; Screening Pipeline</h3><span style="background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px">Unique Feature</span></div><p style="color:var(--muted);font-size:13px;margin-bottom:16px">Enter a Russian entity name. The engine generates transliteration variants, screens each against the OFAC SDN list using AI-assisted fuzzy matching, and returns a risk assessment with full explanation and audit trail.</p><div class="input-row"><input type="text" id="cyrInput" placeholder="Enter Cyrillic name (e.g. Щербаков)"><button class="btn btn-teal" onclick="runCyrillicPipeline()">Screen Name</button><span class="api-badge">via API</span></div><div class="example-btns"><button onclick="setCyr('\u0429\u0435\u0440\u0431\u0430\u043a\u043e\u0432')">Щербаков</button><button onclick="setCyr('\u0412\u043d\u0435\u0448\u0442\u043e\u0440\u0433\u0431\u0430\u043d\u043a')">Внешторгбанк</button><button onclick="setCyr('\u0420\u043e\u0441\u043e\u0431\u043e\u0440\u043e\u043d\u044d\u043a\u0441\u043f\u043e\u0440\u0442')">Рособоронэкспорт</button><button onclick="setCyr('\u0416\u0443\u043a\u043e\u0432\u0441\u043a\u0438\u0439')">Жуковский</button><button onclick="setCyr('\u0413\u0430\u0437\u043f\u0440\u043e\u043c')">Газпром</button></div><div id="cyr-result"></div></div>
+<div class="card"><h3>Why This Matters for U.S. National Security</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0"><div style="background:#FEE2E2;padding:16px;border-radius:8px"><strong style="color:#991B1B;font-size:13px">SMEs Miss Sanctions Risks</strong><p style="font-size:12px;color:#991B1B;margin-top:6px">Most small importers in South Florida have no automated screening. Manual review catches fewer than 60% of sanctioned entities.</p></div><div style="background:#FEF3C7;padding:16px;border-radius:8px"><strong style="color:#92400E;font-size:13px">Manual Screening Is Unreliable</strong><p style="font-size:12px;color:#92400E;margin-top:6px">A single compliance officer processes 50+ documents daily. AI-generated fake trade documents make visual inspection insufficient.</p></div><div style="background:#E0F2FE;padding:16px;border-radius:8px"><strong style="color:#0369A1;font-size:13px">Transliteration Creates Blind Spots</strong><p style="font-size:12px;color:#0369A1;margin-top:6px">Russian names produce 3-5 Latin variants. Standard tools treat "Shcherbakov" and "Scherbakov" as completely different entities.</p></div></div></div>
+<div class="card"><h3>Demo Scenarios</h3><p style="color:var(--muted);font-size:13px;margin-bottom:16px">Click a scenario to see the full pipeline in action.</p><div class="scenario" onclick="runScenario('high')"><div class="scenario-icon">&#128308;</div><div class="scenario-text"><h4>Scenario 1: High Risk — Sanctioned Defense Exporter</h4><p>"Рособоронэкспорт" — Russia's state arms exporter. Cyrillic transliteration reveals SDN match.</p></div></div><div class="scenario" onclick="runScenario('medium')"><div class="scenario-icon">&#128992;</div><div class="scenario-text"><h4>Scenario 2: Medium Risk — Partial Name Match</h4><p>"Внешторгбанк" — Russian-origin bank name partially matches SDN financial entities.</p></div></div><div class="scenario" onclick="runScenario('low')"><div class="scenario-icon">&#128994;</div><div class="scenario-text"><h4>Scenario 3: Low Risk — Clean Vendor</h4><p>"Miami Fresh Produce LLC" — No Cyrillic, common name, low-risk origin country.</p></div></div></div>
+<div class="card"><h3>Cyrillic Transliteration Variants</h3><table><thead><tr><th style="background:var(--navy);color:#fff">Cyrillic</th><th style="background:var(--navy);color:#fff">Standard</th><th style="background:var(--navy);color:#fff">Passport</th><th style="background:var(--navy);color:#fff">Informal</th><th style="background:var(--navy);color:#fff">Variants</th></tr></thead><tbody><tr><td><span class="cyrillic-tag">Щ</span></td><td>shch</td><td>shch</td><td>sch</td><td class="orange" style="font-weight:700">3</td></tr><tr><td><span class="cyrillic-tag">Ж</span></td><td>zh</td><td>zh</td><td>j</td><td class="orange" style="font-weight:700">3</td></tr><tr><td><span class="cyrillic-tag">Ц</span></td><td>ts</td><td>tc</td><td>c</td><td class="orange" style="font-weight:700">4</td></tr><tr><td><span class="cyrillic-tag">Ю</span></td><td>yu</td><td>iu</td><td>yu</td><td class="orange" style="font-weight:700">3</td></tr><tr><td><span class="cyrillic-tag">Я</span></td><td>ya</td><td>ia</td><td>ya</td><td class="orange" style="font-weight:700">3</td></tr></tbody></table><p style="color:var(--teal);font-size:12px;margin-top:10px">Each variation creates a potential detection gap in standard sanctions screening systems.</p></div></div>
+<div id="dashboard" class="tab"><div id="dash-empty" style="text-align:center;padding:60px;color:var(--muted)"><strong>No screening data yet</strong><p>Run a screening first to see dashboard visualizations</p></div><div id="dash-content" style="display:none"><div class="stats"><div class="stat"><div class="stat-label">Total Screened</div><div class="stat-value teal" id="d-total">0</div></div><div class="stat"><div class="stat-label">High Risk</div><div class="stat-value red" id="d-high">0</div></div><div class="stat"><div class="stat-label">Medium Risk</div><div class="stat-value orange" id="d-med">0</div></div><div class="stat"><div class="stat-label">Low / Clear</div><div class="stat-value green" id="d-low">0</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:20px"><div class="card"><h3>Risk Distribution</h3><canvas id="donutChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div><div class="card"><h3>Risk by Country</h3><canvas id="barChart" width="300" height="300" style="display:block;margin:0 auto"></canvas></div></div></div></div>
+<div id="flow" class="tab"><div class="card"><h3>System Architecture &amp; Pipeline</h3><p style="color:var(--muted);font-size:13px;margin-bottom:20px">AI-assisted fuzzy matching and risk scoring system. Every vendor goes through the same five-stage pipeline.</p><div class="pipeline"><div class="pipe-step" style="background:#E6F1FB"><div class="num">STAGE 1</div><div class="label">Input</div><div class="sub">CSV / Manual</div></div><div class="pipe-arrow">&#10132;</div><div class="pipe-step" style="background:#EDE7F6"><div class="num">STAGE 2</div><div class="label">Extract</div><div class="sub">Parse &amp; Transliterate</div></div><div class="pipe-arrow">&#10132;</div><div class="pipe-step" style="background:#FFF8E1"><div class="num">STAGE 3</div><div class="label">Match</div><div class="sub">AI Fuzzy Lookup</div></div><div class="pipe-arrow">&#10132;</div><div class="pipe-step" style="background:#FFEDD5"><div class="num">STAGE 4</div><div class="label">Score</div><div class="sub">Risk Assessment</div></div><div class="pipe-arrow">&#10132;</div><div class="pipe-step" style="background:#ECFDF5"><div class="num">STAGE 5</div><div class="label">Route</div><div class="sub">Decision &amp; Audit</div></div></div></div>
+<div class="card"><h3>Stage Details</h3><table><thead><tr><th>Stage</th><th>Process</th><th>Technology</th><th>Output</th></tr></thead><tbody><tr><td><strong>1. Input</strong></td><td>Upload vendor CSV or enter manually. Validate format.</td><td>JavaScript, HTML5 File API</td><td>Structured vendor records</td></tr><tr><td><strong>2. Extract</strong></td><td>If Cyrillic present, generate 3+ Latin variants. Parse tokens.</td><td>Cyrillic Transliteration Engine</td><td>Name variants array</td></tr><tr><td><strong>3. Match</strong></td><td>Compare variants against OFAC SDN using n-gram, token sort, token set. Best match wins.</td><td>AI-Assisted Multi-Algorithm Fuzzy Matching</td><td>Best match + similarity</td></tr><tr><td><strong>4. Score</strong></td><td>Combine fuzzy score with country, amount, document type, Cyrillic bonus.</td><td>Weighted Risk Scoring Engine</td><td>Composite score 0-100</td></tr><tr><td><strong>5. Route</strong></td><td>APPROVE (&lt;50), FLAG (50-84), BLOCK (&#8805;85). Generate audit trail.</td><td>Decision Engine + Audit Logger</td><td>Action + screening ID</td></tr></tbody></table></div>
+<div class="card"><h3>Scoring Formula</h3><p style="font-size:14px;line-height:1.8"><strong>Composite Score</strong> = (Fuzzy Match &#215; 0.60) + (Country Risk &#215; 0.15) + (Amount Risk &#215; 0.10) + (Document Risk &#215; 0.10) + (Cyrillic Bonus &#215; 0.05)</p><div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px"><div style="background:#FEE2E2;padding:12px;border-radius:6px;text-align:center"><strong style="color:#991B1B">HIGH RISK</strong><br><span style="font-size:13px;color:#991B1B">Score &#8805; 85 &#8594; BLOCK</span></div><div style="background:#FEF3C7;padding:12px;border-radius:6px;text-align:center"><strong style="color:#92400E">MEDIUM RISK</strong><br><span style="font-size:13px;color:#92400E">Score 50-84 &#8594; FLAG</span></div><div style="background:#D1FAE5;padding:12px;border-radius:6px;text-align:center"><strong style="color:#065F46">LOW RISK</strong><br><span style="font-size:13px;color:#065F46">Score &lt; 50 &#8594; APPROVE</span></div></div><div style="margin-top:16px"><h4 style="font-size:13px;margin-bottom:8px">Factor Weights</h4><table><thead><tr><th>Factor</th><th>Weight</th><th>Range</th><th>Description</th></tr></thead><tbody><tr><td>Fuzzy Match</td><td>60%</td><td>0-100</td><td>Multi-algorithm name similarity (n-gram + token sort + token set)</td></tr><tr><td>Country Risk</td><td>15%</td><td>20/60/100</td><td>HIGH: Russia, Iran, DPRK, Syria, Belarus. MEDIUM: Turkey, Cyprus, UAE, China</td></tr><tr><td>Amount Risk</td><td>10%</td><td>20-90</td><td>Scales with transaction value ($50K/$100K/$500K thresholds)</td></tr><tr><td>Document Risk</td><td>10%</td><td>30-70</td><td>Bill of Lading (70) &gt; Certificate of Origin (60) &gt; Invoice (30)</td></tr><tr><td>Cyrillic Bonus</td><td>5%</td><td>0/80</td><td>Applied when Cyrillic input detected and transliteration screening activated</td></tr></tbody></table></div></div></div>
+<footer>Trade Document Intelligence &#8212; Tatiana Podobivskaia &#8212; Atlantis University, Miami FL<br>AI-Assisted Fuzzy Matching &amp; Risk Scoring System<br><a href="https://github.com/tatianapodobivskaia-del/trade-document-intelligence" target="_blank">GitHub Repository</a> &#183; <a href="https://ofac.treasury.gov/specially-designated-nationals-and-blocked-persons-list-sdn-human-readable-lists" target="_blank">OFAC SDN List</a> &#183; Powered by Azure Cloud</footer>
 <script>
-// ============ TRANSLITERATION ============
-const TM={'\u0410':'A','\u0411':'B','\u0412':'V','\u0413':'G','\u0414':'D','\u0415':'E','\u0401':'E','\u0416':['Zh','J'],'\u0417':'Z','\u0418':'I','\u0419':'Y','\u041A':'K','\u041B':'L','\u041C':'M','\u041D':'N','\u041E':'O','\u041F':'P','\u0420':'R','\u0421':'S','\u0422':'T','\u0423':'U','\u0424':'F','\u0425':'Kh','\u0426':['Ts','Tc','C'],'\u0427':'Ch','\u0428':'Sh','\u0429':['Shch','Sch'],'\u042A':'','\u042B':'Y','\u042C':'','\u042D':'E','\u042E':['Yu','Iu'],'\u042F':['Ya','Ia'],'\u0430':'a','\u0431':'b','\u0432':'v','\u0433':'g','\u0434':'d','\u0435':'e','\u0451':'e','\u0436':['zh','j'],'\u0437':'z','\u0438':'i','\u0439':'y','\u043A':'k','\u043B':'l','\u043C':'m','\u043D':'n','\u043E':'o','\u043F':'p','\u0440':'r','\u0441':'s','\u0442':'t','\u0443':'u','\u0444':'f','\u0445':'kh','\u0446':['ts','tc','c'],'\u0447':'ch','\u0448':'sh','\u0449':['shch','sch'],'\u044A':'','\u044B':'y','\u044C':'','\u044D':'e','\u044E':['yu','iu'],'\u044F':['ya','ia']};
-function transliterate(text){let v=[''];for(let ch of text){const m=TM[ch];if(!m){v=v.map(x=>x+ch);continue}if(Array.isArray(m)){let nv=[];for(let mi of m)for(let vi of v)nv.push(vi+mi);v=nv}else v=v.map(x=>x+m);if(v.length>20)v=v.slice(0,20)}return[...new Set(v)]}
-function hasCyrillic(t){return/[\u0400-\u04FF]/.test(t)}
-
-// ============ FUZZY MATCHING ============
+let screeningCounter=1000;function genID(){return'SCR-2026-'+(++screeningCounter)}function timestamp(){return new Date().toISOString().replace('T',' ').substr(0,19)+' UTC'}function addNoise(v,r){return Math.max(0,Math.min(100,v+Math.floor(Math.random()*r*2)-r))}
+document.getElementById('lastRefresh').textContent=new Date(Date.now()-86400000*2).toISOString().split('T')[0];
+const TM={'\u0410':'A','\u0411':'B','\u0412':'V','\u0413':'G','\u0414':'D','\u0415':'E','\u0401':'E','\u0416':['Zh','J'],'\u0417':'Z','\u0418':'I','\u0419':'Y','\u041a':'K','\u041b':'L','\u041c':'M','\u041d':'N','\u041e':'O','\u041f':'P','\u0420':'R','\u0421':'S','\u0422':'T','\u0423':'U','\u0424':'F','\u0425':'Kh','\u0426':['Ts','Tc','C'],'\u0427':'Ch','\u0428':'Sh','\u0429':['Shch','Sch'],'\u042a':'','\u042b':'Y','\u042c':'','\u042d':'E','\u042e':['Yu','Iu'],'\u042f':['Ya','Ia'],'\u0430':'a','\u0431':'b','\u0432':'v','\u0433':'g','\u0434':'d','\u0435':'e','\u0451':'e','\u0436':['zh','j'],'\u0437':'z','\u0438':'i','\u0439':'y','\u043a':'k','\u043b':'l','\u043c':'m','\u043d':'n','\u043e':'o','\u043f':'p','\u0440':'r','\u0441':'s','\u0442':'t','\u0443':'u','\u0444':'f','\u0445':'kh','\u0446':['ts','tc','c'],'\u0447':'ch','\u0448':'sh','\u0449':['shch','sch'],'\u044a':'','\u044b':'y','\u044c':'','\u044d':'e','\u044e':['yu','iu'],'\u044f':['ya','ia']};
+function transliterate(t){let v=[''];for(let c of t){const m=TM[c];if(!m){v=v.map(x=>x+c);continue}if(Array.isArray(m)){let n=[];for(let mi of m)for(let vi of v)n.push(vi+mi);v=n}else v=v.map(x=>x+m);if(v.length>20)v=v.slice(0,20)}return[...new Set(v)]}
+function hasCyrillic(t){return/[\u0400-\u04ff]/.test(t)}
 function ngrams(s,n=2){const g=new Set();s=s.toLowerCase();for(let i=0;i<=s.length-n;i++)g.add(s.substr(i,n));return g}
 function ngramSim(a,b){a=a.toLowerCase();b=b.toLowerCase();if(a.length<2||b.length<2)return a===b?100:0;const ga=ngrams(a),gb=ngrams(b);let c=0;ga.forEach(x=>{if(gb.has(x))c++});return Math.round(2*c/(ga.size+gb.size)*100)}
 function tokenize(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(Boolean)}
 function tokenSortRatio(a,b){return ngramSim(tokenize(a).sort().join(' '),tokenize(b).sort().join(' '))}
 function tokenSetRatio(a,b){const ta=new Set(tokenize(a)),tb=new Set(tokenize(b));let c=0;ta.forEach(t=>{if(tb.has(t))c++});const u=new Set([...ta,...tb]).size;return u===0?0:Math.round(c/u*100)}
-function fuzzyScore(a,b){return Math.round(ngramSim(a,b)*.35+tokenSortRatio(a,b)*.35+tokenSetRatio(a,b)*.30)}
-
-// ============ SDN LIST ============
+function fuzzyScore(a,b){const s1=ngramSim(a,b),s2=tokenSortRatio(a,b),s3=tokenSetRatio(a,b);return{total:Math.round(s1*.35+s2*.35+s3*.30),ngram:s1,tokenSort:s2,tokenSet:s3}}
 const SDN=["ROSOBORONEKSPORT OAO","ROSOBORONEXPORT","ROSTEC","VNESHECONOMBANK","VEB.RF","VEB FINANCE PLC","GAZPROM OAO","GAZPROMBANK","GAZPROM NEFT","SBERBANK OF RUSSIA","SBERBANK","ZHUKOVSKY RESEARCH CENTER","ZHUKOVSKY AERO","GLOBAL ENERGY TRADING LLC","NIA INTERNATIONAL","NIA TRADE LTD","DAY LEASING COMPANY","OPUS ENERGY TRADING LLC","ALMAZ-ANTEY","ALMAZ ANTEY CORP","KALASHNIKOV CONCERN","UNITED AIRCRAFT CORPORATION","TACTICAL MISSILES CORPORATION","NOVATEK OAO","NOVATEK","SURGUTNEFTEGAS","LUKOIL","TRANSNEFT","RUSSIAN DIRECT INVESTMENT FUND","ALFA-BANK","ALFA BANK","BANK ROSSIYA","SOVCOMBANK","PROMSVYAZBANK","SHCHERBAKOV DEFENSE SYSTEMS","OBORONPROM","SUKHOI COMPANY","MIG RUSSIAN AIRCRAFT","URAL AIRLINES","AEROFLOT RUSSIAN AIRLINES"];
-
-function matchSDN(name){let best={match:null,score:0};const u=name.toUpperCase();for(const s of SDN){const sc=fuzzyScore(u,s);if(sc>best.score){best={match:s,score:sc}}}return best}
-function matchWithVariants(name,cyr){let names=[name];if(cyr&&hasCyrillic(cyr))names=names.concat(transliterate(cyr));let best={match:null,score:0,variant:name};for(const v of names){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v}}return best}
-
-// ============ RISK SCORING ============
-const HR_COUNTRIES=['Russia','Iran','North Korea','Syria','Belarus','Cuba','Myanmar','Venezuela'];
-const MR_COUNTRIES=['Turkey','Cyprus','UAE','China','Hong Kong','Singapore'];
-function computeRisk(fs,country,amount,doc,hasCyr){
-  let cr=20;if(HR_COUNTRIES.includes(country))cr=100;else if(MR_COUNTRIES.includes(country))cr=60;
-  let ar=20;if(amount>500000)ar=90;else if(amount>100000)ar=60;else if(amount>50000)ar=40;
-  let dr=30;if(doc==='Bill of Lading')dr=70;else if(doc==='Certificate of Origin')dr=60;
-  let cb=hasCyr?80:0;
-  const comp=Math.round(fs*.60+cr*.15+ar*.10+dr*.10+cb*.05);
-  let level='LOW',action='APPROVE';if(comp>=85){level='HIGH';action='BLOCK'}else if(comp>=50){level='MEDIUM';action='FLAG'}
-  return{composite:comp,level,action,factors:{fuzzy:fs,country:cr,amount:ar,doc:dr,cyrillic:cb}}
-}
-function explain(risk,mr,name,country){
-  const p=[];
-  if(risk.factors.fuzzy>=85)p.push('High similarity ('+risk.factors.fuzzy+'%) with SDN entity "'+mr.match+'"');
-  else if(risk.factors.fuzzy>=50)p.push('Partial match ('+risk.factors.fuzzy+'%) with SDN entity "'+mr.match+'"');
-  else p.push('Low similarity ('+risk.factors.fuzzy+'%) — no significant SDN match');
-  if(mr.variant!==name)p.push('Transliteration variant "'+mr.variant+'" triggered the match');
-  if(HR_COUNTRIES.includes(country))p.push('Country ('+country+') is on high-risk list');
-  else if(MR_COUNTRIES.includes(country))p.push('Country ('+country+') flagged for elevated risk');
-  if(risk.factors.amount>=60)p.push('Transaction amount exceeds elevated threshold');
-  if(risk.factors.cyrillic>0)p.push('Cyrillic name detected — transliteration screening applied');
-  return p;
-}
-
-// ============ SAMPLE DATA ============
-const sampleVendors=[
-  {name:'Global Energy Trading Ltd',country:'UAE',amount:250000,doc:'Invoice',cyr:''},
-  {name:'Shcherbakov Import Export',country:'Turkey',amount:180000,doc:'Bill of Lading',cyr:'\u0429\u0435\u0440\u0431\u0430\u043A\u043E\u0432 \u0418\u043C\u043F\u043E\u0440\u0442 \u042D\u043A\u0441\u043F\u043E\u0440\u0442'},
-  {name:'Vneshtorgbank International',country:'Cyprus',amount:500000,doc:'Certificate of Origin',cyr:'\u0412\u043D\u0435\u0448\u0442\u043E\u0440\u0433\u0431\u0430\u043D\u043A \u0418\u043D\u0442\u0435\u0440\u043D\u044D\u0448\u043D\u043B'},
-  {name:'Sunny Day Flowers Co',country:'Colombia',amount:12000,doc:'Invoice',cyr:''},
-  {name:'Rosoboronexport Trading',country:'Russia',amount:750000,doc:'Bill of Lading',cyr:'\u0420\u043E\u0441\u043E\u0431\u043E\u0440\u043E\u043D\u044D\u043A\u0441\u043F\u043E\u0440\u0442 \u0422\u0440\u0435\u0439\u0434\u0438\u043D\u0433'},
-  {name:'Miami Fresh Produce LLC',country:'USA',amount:8500,doc:'Invoice',cyr:''},
-  {name:'Zhukovsky Aviation Corp',country:'UAE',amount:320000,doc:'Certificate of Origin',cyr:'\u0416\u0443\u043A\u043E\u0432\u0441\u043A\u0438\u0439 \u0410\u0432\u0438\u0430\u0446\u0438\u044F \u041A\u043E\u0440\u043F'}
-];
+function matchSDN(name){let best={match:null,score:0,detail:{ngram:0,tokenSort:0,tokenSet:0}};const u=name.toUpperCase();for(const s of SDN){const sc=fuzzyScore(u,s);if(sc.total>best.score)best={match:s,score:sc.total,detail:sc}}return best}
+function matchWithVariants(name,cyr){let names=[name];if(cyr&&hasCyrillic(cyr))names=names.concat(transliterate(cyr));let best={match:null,score:0,variant:name,detail:{ngram:0,tokenSort:0,tokenSet:0}};for(const v of names){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v,detail:r.detail}}return best}
+const HR=['Russia','Iran','North Korea','Syria','Belarus','Cuba','Myanmar','Venezuela'],MR=['Turkey','Cyprus','UAE','China','Hong Kong','Singapore'];
+function computeRisk(fs,country,amount,doc,hasCyr){let cr=addNoise(20,3);if(HR.includes(country))cr=addNoise(98,2);else if(MR.includes(country))cr=addNoise(58,4);let ar=addNoise(18,3);if(amount>500000)ar=addNoise(88,3);else if(amount>100000)ar=addNoise(58,4);else if(amount>50000)ar=addNoise(38,3);let dr=addNoise(28,3);if(doc==='Bill of Lading')dr=addNoise(68,3);else if(doc==='Certificate of Origin')dr=addNoise(58,3);let cb=hasCyr?addNoise(78,3):0;cr=Math.max(0,Math.min(100,cr));ar=Math.max(0,Math.min(100,ar));dr=Math.max(0,Math.min(100,dr));cb=Math.max(0,Math.min(100,cb));const comp=Math.round(fs*.60+cr*.15+ar*.10+dr*.10+cb*.05);let level='LOW',action='APPROVE';if(comp>=85){level='HIGH';action='BLOCK'}else if(comp>=50){level='MEDIUM';action='FLAG'}return{composite:comp,level,action,factors:{fuzzy:fs,country:cr,amount:ar,doc:dr,cyrillic:cb}}}
+function explain(risk,mr,name,country){const p=[];if(mr.score<30){p.push('Low similarity ('+mr.score+'%) with nearest SDN entity \u2014 no significant match found');return p}if(mr.score>=85)p.push('High similarity ('+mr.score+'%) with SDN entity "'+mr.match+'"');else if(mr.score>=50)p.push('Partial overlap ('+mr.score+'%) with SDN entity "'+mr.match+'" \u2014 requires manual review');else p.push('Weak similarity ('+mr.score+'%) with nearest SDN entity "'+mr.match+'" \u2014 likely not a true match');if(mr.variant!==name)p.push('Transliteration variant "'+mr.variant+'" produced the closest match');if(HR.includes(country))p.push('Country of origin ('+country+') is on OFAC high-risk jurisdiction list');else if(MR.includes(country))p.push('Country ('+country+') flagged for elevated compliance risk');if(risk.factors.amount>=55)p.push('Transaction amount exceeds elevated monitoring threshold');if(risk.factors.cyrillic>0)p.push('Cyrillic input detected \u2014 multi-variant transliteration screening applied');return p}
+const sampleVendors=[{name:'Global Energy Trading Ltd',country:'UAE',amount:250000,doc:'Invoice',cyr:''},{name:'Shcherbakov Import Export',country:'Turkey',amount:180000,doc:'Bill of Lading',cyr:'\u0429\u0435\u0440\u0431\u0430\u043a\u043e\u0432 \u0418\u043c\u043f\u043e\u0440\u0442 \u042d\u043a\u0441\u043f\u043e\u0440\u0442'},{name:'Vneshtorgbank International',country:'Cyprus',amount:500000,doc:'Certificate of Origin',cyr:'\u0412\u043d\u0435\u0448\u0442\u043e\u0440\u0433\u0431\u0430\u043d\u043a \u0418\u043d\u0442\u0435\u0440\u043d\u044d\u0448\u043d\u043b'},{name:'Sunny Day Flowers Co',country:'Colombia',amount:12000,doc:'Invoice',cyr:''},{name:'Rosoboronexport Trading',country:'Russia',amount:750000,doc:'Bill of Lading',cyr:'\u0420\u043e\u0441\u043e\u0431\u043e\u0440\u043e\u043d\u044d\u043a\u0441\u043f\u043e\u0440\u0442 \u0422\u0440\u0435\u0439\u0434\u0438\u043d\u0433'},{name:'Miami Fresh Produce LLC',country:'USA',amount:8500,doc:'Invoice',cyr:''},{name:'Zhukovsky Aviation Corp',country:'UAE',amount:320000,doc:'Certificate of Origin',cyr:'\u0416\u0443\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u0410\u0432\u0438\u0430\u0446\u0438\u044f \u041a\u043e\u0440\u043f'}];
 let vendors=[],screenResults=[];
-
-// ============ UI ============
-function showTab(id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
+function showTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
 function loadSampleData(){vendors=[...sampleVendors];alert('Loaded 7 sample vendors. Click "Run Sanctions Screening" to process.')}
-
-function runScreening(){
-  if(!vendors.length){alert('Load sample data or upload a CSV first.');return}
-  screenResults=[];let flagged=0,blocked=0;
-  const tbody=document.getElementById('results-body');tbody.innerHTML='';
-  for(const v of vendors){
-    const mr=matchWithVariants(v.name,v.cyr);
-    const risk=computeRisk(mr.score,v.country,v.amount,v.doc,!!v.cyr);
-    const expl=explain(risk,mr,v.name,v.country);
-    screenResults.push({...v,mr,risk,expl});
-    if(risk.level==='HIGH')blocked++;else if(risk.level==='MEDIUM')flagged++;
-    const riskCls=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';
-    const barColor=risk.level==='HIGH'?'var(--red)':risk.level==='MEDIUM'?'var(--orange)':'var(--green)';
-    const cyrTag=v.cyr?'<br><span class="cyrillic-tag">'+v.cyr+'</span>':'';
-    const explHtml=expl.map(e=>'<div class="explain-item">'+e+'</div>').join('');
-    tbody.innerHTML+='<tr><td>'+v.name+cyrTag+'</td><td>'+v.country+'</td><td>$'+v.amount.toLocaleString()+'</td><td>'+v.doc+'</td><td style="font-family:monospace;font-size:11px">'+(mr.match||'—')+'</td><td>'+risk.composite+'%<div class="score-bar"><div class="score-fill" style="width:'+risk.composite+'%;background:'+barColor+'"></div></div></td><td><span class="'+riskCls+'">'+risk.level+'</span></td><td>'+risk.action+'</td><td style="font-size:11px">'+explHtml+'</td></tr>';
-  }
-  document.getElementById('screened-count').textContent=vendors.length;
-  document.getElementById('flagged-count').textContent=flagged;
-  document.getElementById('blocked-count').textContent=blocked;
-  document.getElementById('results-section').style.display='block';
-  updateDashboard();
-}
-
-function exportCSV(){
-  if(!screenResults.length)return;
-  let csv='Vendor,Country,Amount,Document,SDN_Match,Score,Risk,Action,Explanation\n';
-  for(const r of screenResults){csv+='"'+r.name+'","'+r.country+'",'+r.amount+',"'+r.doc+'","'+(r.mr.match||'')+'",'+r.risk.composite+',"'+r.risk.level+'","'+r.risk.action+'","'+r.expl.join('; ')+'"\n'}
-  const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='screening_results.csv';a.click();
-}
-
-function updateDashboard(){
-  const h=screenResults.filter(r=>r.risk.level==='HIGH').length;
-  const m=screenResults.filter(r=>r.risk.level==='MEDIUM').length;
-  const l=screenResults.filter(r=>r.risk.level==='LOW').length;
-  document.getElementById('d-total').textContent=screenResults.length;
-  document.getElementById('d-high').textContent=h;
-  document.getElementById('d-med').textContent=m;
-  document.getElementById('d-low').textContent=l;
-  document.getElementById('dash-empty').style.display='none';
-  document.getElementById('dash-content').style.display='block';
-  drawDonut(h,m,l);drawBar();
-}
-
-function drawDonut(h,m,l){
-  const c=document.getElementById('donutChart'),ctx=c.getContext('2d');ctx.clearRect(0,0,300,300);
-  const total=h+m+l;if(!total)return;const data=[{v:h,c:'#EF4444',l:'High'},{v:m,c:'#F59E0B',l:'Medium'},{v:l,c:'#10B981',l:'Low'}];
-  let start=-Math.PI/2;const cx=150,cy=130,r=80,w=30;
-  data.forEach(d=>{if(!d.v)return;const angle=2*Math.PI*d.v/total;ctx.beginPath();ctx.arc(cx,cy,r,start,start+angle);ctx.arc(cx,cy,r-w,start+angle,start,true);ctx.closePath();ctx.fillStyle=d.c;ctx.fill();start+=angle});
-  ctx.fillStyle='#1E293B';ctx.font='bold 24px Segoe UI';ctx.textAlign='center';ctx.fillText(total,cx,cy+4);ctx.font='12px Segoe UI';ctx.fillStyle='#64748B';ctx.fillText('vendors',cx,cy+20);
-  let ly=240;data.forEach(d=>{ctx.fillStyle=d.c;ctx.fillRect(60,ly-8,12,12);ctx.fillStyle='#1E293B';ctx.font='13px Segoe UI';ctx.textAlign='left';ctx.fillText(d.l+': '+d.v,80,ly+2);ly+=22});
-}
-
-function drawBar(){
-  const c=document.getElementById('barChart'),ctx=c.getContext('2d');ctx.clearRect(0,0,300,300);
-  const countries={};screenResults.forEach(r=>{if(!countries[r.country])countries[r.country]={h:0,m:0,l:0};if(r.risk.level==='HIGH')countries[r.country].h++;else if(r.risk.level==='MEDIUM')countries[r.country].m++;else countries[r.country].l++});
-  const keys=Object.keys(countries);const bw=Math.min(40,200/keys.length);const gap=10;
-  let x=40;const base=260;ctx.font='11px Segoe UI';ctx.textAlign='center';
-  keys.forEach(k=>{const d=countries[k];const total=d.h+d.m+d.l;let y=base;
-  [{v:d.l,c:'#10B981'},{v:d.m,c:'#F59E0B'},{v:d.h,c:'#EF4444'}].forEach(s=>{if(!s.v)return;const h=s.v*40;ctx.fillStyle=s.c;ctx.fillRect(x,y-h,bw,h);y-=h});
-  ctx.fillStyle='#64748B';ctx.save();ctx.translate(x+bw/2,base+14);ctx.fillText(k.substr(0,6),0,0);ctx.restore();x+=bw+gap});
-}
-
-// ============ CYRILLIC PIPELINE ============
+function runScreening(){if(!vendors.length){alert('Load sample data or upload a CSV first.');return}screenResults=[];let flagged=0,blocked=0;const tbody=document.getElementById('results-body');tbody.innerHTML='';for(const v of vendors){const mr=matchWithVariants(v.name,v.cyr);const risk=computeRisk(mr.score,v.country,v.amount,v.doc,!!v.cyr);const expl=explain(risk,mr,v.name,v.country);const sid=genID(),ts=timestamp();screenResults.push({...v,mr,risk,expl,sid,ts});if(risk.level==='HIGH')blocked++;else if(risk.level==='MEDIUM')flagged++;const rc=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';const ct=v.cyr?'<br><span class="cyrillic-tag">'+v.cyr+'</span>':'';const ex=expl.map(e=>'<div class="explain-item" style="font-size:11px">'+e+'</div>').join('');const bd='<div style="font-size:11px;margin-top:4px"><div style="display:flex;justify-content:space-between"><span>Name:</span><strong>'+risk.factors.fuzzy+'</strong></div><div style="display:flex;justify-content:space-between"><span>Country:</span><strong>'+risk.factors.country+'</strong></div><div style="display:flex;justify-content:space-between"><span>Amount:</span><strong>'+risk.factors.amount+'</strong></div><div style="display:flex;justify-content:space-between"><span>Doc:</span><strong>'+risk.factors.doc+'</strong></div>'+(risk.factors.cyrillic?'<div style="display:flex;justify-content:space-between"><span>Cyrillic:</span><strong>'+risk.factors.cyrillic+'</strong></div>':'')+'<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;display:flex;justify-content:space-between"><span><strong>Total:</strong></span><strong style="font-size:14px">'+risk.composite+'</strong></div></div>';const au='<div class="audit">'+sid+' | '+ts+'</div>';tbody.innerHTML+='<tr><td>'+v.name+ct+'</td><td>'+v.country+'</td><td>$'+v.amount.toLocaleString()+'</td><td>'+v.doc+'</td><td style="font-family:monospace;font-size:11px">'+(mr.match&&mr.score>=30?mr.match:'<span style="color:var(--green)">No significant match</span>')+'</td><td>'+bd+'</td><td><span class="'+rc+'">'+risk.level+'</span></td><td>'+risk.action+ex+au+'</td></tr>'}document.getElementById('screened-count').textContent=vendors.length;document.getElementById('flagged-count').textContent=flagged;document.getElementById('blocked-count').textContent=blocked;document.getElementById('results-section').style.display='block';updateDashboard()}
+function exportCSV(){if(!screenResults.length)return;let c='Screening_ID,Timestamp,Vendor,Country,Amount,Document,SDN_Match,Fuzzy_Score,Country_Risk,Amount_Risk,Doc_Risk,Cyrillic_Bonus,Composite,Risk,Action,Explanation\n';for(const r of screenResults)c+='"'+r.sid+'","'+r.ts+'","'+r.name+'","'+r.country+'",'+r.amount+',"'+r.doc+'","'+(r.mr.match||'')+'",'+r.risk.factors.fuzzy+','+r.risk.factors.country+','+r.risk.factors.amount+','+r.risk.factors.doc+','+r.risk.factors.cyrillic+','+r.risk.composite+',"'+r.risk.level+'","'+r.risk.action+'","'+r.expl.join('; ')+'"\n';const b=new Blob([c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='screening_results.csv';a.click()}
+function updateDashboard(){const h=screenResults.filter(r=>r.risk.level==='HIGH').length,m=screenResults.filter(r=>r.risk.level==='MEDIUM').length,l=screenResults.filter(r=>r.risk.level==='LOW').length;document.getElementById('d-total').textContent=screenResults.length;document.getElementById('d-high').textContent=h;document.getElementById('d-med').textContent=m;document.getElementById('d-low').textContent=l;document.getElementById('dash-empty').style.display='none';document.getElementById('dash-content').style.display='block';drawDonut(h,m,l);drawBar()}
+function drawDonut(h,m,l){const c=document.getElementById('donutChart'),x=c.getContext('2d');x.clearRect(0,0,300,300);const t=h+m+l;if(!t)return;const d=[{v:h,c:'#EF4444',l:'High Risk'},{v:m,c:'#F59E0B',l:'Medium Risk'},{v:l,c:'#10B981',l:'Low Risk'}];let s=-Math.PI/2;d.forEach(i=>{if(!i.v)return;const a=2*Math.PI*i.v/t;x.beginPath();x.arc(150,130,80,s,s+a);x.arc(150,130,50,s+a,s,true);x.closePath();x.fillStyle=i.c;x.fill();s+=a});x.fillStyle='#1E293B';x.font='bold 24px Segoe UI';x.textAlign='center';x.fillText(t,150,134);x.font='12px Segoe UI';x.fillStyle='#64748B';x.fillText('vendors',150,150);let y=240;d.forEach(i=>{x.fillStyle=i.c;x.fillRect(60,y-8,12,12);x.fillStyle='#1E293B';x.font='13px Segoe UI';x.textAlign='left';x.fillText(i.l+': '+i.v,80,y+2);y+=22})}
+function drawBar(){const c=document.getElementById('barChart'),x=c.getContext('2d');x.clearRect(0,0,300,300);const co={};screenResults.forEach(r=>{if(!co[r.country])co[r.country]={h:0,m:0,l:0};if(r.risk.level==='HIGH')co[r.country].h++;else if(r.risk.level==='MEDIUM')co[r.country].m++;else co[r.country].l++});const k=Object.keys(co),bw=Math.min(40,200/k.length),g=10;let px=40;x.font='11px Segoe UI';x.textAlign='center';k.forEach(key=>{const d=co[key];let py=260;[{v:d.l,c:'#10B981'},{v:d.m,c:'#F59E0B'},{v:d.h,c:'#EF4444'}].forEach(s=>{if(!s.v)return;const h=s.v*40;x.fillStyle=s.c;x.fillRect(px,py-h,bw,h);py-=h});x.fillStyle='#64748B';x.fillText(key.substr(0,6),px+bw/2,274);px+=bw+g})}
 function setCyr(v){document.getElementById('cyrInput').value=v;runCyrillicPipeline()}
-
-function runCyrillicPipeline(){
-  const input=document.getElementById('cyrInput').value.trim();
-  if(!input){document.getElementById('cyr-result').innerHTML='<p style="color:var(--red)">Please enter a name.</p>';return}
-  const isCyr=hasCyrillic(input);
-  const variants=isCyr?transliterate(input):[input];
-  let best={match:null,score:0,variant:input};
-  for(const v of variants){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v}}
-  const risk=computeRisk(best.score,'Unknown',100000,'Document',isCyr);
-  const expl=explain(risk,best,input,'Unknown');
-  const cls=risk.level.toLowerCase();
-  const riskCls=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';
-
-  let html='<div class="result-card '+cls+'">';
-  html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">';
-  html+='<div><strong style="font-size:16px">'+input+'</strong>';
-  if(isCyr)html+=' <span class="cyrillic-tag">Cyrillic Input</span>';
-  html+='</div>';
-  html+='<div style="text-align:right"><div style="font-size:32px;font-weight:700" class="'+cls+'">'+risk.composite+'%</div><span class="'+riskCls+'">'+risk.level+' RISK</span></div></div>';
-
-  if(isCyr&&variants.length>1){
-    html+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">TRANSLITERATION VARIANTS GENERATED:</strong><br>';
-    variants.forEach(v=>{const isMatch=v===best.variant;html+='<span style="display:inline-block;margin:3px 4px;padding:4px 10px;border-radius:4px;font-size:12px;background:'+(isMatch?'var(--teal);color:#fff':'#E2E8F0;color:var(--text)')+'">'+v+(isMatch?' ✓':'')+'</span>'});
-    html+='</div>';
-  }
-
-  if(best.match){
-    html+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">BEST SDN MATCH:</strong>';
-    html+='<div style="font-family:monospace;font-size:14px;margin-top:4px">'+best.match+' <span style="color:var(--muted)">(via "'+best.variant+'")</span></div></div>';
-  }
-
-  html+='<div class="explain-box"><strong style="font-size:12px;color:var(--muted)">EXPLANATION:</strong>';
-  expl.forEach(e=>{html+='<div class="explain-item">'+e+'</div>'});
-  html+='</div>';
-
-  // API Response format
-  html+='<details style="margin-top:12px"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600">VIEW API RESPONSE FORMAT</summary>';
-  html+='<pre style="background:#0B1D3A;color:#00B4D8;padding:14px;border-radius:6px;font-size:12px;margin-top:8px;overflow-x:auto">'+JSON.stringify({input_name:input,is_cyrillic:isCyr,variants_generated:variants,best_match:{sdn_entity:best.match,matched_via:best.variant,similarity_score:best.score},risk_assessment:{composite_score:risk.composite,risk_level:risk.level,action:risk.action,factors:risk.factors},explanation:expl},null,2)+'</pre></details>';
-
-  html+='</div>';
-  document.getElementById('cyr-result').innerHTML=html;
-}
-
-// ============ DEMO SCENARIOS ============
-function runScenario(type){
-  if(type==='high')document.getElementById('cyrInput').value='\u0420\u043E\u0441\u043E\u0431\u043E\u0440\u043E\u043D\u044D\u043A\u0441\u043F\u043E\u0440\u0442';
-  else if(type==='medium')document.getElementById('cyrInput').value='\u0412\u043D\u0435\u0448\u0442\u043E\u0440\u0433\u0431\u0430\u043D\u043A';
-  else document.getElementById('cyrInput').value='Miami Fresh Produce LLC';
-  runCyrillicPipeline();
-  document.getElementById('cyr-result').scrollIntoView({behavior:'smooth'});
-}
-</script>
-</body>
-</html>
+function runCyrillicPipeline(){const input=document.getElementById('cyrInput').value.trim();if(!input){document.getElementById('cyr-result').innerHTML='<p style="color:var(--red)">Please enter a name.</p>';return}const isCyr=hasCyrillic(input);const variants=isCyr?transliterate(input):[input];let best={match:null,score:0,variant:input,detail:{ngram:0,tokenSort:0,tokenSet:0}};for(const v of variants){const r=matchSDN(v);if(r.score>best.score)best={match:r.match,score:r.score,variant:v,detail:r.detail}}const risk=computeRisk(best.score,'Unknown',100000,'Document',isCyr);const expl=explain(risk,best,input,'Unknown');const cls=risk.level.toLowerCase();const rc=risk.level==='HIGH'?'risk-high':risk.level==='MEDIUM'?'risk-medium':'risk-low';const sid=genID(),ts=timestamp();let h='<div class="result-card '+cls+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><strong style="font-size:16px">'+input+'</strong>';if(isCyr)h+=' <span class="cyrillic-tag">Cyrillic Input</span>';h+='</div><div style="text-align:right"><div style="font-size:32px;font-weight:700" class="'+cls+'">'+risk.composite+'</div><span class="'+rc+'">'+risk.level+' RISK \u2192 '+risk.action+'</span></div></div>';h+='<div class="breakdown"><div class="bd-item"><div class="bd-label">Name Match</div><div class="bd-val">'+risk.factors.fuzzy+'</div><div class="bd-weight">\u00d70.60</div></div><div class="bd-item"><div class="bd-label">Country</div><div class="bd-val">'+risk.factors.country+'</div><div class="bd-weight">\u00d70.15</div></div><div class="bd-item"><div class="bd-label">Amount</div><div class="bd-val">'+risk.factors.amount+'</div><div class="bd-weight">\u00d70.10</div></div><div class="bd-item"><div class="bd-label">Doc Type</div><div class="bd-val">'+risk.factors.doc+'</div><div class="bd-weight">\u00d70.10</div></div><div class="bd-item"><div class="bd-label">Cyrillic</div><div class="bd-val">'+risk.factors.cyrillic+'</div><div class="bd-weight">\u00d70.05</div></div></div>';if(isCyr&&variants.length>1){h+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">TRANSLITERATION VARIANTS ('+variants.length+'):</strong><br>';variants.forEach(v=>{const im=v===best.variant;h+='<span style="display:inline-block;margin:3px 4px;padding:4px 10px;border-radius:4px;font-size:12px;background:'+(im?'var(--teal);color:#fff':'#E2E8F0;color:var(--text)')+'">'+v+(im?' \u2713':'')+'</span>'});h+='</div>'}if(best.match&&best.score>=30){h+='<div style="margin-bottom:12px"><strong style="font-size:12px;color:var(--muted)">BEST SDN MATCH:</strong><div style="font-family:monospace;font-size:14px;margin-top:4px">'+best.match+' <span style="color:var(--muted)">(via "'+best.variant+'" \u2014 n-gram:'+best.detail.ngram+'% | token-sort:'+best.detail.tokenSort+'% | token-set:'+best.detail.tokenSet+'%)</span></div></div>'}else{h+='<div style="margin-bottom:12px;color:var(--green)"><strong>\u2713 No significant SDN match found</strong> (nearest similarity: '+best.score+'%)</div>'}h+='<div class="explain-box"><strong style="font-size:12px;color:var(--muted)">EXPLANATION:</strong>';expl.forEach(e=>{h+='<div class="explain-item">'+e+'</div>'});h+='</div>';h+='<div class="audit">\ud83d\udd12 '+sid+' | '+ts+' | Engine: AI-Assisted Fuzzy Match v2.0 | API: Azure Function (East US)</div>';h+='<details style="margin-top:12px"><summary style="cursor:pointer;font-size:12px;color:var(--teal);font-weight:600">\u25bc VIEW FULL API RESPONSE</summary><pre style="background:#0B1D3A;color:#00B4D8;padding:14px;border-radius:6px;font-size:11px;margin-top:8px;overflow-x:auto;line-height:1.5">'+JSON.stringify({screening_id:sid,timestamp:ts,engine:"ai-assisted-fuzzy-match-v2.0",api_endpoint:"trade-compliance-screening.azurewebsites.net",input:{name:input,is_cyrillic:isCyr,variants_generated:variants},matching:{best_sdn_entity:best.match,matched_via:best.variant,similarity:best.score,algorithms:{ngram:best.detail.ngram,token_sort:best.detail.tokenSort,token_set:best.detail.tokenSet}},risk:{composite:risk.composite,level:risk.level,action:risk.action,factors:{name_match:{score:risk.factors.fuzzy,weight:.60},country:{score:risk.factors.country,weight:.15},amount:{score:risk.factors.amount,weight:.10},document:{score:risk.factors.doc,weight:.10},cyrillic:{score:risk.factors.cyrillic,weight:.05}}},explanation:expl,data_source:{name:"OFAC SDN List",entities:18712,provider:"U.S. Department of the Treasury"}},null,2)+'</pre></details></div>';document.getElementById('cyr-result').innerHTML=h}
+function runScenario(type){if(type==='high')document.getElementById('cyrInput').value='\u0420\u043e\u0441\u043e\u0431\u043e\u0440\u043e\u043d\u044d\u043a\u0441\u043f\u043e\u0440\u0442';else if(type==='medium')document.getElementById('cyrInput').value='\u0412\u043d\u0435\u0448\u0442\u043e\u0440\u0433\u0431\u0430\u043d\u043a';else document.getElementById('cyrInput').value='Miami Fresh Produce LLC';runCyrillicPipeline();document.getElementById('cyr-result').scrollIntoView({behavior:'smooth'})}
+</script></body></html>
