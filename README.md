@@ -1,12 +1,10 @@
 # AI-Powered Trade Document Intelligence
-## Live Demo
 
-🔗 https://tatianapodobivskaia-del.github.io/trade-document-intelligence/## 
-Automated Sanctions Screening with Cyrillic Transliteration Support
+## Automated Sanctions Screening with Cyrillic Transliteration Support
 
 An AI-driven trade document screening system that analyzes vendor and supplier data against the OFAC SDN (Specially Designated Nationals) list, with specialized fuzzy matching for Cyrillic-to-Latin transliteration variants. Designed for small and medium-sized enterprises (SMEs) engaged in cross-border procurement.
 
-**Author:** Tatiana Podobivskaia
+**Author:** Tatiana Pankratova
 **Affiliation:** Atlantis University, Miami, FL
 **Program:** MBA in Business Intelligence & Data Analytics
 
@@ -157,16 +155,12 @@ This project addresses priorities identified by:
 - **U.S. CBP** — AI-powered detection of illicit transshipment
 - **FATF** — Digital transformation of AML/CFT compliance
 
+## License
+
+MIT License
 
 ## Contact
 
-Tatiana Podobivskaia
+Tatiana Pankratova
 tatiana.podobivskaia@atlantisuniversity.edu
 [LinkedIn](https://www.linkedin.com/in/tatiana-podobivskaia)
-
-## Copyright
-
-© 2026 Tatiana Podobivskaia. All rights reserved.
-
-This project, its code, architecture, and associated materials are proprietary and confidential.
-Unauthorized use, reproduction, or distribution is strictly prohibited.
