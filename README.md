@@ -157,9 +157,6 @@ This project addresses priorities identified by:
 - **U.S. CBP** — AI-powered detection of illicit transshipment
 - **FATF** — Digital transformation of AML/CFT compliance
 
-## License
-
-MIT License
 
 ## Contact
 
