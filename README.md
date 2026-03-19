@@ -168,4 +168,5 @@ tatiana.podobivskaia@atlantisuniversity.edu
 
 © 2026 Tatiana Podobivskaia. All rights reserved.
 
-This project and its code are proprietary. No part of this project may be copied, modified, or distributed without explicit permission from the author.
+This project, its code, architecture, and associated materials are proprietary and confidential.
+Unauthorized use, reproduction, or distribution is strictly prohibited.
