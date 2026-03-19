@@ -166,3 +166,9 @@ MIT License
 Tatiana Podobivskaia
 tatiana.podobivskaia@atlantisuniversity.edu
 [LinkedIn](https://www.linkedin.com/in/tatiana-podobivskaia)
+
+## Copyright
+
+© 2026 Tatiana Podobivskaia. All rights reserved.
+
+This project and its code are proprietary. No part of this project may be copied, modified, or distributed without explicit permission from the author.
