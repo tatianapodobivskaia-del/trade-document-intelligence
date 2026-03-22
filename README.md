@@ -4,7 +4,7 @@
 
 🔗 **Live Demo:** [tradescreenai.com](https://tradescreenai.com)
 
-An AI-driven sanctions screening system that screens vendors against **4 international sanctions lists** (45,296+ entities) with specialized Cyrillic-to-Latin transliteration and GPT-4o deep analysis. Designed for small and medium-sized enterprises (SMEs) engaged in cross-border trade.
+An AI-driven sanctions screening system that screens vendors against **4 international sanctions lists** (45,296+ entities) with specialized Cyrillic-to-Latin transliteration and GPT-4o deep analysis. This prototype was developed as the final project for the Information Technology Systems course. All work was performed individually as part of academic requirements.
 
 **Author:** Tatiana Podobivskaia  
 **Affiliation:** Atlantis University, Miami, FL  
