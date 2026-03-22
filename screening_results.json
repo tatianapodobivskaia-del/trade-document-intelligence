@@ -12,7 +12,7 @@
     "transliteration_variants":[
 
     ],
-    "timestamp":"2026-03-18T10:57:50.345545",
+    "timestamp":"2026-03-22T11:54:23.771042",
     "country":"UAE",
     "amount":250000,
     "document_type":"Invoice"
@@ -28,11 +28,11 @@
     "risk_level":"MEDIUM",
     "action":"FLAG \u2014 Requires compliance officer review",
     "transliteration_variants":[
-      "shcherbakov import eksport",
       "scherbakov import eksport",
-      "schtscherbakov import eksport"
+      "schtscherbakov import eksport",
+      "shcherbakov import eksport"
     ],
-    "timestamp":"2026-03-18T10:57:51.338537",
+    "timestamp":"2026-03-22T11:54:24.787398",
     "country":"Turkey",
     "amount":180000,
     "document_type":"Bill of Lading"
@@ -48,10 +48,10 @@
     "risk_level":"MEDIUM",
     "action":"FLAG \u2014 Requires compliance officer review",
     "transliteration_variants":[
-      "vneschtorgbank interneschnl",
-      "vneshtorgbank interneshnl"
+      "vneshtorgbank interneshnl",
+      "vneschtorgbank interneschnl"
     ],
-    "timestamp":"2026-03-18T10:57:52.102067",
+    "timestamp":"2026-03-22T11:54:25.548048",
     "country":"Cyprus",
     "amount":500000,
     "document_type":"Certificate of Origin"
@@ -69,7 +69,7 @@
     "transliteration_variants":[
 
     ],
-    "timestamp":"2026-03-18T10:57:52.351474",
+    "timestamp":"2026-03-22T11:54:25.801183",
     "country":"Colombia",
     "amount":12000,
     "document_type":"Invoice"
@@ -86,10 +86,10 @@
     "action":"FLAG \u2014 Requires compliance officer review",
     "transliteration_variants":[
       "rosoboroneksport trejding",
-      "rosoboroneksport treyding",
-      "rosoboroneksport treiding"
+      "rosoboroneksport treiding",
+      "rosoboroneksport treyding"
     ],
-    "timestamp":"2026-03-18T10:57:53.379201",
+    "timestamp":"2026-03-22T11:54:26.787339",
     "country":"Russia",
     "amount":750000,
     "document_type":"Bill of Lading"
@@ -107,7 +107,7 @@
     "transliteration_variants":[
 
     ],
-    "timestamp":"2026-03-18T10:57:53.630677",
+    "timestamp":"2026-03-22T11:54:27.046666",
     "country":"USA",
     "amount":8500,
     "document_type":"Invoice"
@@ -124,11 +124,11 @@
     "action":"FLAG \u2014 Requires compliance officer review",
     "transliteration_variants":[
       "zhukovskiy aviatsiya korp",
-      "zhukovskij aviatsija korp",
+      "shukovskij aviazija korp",
       "zhukovskii aviatciya korp",
-      "shukovskij aviazija korp"
+      "zhukovskij aviatsija korp"
     ],
-    "timestamp":"2026-03-18T10:57:54.902572",
+    "timestamp":"2026-03-22T11:54:28.342814",
     "country":"UAE",
     "amount":320000,
     "document_type":"Certificate of Origin"
