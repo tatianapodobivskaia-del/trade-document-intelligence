@@ -34,7 +34,7 @@ An AI-driven sanctions screening system that screens vendors against **4 interna
 
 ## Problem
 
-- **Enterprise tools cost $25K–$100K/year** — inaccessible to most SMEs
+- Existing enterprise compliance tools are often cost-prohibitive for academic research environments, motivating this prototype approach.
 - **Cyrillic transliteration creates detection gaps** — "Щербаков" can appear as Shcherbakov, Scherbakov, Shtcherbakov, or Shherbakov
 - **Single-list screening is insufficient** — sanctioned entities may appear on EU/UN/UK lists but not OFAC
 
