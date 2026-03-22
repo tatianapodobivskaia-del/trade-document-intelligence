@@ -165,7 +165,7 @@ TradeScreenAI is a research prototype developed as part of graduate-level course
 
 ## License
 
-MIT License
+Copyright © 2026 Tatiana Podobivskaia. All rights reserved. This software is proprietary. Unauthorized copying, modification, or distribution is prohibited.
 
 ## Contact
 
