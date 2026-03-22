@@ -6,11 +6,10 @@ Author: Tatiana Pankratova
 Project: AI-Powered Trade Document Intelligence for Cross-Border Procurement Compliance
 
 Description:
-    This module downloads the official OFAC SDN list, parses entity names,
-    and performs fuzzy matching against vendor/supplier names extracted from
-    trade documents. Includes specialized Cyrillic-to-Latin transliteration
-    logic to catch Russian-language entity variations that standard matching
-    algorithms miss.
+    Loads consolidated sanctions data (OFAC SDN, EU, UN, UK OFSI) via
+    sanctions_lists, parses entity names and aliases, and performs fuzzy
+    matching against vendor/supplier names from trade documents. Includes
+    Cyrillic-to-Latin transliteration for Russian-language variations.
 
 Dependencies:
     pip install requests fuzzywuzzy python-Levenshtein transliterate pandas
@@ -26,9 +25,11 @@ from datetime import datetime
 from fuzzywuzzy import fuzz, process
 from transliterate import translit
 
+from sanctions_lists import load_all_sanctions_lists
+
 
 # =============================================================================
-# 1. OFAC SDN LIST LOADER
+# 1. OFAC SDN LIST LOADER (legacy single-list helpers)
 # =============================================================================
 
 def download_sdn_list(url="https://www.treasury.gov/ofac/downloads/sdn.csv"):
@@ -60,6 +61,32 @@ def parse_sdn_list(raw_csv):
                 })
     print(f"[+] Parsed {len(entities)} entities from SDN list")
     return entities
+
+
+def unified_entities_to_matcher_rows(unified_entities):
+    """
+    Expand sanctions_lists unified records into rows with sdn_name/type/program
+    for screen_vendor (primary name + deduplicated aliases).
+    """
+    rows = []
+    for e in unified_entities:
+        names = [e.get("name", "")] + list(e.get("aliases") or [])
+        seen = set()
+        for n in names:
+            n = (n or "").strip()
+            if not n:
+                continue
+            key = n.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append({
+                "sdn_name": n,
+                "type": e.get("entity_type", "unknown"),
+                "program": e.get("program", ""),
+                "list_source": e.get("list_source", ""),
+            })
+    return rows
 
 
 # =============================================================================
@@ -234,6 +261,9 @@ def screen_vendor(vendor_name, sdn_entities, threshold_high=85,
         "vendor_name": vendor_name,
         "cyrillic_name": cyrillic_name or "N/A",
         "best_sdn_match": best_match["sdn_name"] if best_match else "None",
+        "matched_list_source": (
+            best_match.get("list_source", "") if best_match else "N/A"
+        ),
         "sdn_type": best_match["type"] if best_match else "N/A",
         "sdn_program": best_match["program"] if best_match else "N/A",
         "similarity_score": best_score,
@@ -334,18 +364,18 @@ def run_demo():
     """Run full demonstration of the screening system."""
     print("=" * 70)
     print("  AI-POWERED TRADE DOCUMENT SCREENING SYSTEM")
-    print("  OFAC SDN Fuzzy Matching with Cyrillic Transliteration")
+    print("  Multi-list sanctions screening (OFAC / EU / UN / UK OFSI)")
     print("  Author: Tatiana Pankratova")
     print("=" * 70)
     print()
     
-    # Step 1: Download SDN list
-    raw = download_sdn_list()
-    if not raw:
-        print("[!] Cannot proceed without SDN list")
+    # Step 1: Load all sanctions lists
+    loaded = load_all_sanctions_lists()
+    sdn_entities = unified_entities_to_matcher_rows(loaded["entities"])
+    print(f"[+] Matcher rows (names + aliases): {len(sdn_entities)}")
+    if not sdn_entities:
+        print("[!] Cannot proceed without sanctions data")
         return
-    
-    sdn_entities = parse_sdn_list(raw)
     
     # Step 2: Demonstrate Cyrillic transliteration
     print("\n" + "=" * 70)
@@ -384,7 +414,8 @@ def run_demo():
         print(f"     Country: {result['country']}")
         print(f"     Amount: ${result['amount']:,.0f}")
         print(f"     Document: {result['document_type']}")
-        print(f"     Best SDN Match: {result['best_sdn_match']}")
+        src = result.get("matched_list_source", "N/A")
+        print(f"     Best match: {result['best_sdn_match']} [{src}]")
         print(f"     Similarity: {result['similarity_score']}%")
         print(f"     Risk: {result['risk_level']}")
         print(f"     Action: {result['action']}")
