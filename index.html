@@ -546,7 +546,7 @@ h+='</div>';
 h+='</div>'}
 h+='<div style="margin-top:12px;color:#94a3b8;font-size:12px">Screened against: OFAC SDN + EU + UN + UK OFSI (45,296 entities) · Engine: GPT-4o-mini Vision · '+d.ts+'</div>';
 h+='</div>';
-h+='<div style="text-align:center;margin-top:16px"><button onclick="generateVisionPDF()" style="background:#06d6a0;color:#000;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">📄 Generate Compliance Report (PDF)</button></div>';
+h+='<div style="text-align:center;margin-top:16px"><button onclick="generateVisionPDF()" style="background:#06d6a0;color:#000;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">📄 Generate Compliance Report (PDF)</button> <button onclick="generateComplianceEmail()" style="background:#4361ee;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-left:8px">✉️ Generate Email to Bank</button></div>';
 results.innerHTML=h;results.style.display='block';
 setTimeout(function(){document.getElementById('agent-step-4').style.opacity='0.5';document.getElementById('agent-step-4').querySelector('strong').insertAdjacentHTML('afterend',' ✅');statusText.insertAdjacentHTML('beforeend','<div style="margin-top:10px;padding:10px;background:rgba(6,214,160,0.15);border-radius:6px;color:#06d6a0;font-weight:700;text-align:center">✅ All 4 agents complete — '+d.entities_found+' entities analyzed, report ready</div>');},2400);
 }).catch(function(e){
@@ -593,6 +593,38 @@ if(y>270){doc.addPage();y=20}
 doc.text('TradeScreenAI - Research prototype developed as part of graduate-level coursework at Atlantis University, Miami FL',14,y+10);
 doc.text('This report is for informational and educational purposes only. Not legal or compliance advice.',14,y+15);
 doc.save('TradeScreenAI_Vision_Report_'+new Date().toISOString().slice(0,10)+'.pdf');
+}
+
+
+function generateComplianceEmail(){
+var d=window.lastVisionResult;
+if(!d)return alert('No scan results. Run a document scan first.');
+var blocked=d.risk_results?d.risk_results.filter(function(r){return r.action==='BLOCK'||r.action==='FLAG'}):[];
+var names=blocked.map(function(r){return r.entity}).join(', ');
+var subject='Compliance Alert — Document Screening Result: '+d.document_risk+' RISK';
+var body='Dear Compliance Officer,\n\n';
+body+='An automated sanctions screening was performed on a trade document ('+( d.document?d.document.document_type:'unknown')+') using TradeScreenAI.\n\n';
+body+='SCREENING SUMMARY:\n';
+body+='- Document Risk Level: '+d.document_risk+'\n';
+body+='- Entities Found: '+d.entities_found+'\n';
+body+='- Blocked: '+d.summary.blocked+' | Flagged: '+d.summary.flagged+' | Cleared: '+d.summary.cleared+'\n';
+body+='- Lists Screened: OFAC SDN, EU Consolidated, UN Security Council, UK OFSI (45,296 entities)\n\n';
+if(blocked.length>0){
+body+='ENTITIES REQUIRING REVIEW:\n';
+blocked.forEach(function(r){
+body+='- '+r.entity+' ['+r.action+' / '+r.risk+' RISK]: '+r.reasoning+'\n';
+});
+body+='\n';
+}
+body+='RECOMMENDED ACTION: '+d.document_action+'\n\n';
+body+='Please review the attached PDF compliance report and take appropriate action.\n\n';
+body+='This screening was performed automatically by TradeScreenAI.\n';
+body+='Timestamp: '+d.ts+'\n\n';
+body+='Best regards,\nTradeScreenAI Compliance Agent';
+var emailDiv=document.createElement('div');
+emailDiv.style.cssText='margin-top:16px;padding:20px;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid #333';
+emailDiv.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><strong style="color:#fff">✉️ Generated Email Template</strong><button onclick="navigator.clipboard.writeText(this.parentElement.parentElement.querySelector(\'pre\').textContent);this.textContent=\'✅ Copied!\';setTimeout(function(){this.textContent=\'📋 Copy\'},2000)" style="background:#4361ee;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:12px;cursor:pointer">📋 Copy</button></div><div style="color:#94a3b8;font-size:12px;margin-bottom:8px">Subject: '+subject+'</div><pre style="color:#e2e8f0;font-size:12px;white-space:pre-wrap;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;margin:0">'+body+'</pre>';
+document.getElementById('vision-results').appendChild(emailDiv);
 }
 
 </script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script defer src="/_vercel/insights/script.js"></script></body></html>
