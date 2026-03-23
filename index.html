@@ -503,6 +503,7 @@ body:JSON.stringify({image:visionFileData})
 }).then(function(r){return r.json()}).then(function(d){
 btn.disabled=false;btn.textContent='🤖 Scan Document with AI Agent';
 if(d.error){statusText.innerHTML='<span style="color:#ef4444">Error: '+d.error+'</span>';return}
+window.lastVisionResult=d;
 statusText.innerHTML='<strong>Step 2/2:</strong> Screening '+d.entities_found+' entities against 45,296 sanctions entries...';
 var riskColor=d.document_risk==='HIGH'?'#ef4444':d.document_risk==='MEDIUM'?'#f59e0b':'#06d6a0';
 var h='<div style="padding:20px;border-radius:12px;border:2px solid '+riskColor+';background:rgba(0,0,0,0.3)">';
@@ -524,6 +525,7 @@ h+='</div>';
 h+='</div>'}
 h+='<div style="margin-top:12px;color:#94a3b8;font-size:12px">Screened against: OFAC SDN + EU + UN + UK OFSI (45,296 entities) · Engine: GPT-4o-mini Vision · '+d.ts+'</div>';
 h+='</div>';
+h+='<div style="text-align:center;margin-top:16px"><button onclick="generateVisionPDF()" style="background:#06d6a0;color:#000;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">📄 Generate Compliance Report (PDF)</button></div>';
 results.innerHTML=h;results.style.display='block';
 statusText.innerHTML='<span style="color:#06d6a0">✅ Scan complete — '+d.entities_found+' entities analyzed</span>';
 }).catch(function(e){
@@ -532,4 +534,44 @@ statusText.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';
 });
 }
 
-</script><script defer src="/_vercel/insights/script.js"></script></body></html>
+
+function generateVisionPDF(){
+var d=window.lastVisionResult;
+if(!d)return alert('No scan results. Run a document scan first.');
+var riskColor=d.document_risk==='HIGH'?[239,68,68]:d.document_risk==='MEDIUM'?[245,158,11]:[6,214,160];
+var doc=new jspdf.jsPDF();
+doc.setFontSize(20);doc.setTextColor(0,0,0);
+doc.text('TradeScreenAI - Document Compliance Report',14,20);
+doc.setFontSize(10);doc.setTextColor(100,100,100);
+doc.text('Generated: '+new Date().toISOString(),14,28);
+doc.text('Engine: GPT-4o-mini Vision | Lists: OFAC SDN + EU + UN + UK OFSI (45,296 entities)',14,34);
+doc.setDrawColor(200,200,200);doc.line(14,38,196,38);
+doc.setFontSize(14);doc.setTextColor(riskColor[0],riskColor[1],riskColor[2]);
+doc.text('Document Risk: '+d.document_risk,14,48);
+doc.setFontSize(11);doc.setTextColor(0,0,0);
+doc.text(d.document_action||'',14,56);
+if(d.document&&d.document.document_type){doc.text('Document Type: '+d.document.document_type,14,64)}
+doc.text('Entities Found: '+d.entities_found+' | Blocked: '+d.summary.blocked+' | Flagged: '+d.summary.flagged+' | Cleared: '+d.summary.cleared,14,72);
+doc.line(14,76,196,76);
+var y=86;
+doc.setFontSize(13);doc.text('Entity Screening Results',14,y);y+=10;
+if(d.risk_results){d.risk_results.forEach(function(r){
+if(y>260){doc.addPage();y=20}
+var rc=r.risk==='HIGH'?[239,68,68]:r.risk==='MEDIUM'?[245,158,11]:[6,214,160];
+doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text(r.entity||r.name||'Unknown',14,y);
+doc.setTextColor(rc[0],rc[1],rc[2]);doc.text(r.action+' ('+r.risk+')',140,y);y+=7;
+doc.setFontSize(9);doc.setTextColor(80,80,80);
+var lines=doc.splitTextToSize(r.reasoning||'',170);
+lines.forEach(function(line){if(y>270){doc.addPage();y=20}doc.text(line,14,y);y+=5});
+if(r.cyrillic_variants&&r.cyrillic_variants.length>0&&r.cyrillic_variants[0]!==''){
+doc.setTextColor(67,97,238);doc.text('Cyrillic variants: '+r.cyrillic_variants.join(', '),14,y);y+=5}
+y+=8;
+})}
+doc.setFontSize(8);doc.setTextColor(150,150,150);
+if(y>270){doc.addPage();y=20}
+doc.text('TradeScreenAI - Research prototype developed as part of graduate-level coursework at Atlantis University, Miami FL',14,y+10);
+doc.text('This report is for informational and educational purposes only. Not legal or compliance advice.',14,y+15);
+doc.save('TradeScreenAI_Vision_Report_'+new Date().toISOString().slice(0,10)+'.pdf');
+}
+
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script defer src="/_vercel/insights/script.js"></script></body></html>
