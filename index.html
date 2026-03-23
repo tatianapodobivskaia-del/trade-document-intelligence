@@ -471,20 +471,41 @@ var visionFileData=null;
 function handleVisionFile(file){
 if(!file)return;
 visionFileData=null;
+if(file.type==='application/pdf'){
+var reader=new FileReader();
+reader.onload=function(e){
+var typedarray=new Uint8Array(e.target.result);
+pdfjsLib.getDocument(typedarray).promise.then(function(pdf){
+pdf.getPage(1).then(function(page){
+var scale=2;
+var viewport=page.getViewport({scale:scale});
+var cvs=document.createElement('canvas');
+cvs.width=viewport.width;cvs.height=viewport.height;
+var ctx=cvs.getContext('2d');
+page.render({canvasContext:ctx,viewport:viewport}).promise.then(function(){
+visionFileData=cvs.toDataURL('image/png');
+document.getElementById('vision-preview').style.display='block';
+document.getElementById('vision-img-preview').src=visionFileData;
+document.getElementById('vision-img-preview').style.display='block';
+document.getElementById('vision-file-name').textContent=file.name+' (converted to image, '+Math.round(file.size/1024)+'KB)';
+document.getElementById('vision-scan-btn').disabled=false;
+});
+});
+});
+};
+reader.readAsArrayBuffer(file);
+}else{
 var reader=new FileReader();
 reader.onload=function(e){
 visionFileData=e.target.result;
 document.getElementById('vision-preview').style.display='block';
-if(file.type.startsWith('image/')){
 document.getElementById('vision-img-preview').src=e.target.result;
 document.getElementById('vision-img-preview').style.display='block';
-}else{
-document.getElementById('vision-img-preview').style.display='none';
-}
 document.getElementById('vision-file-name').textContent=file.name+' ('+Math.round(file.size/1024)+'KB)';
 document.getElementById('vision-scan-btn').disabled=false;
 };
 reader.readAsDataURL(file);
+}
 }
 
 function runVisionScan(){
@@ -574,4 +595,4 @@ doc.text('This report is for informational and educational purposes only. Not le
 doc.save('TradeScreenAI_Vision_Report_'+new Date().toISOString().slice(0,10)+'.pdf');
 }
 
-</script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script defer src="/_vercel/insights/script.js"></script></body></html>
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script defer src="/_vercel/insights/script.js"></script></body></html>
