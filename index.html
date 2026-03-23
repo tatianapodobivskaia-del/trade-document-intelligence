@@ -64,6 +64,7 @@ footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-t
 .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
 @media(max-width:480px){.stats{grid-template-columns:1fr!important}.dash-stats-grid{grid-template-columns:1fr!important}}
 #ai-loading{display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(148,163,184,.25);align-items:center;gap:12px;color:#CBD5E1;font-size:14px;font-weight:600;flex-wrap:wrap}
+@keyframes batchPulse{0%{width:20%}50%{width:80%}100%{width:20%}}
 </style></head><body>
 
 <header><div><div class="logo">&#9632; Trade<span>ScreenAI</span></div><div class="subtitle">AI-Powered Multi-List Sanctions Screening &nbsp;|&nbsp; Azure OpenAI + Multi-Algorithm Fuzzy Matching &nbsp;|&nbsp; Serverless Azure Architecture</div></div><span class="badge">LIVE</span></header>
@@ -695,7 +696,7 @@ stxt.innerHTML='<div style="padding:10px;background:rgba(6,214,160,0.15);border-
 return;
 }
 var f=files[i];i++;
-stxt.innerHTML='<div style="font-size:13px"><div style="padding:8px;margin-bottom:6px;border-radius:6px;background:rgba(67,97,238,0.2);border-left:3px solid #4361ee"><span style="font-size:16px">👁️</span> <strong>Vision Agent</strong> — Extracting entities from '+f.name+' ('+i+'/'+files.length+')...</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.3"><span style="font-size:16px">🔤</span> <strong>Transliteration Agent</strong> — Waiting...</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.3"><span style="font-size:16px">🔍</span> <strong>Risk Analyst Agent</strong> — Waiting...</div><div style="padding:8px;border-radius:6px;opacity:0.3"><span style="font-size:16px">📄</span> <strong>Action Agent</strong> — Waiting...</div></div>';
+stxt.innerHTML='<div style="padding:12px;border-radius:8px;background:rgba(67,97,238,0.15)"><div style="margin-bottom:8px"><strong style="color:#fff">🔄 Batch '+i+'/'+files.length+':</strong> <span style="color:#94a3b8">'+f.name+'</span></div><div style="color:#4361ee;font-size:13px">👁️ Vision Agent analyzing... → 🔤 Transliteration → 🔍 Screening 45,296 entities → 📄 Report</div><div style="margin-top:8px;height:4px;background:#1a1a2e;border-radius:2px;overflow:hidden"><div style="height:100%;background:#4361ee;border-radius:2px;animation:batchPulse 2s ease-in-out infinite;width:60%"></div></div></div>';
 document.getElementById('vision-preview').style.display='block';
 document.getElementById('vision-file-name').textContent=f.name;
 fileToBase64(f,function(b64){
