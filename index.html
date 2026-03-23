@@ -510,6 +510,7 @@ reader.readAsDataURL(file);
 
 function runVisionScan(){
 if(!visionFileData)return;
+var scanStartTime=Date.now();
 var btn=document.getElementById('vision-scan-btn');
 var status=document.getElementById('vision-status');
 var statusText=document.getElementById('vision-status-text');
@@ -548,7 +549,7 @@ h+='<div style="margin-top:12px;color:#94a3b8;font-size:12px">Screened against: 
 h+='</div>';
 h+='<div style="text-align:center;margin-top:16px"><button onclick="generateVisionPDF()" style="background:#06d6a0;color:#000;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">📄 Generate Compliance Report (PDF)</button> <button onclick="generateComplianceEmail()" style="background:#4361ee;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-left:8px">✉️ Generate Email to Bank</button></div>';
 results.innerHTML=h;results.style.display='block';
-setTimeout(function(){document.getElementById('agent-step-4').style.opacity='0.5';document.getElementById('agent-step-4').querySelector('strong').insertAdjacentHTML('afterend',' ✅');statusText.insertAdjacentHTML('beforeend','<div style="margin-top:10px;padding:10px;background:rgba(6,214,160,0.15);border-radius:6px;color:#06d6a0;font-weight:700;text-align:center">✅ All 4 agents complete — '+d.entities_found+' entities analyzed, report ready</div>');},2400);
+setTimeout(function(){document.getElementById('agent-step-4').style.opacity='0.5';document.getElementById('agent-step-4').querySelector('strong').insertAdjacentHTML('afterend',' ✅');var scanTime=((Date.now()-scanStartTime)/1000).toFixed(1);statusText.insertAdjacentHTML('beforeend','<div style="margin-top:10px;padding:10px;background:rgba(6,214,160,0.15);border-radius:6px;color:#06d6a0;font-weight:700;text-align:center">✅ All 4 agents complete — '+d.entities_found+' entities analyzed in '+scanTime+'s</div>');},2400);
 }).catch(function(e){
 btn.disabled=false;btn.textContent='🤖 Scan Document with AI Agent';
 statusText.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';
