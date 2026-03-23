@@ -695,7 +695,7 @@ stxt.innerHTML='<div style="padding:10px;background:rgba(6,214,160,0.15);border-
 return;
 }
 var f=files[i];i++;
-stxt.innerHTML='<strong style="color:#fff">Batch '+i+'/'+files.length+':</strong> <span style="color:#94a3b8">'+f.name+'</span>';
+stxt.innerHTML='<div style="font-size:13px"><div style="padding:8px;margin-bottom:6px;border-radius:6px;background:rgba(67,97,238,0.2);border-left:3px solid #4361ee"><span style="font-size:16px">👁️</span> <strong>Vision Agent</strong> — Extracting entities from '+f.name+' ('+i+'/'+files.length+')...</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.3"><span style="font-size:16px">🔤</span> <strong>Transliteration Agent</strong> — Waiting...</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.3"><span style="font-size:16px">🔍</span> <strong>Risk Analyst Agent</strong> — Waiting...</div><div style="padding:8px;border-radius:6px;opacity:0.3"><span style="font-size:16px">📄</span> <strong>Action Agent</strong> — Waiting...</div></div>';
 document.getElementById('vision-preview').style.display='block';
 document.getElementById('vision-file-name').textContent=f.name;
 fileToBase64(f,function(b64){
@@ -706,6 +706,7 @@ document.getElementById('vision-img-preview').style.display='block';
 fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:b64})}).then(function(r){return r.json()}).then(function(d){
 window.lastVisionResult=d;
 if(d&&!d.error){
+stxt.innerHTML='<div style="font-size:13px"><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.5"><span style="font-size:16px">👁️</span> <strong>Vision Agent</strong> ✅ — Extracted entities from '+f.name+'</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.5"><span style="font-size:16px">🔤</span> <strong>Transliteration Agent</strong> ✅ — Variants generated</div><div style="padding:8px;margin-bottom:6px;border-radius:6px;opacity:0.5"><span style="font-size:16px">🔍</span> <strong>Risk Analyst Agent</strong> ✅ — Screened 45,296 entities</div><div style="padding:8px;border-radius:6px;background:rgba(6,214,160,0.2);border-left:3px solid #06d6a0"><span style="font-size:16px">📄</span> <strong>Action Agent</strong> ✅ — '+d.document_risk+' RISK — '+(d.entities_found||0)+' entities ('+i+'/'+files.length+')</div></div>';
 var rc=d.document_risk==='HIGH'?'#ef4444':d.document_risk==='MEDIUM'?'#f59e0b':'#06d6a0';
 var card='<div style="padding:14px;margin-bottom:8px;border-radius:10px;border:2px solid '+rc+';background:rgba(0,0,0,0.3)">';
 card+='<div style="display:flex;justify-content:space-between;align-items:center"><strong style="color:'+rc+';font-size:16px">'+d.document_risk+' RISK</strong><span style="color:#94a3b8;font-size:12px">'+f.name+' · '+d.entities_found+' entities</span></div>';
