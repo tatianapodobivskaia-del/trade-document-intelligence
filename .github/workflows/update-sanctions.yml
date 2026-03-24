@@ -1,0 +1,26 @@
+name: Update Sanctions Lists
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-lists:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python sanctions_lists.py
+      - id: changes
+        run: git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
+      - if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "Auto-update sanctions lists $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
