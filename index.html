@@ -566,35 +566,51 @@ var d=window.lastVisionResult;
 if(!d)return alert('No scan results. Run a document scan first.');
 var riskColor=d.document_risk==='HIGH'?[239,68,68]:d.document_risk==='MEDIUM'?[245,158,11]:[6,214,160];
 var doc=new jspdf.jsPDF();
+var addWatermark=function(){
+doc.saveGraphicsState();
+doc.setGState(new doc.GState({opacity:0.08}));
+doc.setFontSize(50);
+doc.setTextColor(150,150,150);
+doc.text('ACADEMIC DEMO',105,150,{angle:45,align:'center'});
+doc.restoreGraphicsState();
+};
+addWatermark();
 doc.setFontSize(20);doc.setTextColor(0,0,0);
-doc.text('TradeScreenAI - Document Compliance Report',14,20);
+doc.text('TradeScreenAI - Academic Research Demo Report',14,20);
 doc.setFontSize(10);doc.setTextColor(100,100,100);
 doc.text('Generated: '+new Date().toISOString(),14,28);
-doc.text('Engine: GPT-4o-mini Vision | Lists: OFAC SDN + EU + UN + UK OFSI (45,296 entities)',14,34);
-doc.setDrawColor(200,200,200);doc.line(14,38,196,38);
+doc.setFillColor(224,242,254);
+doc.rect(14,40,182,18,'F');
+doc.setFontSize(9);
+doc.setTextColor(3,105,161);
+doc.text('ACADEMIC RESEARCH PROTOTYPE — This report is generated for educational and demonstration',16,48);
+doc.text('purposes only. Not a commercial compliance service. Not legal or compliance advice.',16,54);
+doc.setFontSize(10);doc.setTextColor(100,100,100);
+doc.text('Engine: GPT-4o-mini Vision | Lists: OFAC SDN + EU + UN + UK OFSI (45,296 entities)',14,60);
+doc.setDrawColor(200,200,200);doc.line(14,62,196,62);
 doc.setFontSize(14);doc.setTextColor(riskColor[0],riskColor[1],riskColor[2]);
-doc.text('Document Risk: '+d.document_risk,14,48);
+doc.text('Document Risk: '+d.document_risk,14,64);
 doc.setFontSize(11);doc.setTextColor(0,0,0);
-doc.text(d.document_action||'',14,56);
-if(d.document&&d.document.document_type){doc.text('Document Type: '+d.document.document_type,14,64)}
-doc.text('Entities Found: '+d.entities_found+' | Blocked: '+d.summary.blocked+' | Flagged: '+d.summary.flagged+' | Cleared: '+d.summary.cleared,14,72);
-doc.line(14,76,196,76);
-var y=86;
+doc.text(d.document_action||'',14,72);
+if(d.document&&d.document.document_type){doc.text('Document Type: '+d.document.document_type,14,80)}
+doc.text('Entities Found: '+d.entities_found+' | Blocked: '+d.summary.blocked+' | Flagged: '+d.summary.flagged+' | Cleared: '+d.summary.cleared,14,88);
+doc.line(14,92,196,92);
+var y=102;
 doc.setFontSize(13);doc.text('Entity Screening Results',14,y);y+=10;
 if(d.risk_results){d.risk_results.forEach(function(r){
-if(y>260){doc.addPage();y=20}
+if(y>260){doc.addPage();addWatermark();y=20}
 var rc=r.risk==='HIGH'?[239,68,68]:r.risk==='MEDIUM'?[245,158,11]:[6,214,160];
 doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text(r.entity||r.name||'Unknown',14,y);
 doc.setTextColor(rc[0],rc[1],rc[2]);doc.text(r.action+' ('+r.risk+')',140,y);y+=7;
 doc.setFontSize(9);doc.setTextColor(80,80,80);
 var lines=doc.splitTextToSize(r.reasoning||'',170);
-lines.forEach(function(line){if(y>270){doc.addPage();y=20}doc.text(line,14,y);y+=5});
+lines.forEach(function(line){if(y>270){doc.addPage();addWatermark();y=20}doc.text(line,14,y);y+=5});
 if(r.cyrillic_variants&&r.cyrillic_variants.length>0&&r.cyrillic_variants[0]!==''){
 doc.setTextColor(67,97,238);doc.text('Cyrillic variants: '+r.cyrillic_variants.join(', '),14,y);y+=5}
 y+=8;
 })}
 doc.setFontSize(8);doc.setTextColor(150,150,150);
-if(y>270){doc.addPage();y=20}
+if(y>270){doc.addPage();addWatermark();y=20}
 doc.text('TradeScreenAI - Research prototype developed as part of graduate-level coursework at Atlantis University, Miami FL',14,y+10);
 doc.text('This report is for informational and educational purposes only. Not legal or compliance advice.',14,y+15);
 doc.save('TradeScreenAI_Vision_Report_'+new Date().toISOString().slice(0,10)+'.pdf');
