@@ -173,3 +173,4 @@ Tatiana Podobivskaia
 Email: tatiana.podobivskaia@atlantisuniversity.edu  
 Website: [tradescreenai.com](https://tradescreenai.com)  
 LinkedIn: [linkedin.com/in/tatiana-podobivskaia](https://www.linkedin.com/in/tatiana-podobivskaia)
+
