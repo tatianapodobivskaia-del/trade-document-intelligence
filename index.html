@@ -6,7 +6,7 @@
 <title>TradeScreenAI — AI-Powered Multi-List Sanctions Screening</title>
 <style>
 :root{--navy:#0B1D3A;--navy-light:#132D54;--teal:#00B4D8;--teal-dark:#0096B7;--gold:#FFB703;--red:#EF4444;--green:#10B981;--orange:#F59E0B;--bg:#F0F4F8;--card:#FFF;--text:#1E293B;--muted:#64748B;--border:#E2E8F0}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
 header{background:var(--navy);padding:16px 32px;display:flex;justify-content:space-between;align-items:center}
 .logo{color:#fff;font-size:20px;font-weight:700}.logo span{color:var(--teal)}.subtitle{color:#94A3B8;font-size:11px;margin-top:2px}
 .badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:1px}
@@ -64,8 +64,7 @@ footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-t
 .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
 @media(max-width:480px){.stats{grid-template-columns:1fr!important}.dash-stats-grid{grid-template-columns:1fr!important}}
 #ai-loading{display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(148,163,184,.25);align-items:center;gap:12px;color:#CBD5E1;font-size:14px;font-weight:600;flex-wrap:wrap}
-</style><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-</head><body>
+</style></head><body>
 
 <header><div><div class="logo">&#9632; Trade<span>ScreenAI</span></div><div class="subtitle">AI-Powered Multi-List Sanctions Screening &nbsp;|&nbsp; Azure OpenAI + Multi-Algorithm Fuzzy Matching &nbsp;|&nbsp; Serverless Azure Architecture</div></div><span class="badge">DEMO</span></header>
 
@@ -417,8 +416,7 @@ html+='.badge{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;d
 html+='.disclaimer{background:#FEE2E2;border:1px solid #EF4444;border-radius:6px;padding:12px;margin-top:24px;font-size:11px;color:#991B1B}';
 html+='.footer{margin-top:30px;padding-top:12px;border-top:1px solid #E2E8F0;color:#64748B;font-size:11px;text-align:center}';
 html+='.exec-summary{background:#F0FDFA;border:1px solid #00B4D8;border-radius:8px;padding:16px;margin:16px 0}';
-html+='@media print{body{padding:20px}@page{margin:1.5cm;size:A4}.toolbar{display:none!important}}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-</head><body>';
+html+='@media print{body{padding:20px}@page{margin:1.5cm;size:A4}.toolbar{display:none!important}}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script></head><body>';
 html+='<div class="toolbar" style="position:sticky;top:0;background:#0B1D3A;padding:12px 24px;margin:-40px -40px 24px -40px;display:flex;justify-content:space-between;align-items:center;z-index:100;border-radius:0 0 8px 8px"><div style="color:#fff;font-size:14px;font-weight:700">&#9632; TradeScreenAI &mdash; Report Preview</div><div style="display:flex;gap:8px"><button onclick="downloadPDF()" style="background:#00B4D8;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer">&#11015; Download PDF</button><button onclick="window.print()" style="background:none;border:2px solid #fff;color:#fff;padding:8px 20px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer">&#128424; Print</button></div></div>';
 html+='<div id="report-content">';
 html+='<h1>&#9632; TradeScreenAI &mdash; Academic Research Demo &mdash; Screening Report</h1>';
