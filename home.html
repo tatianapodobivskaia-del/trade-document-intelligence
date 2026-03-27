@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeScreen AI — AI-Powered Sanctions Screening Research Prototype</title>
+    <meta name="description" content="Academic research prototype for AI-powered multi-list sanctions screening with Cyrillic transliteration. Atlantis University ISM 6026.">
+    <meta property="og:title" content="TradeScreen AI — Sanctions Screening Research Prototype">
+    <meta property="og:description" content="Multi-list sanctions screening with Cyrillic transliteration engine. Academic research prototype.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0f1e;
+            --card: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.06);
+            --text: #f0f2f5;
+            --muted: rgba(255,255,255,0.45);
+            --accent: #6366f1;
+            --cyan: #38bdf8;
+            --rose: #ef4444;
+            --emerald: #34d399;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* ===== HERO ===== */
+        .hero { position: relative; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .hero-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+        /* Top bar */
+        .hero-header { position: absolute; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; }
+        .logo { display: flex; align-items: center; gap: 14px; }
+        .logo-icon { height: 52px; width: 52px; border-radius: 16px; background: linear-gradient(135deg, #3b82f6, #22d3ee); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(59,130,246,0.3); }
+        .logo-icon svg { width: 26px; height: 26px; stroke: white; fill: none; stroke-width: 2.2; }
+        .logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .badge-proto { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(148,163,184,0.6); border: 1px solid rgba(148,163,184,0.2); padding: 5px 12px; border-radius: 4px; }
+        .btn-enter { display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; backdrop-filter: blur(8px); }
+        .btn-enter:hover { background: rgba(255,255,255,0.14); }
+
+        /* Center content */
+        .hero-center { position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 1rem; text-align: center; }
+        .hero-counter { font-size: clamp(72px, 12vw, 140px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; text-shadow: 0 0 80px rgba(56,189,248,0.3), 0 0 160px rgba(56,189,248,0.1); }
+        .hero-subtitle { font-size: clamp(16px, 2.2vw, 20px); color: rgba(203,213,225,0.8); margin-bottom: 12px; line-height: 1.5; }
+        .hero-meta { font-size: 13px; color: rgba(148,163,184,0.5); margin-bottom: 40px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .hero-meta .dot { color: rgba(71,85,105,0.6); }
+
+        /* CTA button with glow */
+        .cta-wrap { position: relative; display: inline-block; }
+        .cta-glow { position: absolute; inset: -4px; background: linear-gradient(135deg, #3b82f6, #22d3ee); border-radius: 14px; opacity: 0.35; filter: blur(16px); animation: pulseGlow 2.5s ease-in-out infinite; }
+        @keyframes pulseGlow { 0%,100% { opacity: 0.3; } 50% { opacity: 0.5; } }
+        .cta-btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 18px 44px; background: linear-gradient(135deg, #3b82f6, #22d3ee); color: white; font-size: 16px; font-weight: 700; border: none; border-radius: 14px; cursor: pointer; transition: all 0.3s; text-decoration: none; box-shadow: 0 8px 32px rgba(59,130,246,0.3); }
+        .cta-btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 40px rgba(59,130,246,0.4); }
+        .cta-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        /* Hero bottom */
+        .hero-bottom { position: relative; z-index: 10; padding-bottom: 1.5rem; text-align: center; }
+        .hero-bottom p { font-size: 11px; color: rgba(71,85,105,0.7); margin-bottom: 12px; }
+        .bounce-arrow { width: 20px; height: 20px; margin: 0 auto; stroke: rgba(71,85,105,0.5); fill: none; stroke-width: 2; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+        /* ===== SECTIONS (Manus style) ===== */
+        .section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .section-border { border-top: 1px solid var(--border); }
+        .section-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 1rem; }
+        .section-title { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+        .section-desc { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 600px; margin-bottom: 3rem; }
+        .section-center { text-align: center; }
+        .section-center .section-desc { margin-left: auto; margin-right: auto; }
+
+        /* Feature cards */
+        .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden; }
+        .card:hover { border-color: rgba(56,189,248,0.2); background: rgba(255,255,255,0.05); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent); opacity: 0; transition: opacity 0.3s; }
+        .card:hover::before { opacity: 1; }
+        .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+        .card-icon svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; }
+        .card-title { font-size: 16px; font-weight: 700; margin-bottom: 0.5rem; }
+        .card-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+        /* Demo browser mockup */
+        .demo-window { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 48px 96px rgba(0,0,0,0.5); }
+        .window-bar { display: flex; align-items: center; gap: 8px; padding: 14px 20px; background: rgba(255,255,255,0.025); border-bottom: 1px solid var(--border); }
+        .wdot { width: 12px; height: 12px; border-radius: 50%; }
+        .wdot-r { background: #ff5f57; } .wdot-y { background: #febc2e; } .wdot-g { background: #28c840; }
+        .window-url { flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+        .demo-inner { display: flex; min-height: 500px; }
+        .demo-sidebar { width: 200px; background: rgba(0,0,0,0.3); border-right: 1px solid var(--border); padding: 1.25rem; flex-shrink: 0; }
+        .demo-logo-sm { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; font-size: 13px; font-weight: 600; }
+        .demo-logo-icon-sm { width: 28px; height: 28px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+        .demo-logo-icon-sm svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2.5; }
+        .demo-nav { font-size: 13px; color: var(--muted); }
+        .demo-nav-item { padding: 7px 10px; border-radius: 6px; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+        .demo-nav-item.active { background: rgba(99,102,241,0.15); color: white; }
+        .demo-nav-item svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+        .demo-main { flex: 1; padding: 1.5rem; overflow: hidden; }
+        .demo-title { font-size: 17px; font-weight: 700; margin-bottom: 1rem; }
+        .demo-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1rem; }
+        .demo-stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+        .demo-stat-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 5px; }
+        .demo-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+        table.demo-tbl { width: 100%; border-collapse: collapse; }
+        .demo-tbl th { text-align: left; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 7px 10px; border-bottom: 1px solid var(--border); }
+        .demo-tbl td { font-size: 12px; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+        .pill-red { background: rgba(239,68,68,0.12); color: #f87171; }
+        .pill-green { background: rgba(52,211,153,0.12); color: #34d399; }
+        .pill .pdot { width: 5px; height: 5px; border-radius: 50%; }
+        .pill-red .pdot { background: #f87171; } .pill-green .pdot { background: #34d399; }
+        .row-hi { background: rgba(239,68,68,0.03); }
+        .cyrillic-sub { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+        /* CTA section */
+        .cta-section { padding: 6rem 2rem; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%); }
+        .cta-section h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; position: relative; z-index: 1; }
+        .cta-section p { font-size: 17px; color: var(--muted); margin-bottom: 2rem; position: relative; z-index: 1; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
+        footer p { font-size: 11px; color: rgba(71,85,105,0.6); line-height: 1.8; }
+        .demo-badge { display: inline-block; margin-top: 12px; font-size: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.15em; color: rgba(34,211,238,0.35); border: 1px solid rgba(34,211,238,0.1); padding: 3px 14px; border-radius: 100px; }
+
+        /* Disclaimer */
+        .disclaimer { background: rgba(251,191,36,0.05); border-bottom: 1px solid rgba(251,191,36,0.12); padding: 7px 2rem; text-align: center; font-size: 11px; font-weight: 500; color: rgba(251,191,36,0.7); letter-spacing: 0.03em; position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+        .hero-header { top: 32px; }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } .demo-sidebar { display: none; } .hero-header { padding: 1rem 1.5rem; } }
+        @media (max-width: 600px) { .logo-text { font-size: 18px; } .badge-proto { display: none; } .hero-meta { font-size: 11px; } }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">Academic Research Prototype — For Educational Use Only — Not a Commercial Compliance Tool</div>
+
+    <!-- ===== HERO (Lovable style with Canvas map) ===== -->
+    <section class="hero">
+        <canvas class="hero-canvas" id="threatMap"></canvas>
+
+        <header class="hero-header">
+            <div class="logo">
+                <div class="logo-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+                <span class="logo-text">TradeScreen AI</span>
+            </div>
+            <div class="header-right">
+                <span class="badge-proto">Academic Research Prototype</span>
+                <a href="index.html" class="btn-enter">Enter Platform <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+            </div>
+        </header>
+
+        <div class="hero-center">
+            <div class="hero-counter" id="counter">0</div>
+            <p class="hero-subtitle">Entities Monitored Across 4 International Sanctions Lists</p>
+            <p class="hero-meta">
+                <span>4 Databases</span><span class="dot">•</span>
+                <span>4 Transliteration Standards</span><span class="dot">•</span>
+                <span>4 AI Agents</span><span class="dot">•</span>
+                <span>Real-time Updates</span>
+            </p>
+            <div class="cta-wrap">
+                <div class="cta-glow"></div>
+                <a href="index.html" class="cta-btn">Start Screening <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+            </div>
+        </div>
+
+        <div class="hero-bottom">
+            <p>Atlantis University — ISM 6026 — Academic Research Prototype</p>
+            <svg class="bounce-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+    </section>
+
+    <!-- ===== TRUST BAR ===== -->
+    <div style="padding:2.5rem 2rem;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,0.008);">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1.2rem;">Screening Against</div>
+        <div style="display:flex;justify-content:center;gap:48px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:rgba(255,255,255,0.18);letter-spacing:0.08em;">
+            <span>OFAC SDN</span><span>EU SANCTIONS</span><span>UN CONSOLIDATED</span><span>UK OFSI</span>
+        </div>
+    </div>
+
+    <!-- ===== FEATURES (Manus style) ===== -->
+    <section class="section" id="features">
+        <div class="reveal">
+            <div class="section-label">Capabilities</div>
+            <h2 class="section-title">Beyond Rule-Based<br>Compliance</h2>
+            <p class="section-desc">A two-pass AI architecture that combines blazing-fast in-browser fuzzy matching with deep GPT-4o analysis for unprecedented accuracy.</p>
+        </div>
+        <div class="grid-3">
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(99,102,241,0.1);"><svg stroke="#6366f1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div>
+                <div class="card-title">Pass 1: Instant Screening</div>
+                <div class="card-desc">In-browser fuzzy matching against 45,296 entities. Results in under 3 seconds, zero API calls. Privacy-first architecture.</div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(34,211,238,0.1);"><svg stroke="#22d3ee" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg></div>
+                <div class="card-title">Pass 2: GPT-4o Analysis</div>
+                <div class="card-desc">Azure OpenAI deep analysis for flagged entities. Contextual risk assessment with natural language explanations and confidence scores.</div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(168,85,247,0.1);"><svg stroke="#a78bfa" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364V3"/></svg></div>
+                <div class="card-title">Cyrillic Transliteration</div>
+                <div class="card-desc">Multi-variant name generation across 4 standards: ISO 9, ICAO, BGN/PCGN, and informal. Catches evasion attempts others miss.</div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(251,113,133,0.1);"><svg stroke="#fb7185" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+                <div class="card-title">Vision AI Scanner</div>
+                <div class="card-desc">4-agent pipeline: Vision → Transliteration → Risk Analyst → Action. Upload any trade document for automatic entity extraction and screening.</div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(52,211,153,0.1);"><svg stroke="#34d399" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
+                <div class="card-title">Risk Dashboard</div>
+                <div class="card-desc">Composite scoring: Name 75% + Country 10% + Amount 5% + Document 5% + Cyrillic 5%. Full audit trail for every decision.</div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon" style="background:rgba(251,191,36,0.1);"><svg stroke="#fbbf24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.182"/></svg></div>
+                <div class="card-title">Real-time Updates</div>
+                <div class="card-desc">GitHub Actions pipeline refreshes all 4 sanctions databases every 6 hours. Always screening against the latest data.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LIVE DEMO (Manus browser mockup) ===== -->
+    <section class="section section-border" id="demo">
+        <div class="section-center reveal" style="margin-bottom:3rem;">
+            <div class="section-label">Live Demo</div>
+            <h2 class="section-title">See It In Action</h2>
+            <p class="section-desc">Real screening results from 7 sample vendors across Russia, Turkey, UAE, USA, and Colombia.</p>
+        </div>
+        <div class="demo-window reveal">
+            <div class="window-bar"><div class="wdot wdot-r"></div><div class="wdot wdot-y"></div><div class="wdot wdot-g"></div><div class="window-url">tradescreenai.com/screening</div></div>
+            <div class="demo-inner">
+                <div class="demo-sidebar">
+                    <div class="demo-logo-sm"><div class="demo-logo-icon-sm"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>TradeScreen</div>
+                    <div class="demo-nav">
+                        <div class="demo-nav-item active"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Screening</div>
+                        <div class="demo-nav-item"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371"/></svg>Cyrillic Engine</div>
+                        <div class="demo-nav-item"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75z"/></svg>Dashboard</div>
+                        <div class="demo-nav-item"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>History</div>
+                    </div>
+                </div>
+                <div class="demo-main">
+                    <div class="demo-title">Sanctions Screening</div>
+                    <div class="demo-stats">
+                        <div class="demo-stat"><div class="demo-stat-label">Entities</div><div class="demo-stat-val">45,296</div></div>
+                        <div class="demo-stat"><div class="demo-stat-label">Screened</div><div class="demo-stat-val" style="color:var(--accent);">7</div></div>
+                        <div class="demo-stat"><div class="demo-stat-label">Flagged</div><div class="demo-stat-val" style="color:#fbbf24;">5</div></div>
+                        <div class="demo-stat"><div class="demo-stat-label">Blocked</div><div class="demo-stat-val" style="color:var(--rose);">5</div></div>
+                    </div>
+                    <table class="demo-tbl"><thead><tr><th>Vendor</th><th>Country</th><th>Amount</th><th>SDN Match</th><th>Score</th><th>Risk</th></tr></thead>
+                    <tbody>
+                        <tr class="row-hi"><td style="font-weight:600;">Global Energy Trading Ltd</td><td>UAE</td><td class="mono">$250,000</td><td class="mono" style="color:var(--rose);font-size:10px;">GLOBAL ENERGY TRADING LLC</td><td class="mono" style="font-weight:700;color:var(--rose);">85</td><td><span class="pill pill-red"><span class="pdot"></span>HIGH</span></td></tr>
+                        <tr class="row-hi"><td><div style="font-weight:600;">Shcherbakov Import Export</div><div class="cyrillic-sub">Щербаков Импорт Экспорт</div></td><td>Turkey</td><td class="mono">$180,000</td><td class="mono" style="color:var(--rose);font-size:10px;">SHCHERBAKOV DEFENSE SYS</td><td class="mono" style="font-weight:700;color:var(--rose);">91</td><td><span class="pill pill-red"><span class="pdot"></span>HIGH</span></td></tr>
+                        <tr class="row-hi"><td><div style="font-weight:600;">Rosoboronexport Trading</div><div class="cyrillic-sub">Рособоронэкспорт Трейдинг</div></td><td>Russia</td><td class="mono">$750,000</td><td class="mono" style="color:var(--rose);font-size:10px;">ROSOBORONEXPORT</td><td class="mono" style="font-weight:700;color:var(--rose);">96</td><td><span class="pill pill-red"><span class="pdot"></span>HIGH</span></td></tr>
+                        <tr><td style="font-weight:600;">Sunny Day Flowers Co</td><td>Colombia</td><td class="mono">$12,000</td><td style="color:var(--muted);font-size:11px;font-style:italic;">No match</td><td class="mono" style="font-weight:700;color:var(--emerald);">25</td><td><span class="pill pill-green"><span class="pdot"></span>LOW</span></td></tr>
+                        <tr><td style="font-weight:600;">Miami Fresh Produce LLC</td><td>USA</td><td class="mono">$8,500</td><td style="color:var(--muted);font-size:11px;font-style:italic;">No match</td><td class="mono" style="font-weight:700;color:var(--emerald);">18</td><td><span class="pill pill-green"><span class="pdot"></span>LOW</span></td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section section-border">
+        <h2>Ready to Screen?</h2>
+        <p>Try the live demo with real sanctions data. No signup required.</p>
+        <div style="position:relative;z-index:1;">
+            <div class="cta-wrap"><div class="cta-glow"></div><a href="index.html" class="cta-btn">Launch TradeScreen AI <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a></div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>TradeScreen AI — Academic Research Prototype — Atlantis University ISM 6026<br>
+        For Educational Use Only — Not a Commercial Compliance Tool<br>
+        This prototype provides AI-assisted analysis to support human review</p>
+        <div class="demo-badge">DEMO</div>
+    </footer>
+
+    <!-- ===== CANVAS MAP + COUNTER SCRIPTS ===== -->
+    <script>
+    // ---- Counter animation ----
+    (function(){
+        const el = document.getElementById('counter');
+        const target = 45296, duration = 2500;
+        let start = null;
+        function step(ts) {
+            if (!start) start = ts;
+            const p = Math.min((ts - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(eased * target).toLocaleString();
+            if (p < 1) requestAnimationFrame(step);
+        }
+        setTimeout(() => requestAnimationFrame(step), 400);
+    })();
+
+    // ---- Scroll reveal ----
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // ---- ThreatMap Canvas (converted from Lovable React) ----
+    (function(){
+        const canvas = document.getElementById('threatMap');
+        const ctx = canvas.getContext('2d');
+        let animId = 0;
+
+        // Global financial/trade hubs (politically neutral)
+        const hubs = [
+            { x: 0.15, y: 0.28 }, { x: 0.18, y: 0.32 }, { x: 0.20, y: 0.25 }, // US East
+            { x: 0.12, y: 0.30 }, { x: 0.19, y: 0.40 },                         // US West, Miami
+            { x: 0.25, y: 0.48 }, { x: 0.27, y: 0.58 },                         // S America
+            { x: 0.48, y: 0.20 }, { x: 0.50, y: 0.22 }, { x: 0.46, y: 0.24 },  // UK/Europe
+            { x: 0.52, y: 0.22 }, { x: 0.49, y: 0.25 },                         // Frankfurt, Zurich
+            { x: 0.55, y: 0.28 }, { x: 0.58, y: 0.30 },                         // Istanbul, Moscow
+            { x: 0.62, y: 0.35 }, { x: 0.60, y: 0.40 },                         // Middle East
+            { x: 0.68, y: 0.38 }, { x: 0.72, y: 0.35 },                         // India
+            { x: 0.78, y: 0.30 }, { x: 0.80, y: 0.32 },                         // China
+            { x: 0.82, y: 0.28 }, { x: 0.85, y: 0.38 },                         // Japan, HK
+            { x: 0.76, y: 0.42 },                                                  // Singapore
+            { x: 0.82, y: 0.62 },                                                  // Australia
+            { x: 0.52, y: 0.50 }, { x: 0.48, y: 0.55 },                         // Africa
+        ];
+
+        // Connections between hubs
+        const conns = [
+            [0,7],[7,13],[13,18],[18,21],[21,23],[0,4],[4,5],[7,10],[10,14],[14,17],[17,20],[2,7],[7,14],[14,18],[5,24],[7,24]
+        ];
+
+        // Small ambient data nodes
+        const dataNodes = [];
+        for (let i = 0; i < 35; i++) dataNodes.push({ x: Math.random(), y: 0.15 + Math.random() * 0.6 });
+
+        // Particles
+        const particles = [];
+        for (let i = 0; i < 100; i++) particles.push({
+            x: Math.random(), y: Math.random(),
+            vx: (Math.random() - 0.5) * 0.00008,
+            vy: (Math.random() - 0.5) * 0.00008,
+            size: 0.3 + Math.random() * 0.8,
+            alpha: 0.08 + Math.random() * 0.15
+        });
+
+        // Continent shapes for dot fill
+        const continents = [
+            { cx: 0.18, cy: 0.28, rx: 0.1, ry: 0.12, d: 0.4 },
+            { cx: 0.27, cy: 0.58, rx: 0.06, ry: 0.15, d: 0.4 },
+            { cx: 0.50, cy: 0.22, rx: 0.06, ry: 0.07, d: 0.5 },
+            { cx: 0.52, cy: 0.50, rx: 0.07, ry: 0.14, d: 0.4 },
+            { cx: 0.70, cy: 0.30, rx: 0.14, ry: 0.12, d: 0.35 },
+            { cx: 0.82, cy: 0.65, rx: 0.05, ry: 0.04, d: 0.4 },
+        ];
+
+        let worldDots = null;
+        function genWorldDots(w, h) {
+            const dots = []; const step = 5;
+            for (let px = 0; px < w; px += step) for (let py = 0; py < h; py += step) {
+                const nx = px/w, ny = py/h;
+                for (const c of continents) {
+                    const dx = (nx-c.cx)/c.rx, dy = (ny-c.cy)/c.ry;
+                    if (dx*dx+dy*dy < 1) {
+                        const h2 = Math.sin(px*127.1+py*311.7)*43758.5453;
+                        if ((h2-Math.floor(h2)) < c.d) dots.push([px,py]);
+                        break;
+                    }
+                }
+            }
+            return dots;
+        }
+
+        function resize() {
+            const r = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = r.width * dpr;
+            canvas.height = r.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            worldDots = genWorldDots(r.width, r.height);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function draw(t) {
+            const r = canvas.getBoundingClientRect();
+            const w = r.width, h = r.height;
+            ctx.clearRect(0, 0, w, h);
+
+            // BG
+            const bp = t * 0.00003;
+            ctx.fillStyle = `rgb(${10+3*Math.sin(bp)},${14+4*Math.sin(bp+1)},${24+6*Math.sin(bp+2)})`;
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = "rgba(56,189,248,0.025)";
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for (let y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+            // Particles
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+                if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+                const a = p.alpha * (0.5 + 0.5 * Math.sin(t * 0.001 + p.x * 80));
+                ctx.fillStyle = `rgba(56,189,248,${a})`;
+                ctx.beginPath(); ctx.arc(p.x*w, p.y*h, p.size, 0, Math.PI*2); ctx.fill();
+            });
+
+            // World dots
+            if (worldDots) {
+                ctx.fillStyle = "rgba(148,163,184,0.08)";
+                worldDots.forEach(d => { ctx.beginPath(); ctx.arc(d[0],d[1],0.8,0,Math.PI*2); ctx.fill(); });
+            }
+
+            // Continent outlines
+            ctx.strokeStyle = "rgba(148,163,184,0.05)";
+            ctx.lineWidth = 0.8;
+            continents.forEach(c => { ctx.beginPath(); ctx.ellipse(c.cx*w,c.cy*h,c.rx*w,c.ry*h,0,0,Math.PI*2); ctx.stroke(); });
+
+            // Data nodes
+            dataNodes.forEach((n,i) => {
+                const pulse = 0.3 + 0.3 * Math.sin(t * 0.002 + i * 1.7);
+                ctx.fillStyle = `rgba(56,189,248,${pulse*0.25})`;
+                ctx.beginPath(); ctx.arc(n.x*w,n.y*h,2+pulse,0,Math.PI*2); ctx.fill();
+                ctx.fillStyle = `rgba(56,189,248,${pulse*0.5})`;
+                ctx.beginPath(); ctx.arc(n.x*w,n.y*h,1,0,Math.PI*2); ctx.fill();
+            });
+
+            // Connections with traveling packets
+            conns.forEach(([a,b], idx) => {
+                const f = hubs[a], to = hubs[b];
+                if (!f || !to) return;
+                const fx=f.x*w, fy=f.y*h, tx=to.x*w, ty=to.y*h;
+                const mx=(fx+tx)/2, my=(fy+ty)/2-25;
+                const al = 0.04 + 0.03*Math.sin(t*0.0008+idx*1.2);
+
+                ctx.strokeStyle = `rgba(56,189,248,${al})`; ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(fx,fy); ctx.quadraticCurveTo(mx,my,tx,ty); ctx.stroke();
+                ctx.strokeStyle = `rgba(56,189,248,${al*3})`; ctx.lineWidth = 0.6;
+                ctx.beginPath(); ctx.moveTo(fx,fy); ctx.quadraticCurveTo(mx,my,tx,ty); ctx.stroke();
+
+                for (let pk = 0; pk < 3; pk++) {
+                    const dp = ((t*0.0003+idx*0.15+pk*0.33)%1);
+                    const dpx = (1-dp)**2*fx + 2*(1-dp)*dp*mx + dp**2*tx;
+                    const dpy = (1-dp)**2*fy + 2*(1-dp)*dp*my + dp**2*ty;
+                    ctx.fillStyle = `rgba(56,189,248,${Math.sin(dp*Math.PI)*0.6})`;
+                    ctx.beginPath(); ctx.arc(dpx,dpy,1.5,0,Math.PI*2); ctx.fill();
+                }
+            });
+
+            // Radar sweep
+            const rcx=w*0.5, rcy=h*0.4, rr=Math.min(w,h)*0.45;
+            const sa = (t*0.0006)%(Math.PI*2);
+            const sg = ctx.createConicGradient(sa, rcx, rcy);
+            sg.addColorStop(0,"rgba(56,189,248,0.05)");
+            sg.addColorStop(0.08,"rgba(56,189,248,0.02)");
+            sg.addColorStop(0.15,"rgba(56,189,248,0)");
+            sg.addColorStop(1,"rgba(56,189,248,0)");
+            ctx.fillStyle = sg;
+            ctx.beginPath(); ctx.arc(rcx,rcy,rr,0,Math.PI*2); ctx.fill();
+
+            // Hub nodes with sonar rings
+            hubs.forEach((hub, idx) => {
+                const cx = hub.x*w, cy = hub.y*h;
+                // Sonar rings
+                for (let ring = 0; ring < 3; ring++) {
+                    const phase = (t*0.0007+idx*0.8+ring*1.8)%5;
+                    const rp = phase/5, ringR = 3+rp*35;
+                    const ra = Math.pow(1-rp,2.5)*0.08;
+                    if (ra > 0.003) {
+                        ctx.strokeStyle = `rgba(56,189,248,${ra})`; ctx.lineWidth = 1.2*(1-rp);
+                        ctx.beginPath(); ctx.arc(cx,cy,ringR,0,Math.PI*2); ctx.stroke();
+                    }
+                }
+                // Glow
+                const gg = ctx.createRadialGradient(cx,cy,0,cx,cy,30);
+                gg.addColorStop(0,"rgba(56,189,248,0.06)"); gg.addColorStop(1,"rgba(56,189,248,0)");
+                ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(cx,cy,30,0,Math.PI*2); ctx.fill();
+                // Core dot
+                const cs = 2.5 + Math.sin(t*0.003+idx)*0.8;
+                ctx.shadowColor = "#38bdf8"; ctx.shadowBlur = 8;
+                ctx.fillStyle = "#38bdf8";
+                ctx.beginPath(); ctx.arc(cx,cy,cs,0,Math.PI*2); ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            // Scanline
+            const scanY = (t*0.04)%h;
+            const slg = ctx.createLinearGradient(0,scanY-40,0,scanY+40);
+            slg.addColorStop(0,"rgba(56,189,248,0)"); slg.addColorStop(0.5,"rgba(56,189,248,0.02)"); slg.addColorStop(1,"rgba(56,189,248,0)");
+            ctx.fillStyle = slg; ctx.fillRect(0,scanY-40,w,80);
+
+            // CRT lines
+            ctx.fillStyle = "rgba(0,0,0,0.03)";
+            for (let sy = 0; sy < h; sy += 3) ctx.fillRect(0,sy,w,1);
+
+            // Vignette
+            const vg = ctx.createRadialGradient(w/2,h/2,w*0.15,w/2,h/2,w*0.7);
+            vg.addColorStop(0,"rgba(10,15,30,0)"); vg.addColorStop(1,"rgba(10,15,30,0.7)");
+            ctx.fillStyle = vg; ctx.fillRect(0,0,w,h);
+
+            animId = requestAnimationFrame(draw);
+        }
+        animId = requestAnimationFrame(draw);
+    })();
+    </script>
+</body>
+</html>
